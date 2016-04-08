@@ -31,6 +31,7 @@
             PublicClientId = "self";
             OAuthOptions = new OAuthAuthorizationServerOptions
             {
+                // Maybe: /api/Account/Login
                 TokenEndpointPath = new PathString("/Token"),
                 Provider = new ApplicationOAuthProvider(PublicClientId),
                 AuthorizeEndpointPath = new PathString("/api/Account/ExternalLogin"),
