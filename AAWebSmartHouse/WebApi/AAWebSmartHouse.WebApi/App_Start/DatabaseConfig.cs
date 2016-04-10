@@ -8,7 +8,7 @@
     {
         public static void Initialize()
         {
-            Database.SetInitializer(new MigrateDatabaseToLatestVersion<AAWebSmartHouseDbContext, Configuration>);
+            Database.SetInitializer(new MigrateDatabaseToLatestVersion<AAWebSmartHouseDbContext, Configuration>());
 
             AAWebSmartHouseDbContext.Create().Database.Initialize(true);
         }
