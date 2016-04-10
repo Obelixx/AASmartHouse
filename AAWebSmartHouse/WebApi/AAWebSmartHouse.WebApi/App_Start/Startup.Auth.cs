@@ -7,7 +7,7 @@
     using Microsoft.Owin.Security.OAuth;
     using Owin;
     using AAWebSmartHouse.WebApi.Providers;
-    using Data;
+    using AAWebSmartHouse.Data;
 
     public partial class Startup
     {

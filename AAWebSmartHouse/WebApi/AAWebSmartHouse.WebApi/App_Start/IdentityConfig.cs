@@ -5,8 +5,7 @@
     using Microsoft.AspNet.Identity.Owin;
     using Microsoft.Owin;
     using AAWebSmartHouse.Models;
-    using Models;
-    using Data;
+    using AAWebSmartHouse.Data;
     // Configure the application user manager used in this application. UserManager is defined in ASP.NET Identity and is used by the application.
 
     public class ApplicationUserManager : UserManager<User>
@@ -29,10 +28,10 @@
             manager.PasswordValidator = new PasswordValidator
             {
                 RequiredLength = 6,
-                RequireNonLetterOrDigit = true,
-                RequireDigit = true,
+                RequireNonLetterOrDigit = false,
+                RequireDigit = false,
                 RequireLowercase = true,
-                RequireUppercase = true,
+                RequireUppercase = false,
             };
             var dataProtectionProvider = options.DataProtectionProvider;
             if (dataProtectionProvider != null)

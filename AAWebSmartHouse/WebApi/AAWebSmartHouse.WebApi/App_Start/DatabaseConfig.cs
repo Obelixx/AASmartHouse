@@ -1,6 +1,6 @@
 ﻿namespace AAWebSmartHouse.WebApi
 {
-    using Data;
+    using AAWebSmartHouse.Data;
     using Data.Migrations;
     using System.Data.Entity;
 
