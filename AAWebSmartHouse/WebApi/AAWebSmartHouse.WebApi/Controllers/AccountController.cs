@@ -334,7 +334,8 @@
                 UserName = model.Email,
                 Email = model.Email,
                 FirstName = model.FirstName,
-                LastName = model.LastName
+                LastName = model.LastName,
+                
             };
 
             IdentityResult result = await UserManager.CreateAsync(user, model.Password);
