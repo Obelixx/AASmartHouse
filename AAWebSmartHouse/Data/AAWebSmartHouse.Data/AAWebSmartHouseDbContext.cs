@@ -6,7 +6,7 @@
     public class AAWebSmartHouseDbContext : IdentityDbContext<User>
     {
         public AAWebSmartHouseDbContext()
-                : base("DefaultConnection", throwIfV1Schema: false)
+                : base("LocalMySQLConnection", throwIfV1Schema: false)
             {
         }
 
