@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{9F48E11A-14B9-4DC2-80FD-B1050B55BF31}</ProjectGuid>
+    <ProjectGuid>{5EF9ED00-FE83-4566-8B92-7AA138813B10}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>AAWebSmartHouse.Data</RootNamespace>
@@ -65,19 +65,33 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AAWebSmartHouseDbContext.cs" />
+    <Compile Include="Migrations\201604252014339_InitialCreate.cs" />
+    <Compile Include="Migrations\201604252014339_InitialCreate.Designer.cs">
+      <DependentUpon>201604252014339_InitialCreate.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\house.cs" />
+    <Compile Include="Models\room.cs" />
+    <Compile Include="Models\sensor.cs" />
+    <Compile Include="Models\sensordatabyday.cs" />
+    <Compile Include="Models\sensordatabyhour.cs" />
+    <Compile Include="Models\sensordatabymonth.cs" />
+    <Compile Include="Models\sensordatabyweek.cs" />
+    <Compile Include="AAWebSmartHouseDbContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Models\user.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AAWebSmartHouse.Models\AAWebSmartHouse.Models.csproj">
-      <Project>{5ef9ed00-fe83-4566-8b92-7aa138813b10}</Project>
-      <Name>AAWebSmartHouse.Models</Name>
-    </ProjectReference>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201604252014339_InitialCreate.resx">
+      <DependentUpon>201604252014339_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

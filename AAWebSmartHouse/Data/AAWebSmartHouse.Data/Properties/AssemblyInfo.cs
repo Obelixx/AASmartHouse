@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("AAWebSmartHouse.Data")]
+[assembly: AssemblyTitle("AAWebSmartHouse.Models")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("AAWebSmartHouse.Data")]
+[assembly: AssemblyProduct("AAWebSmartHouse.Models")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("9f48e11a-14b9-4dc2-80fd-b1050b55bf31")]
+[assembly: Guid("5ef9ed00-fe83-4566-8b92-7aa138813b10")]
 
 // Version information for an assembly consists of the following four values:
 //

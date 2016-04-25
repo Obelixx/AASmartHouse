@@ -215,12 +215,8 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Data\AAWebSmartHouse.Data\AAWebSmartHouse.Data.csproj">
-      <Project>{9f48e11a-14b9-4dc2-80fd-b1050b55bf31}</Project>
-      <Name>AAWebSmartHouse.Data</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Data\AAWebSmartHouse.Models\AAWebSmartHouse.Models.csproj">
       <Project>{5ef9ed00-fe83-4566-8b92-7aa138813b10}</Project>
-      <Name>AAWebSmartHouse.Models</Name>
+      <Name>AAWebSmartHouse.Data</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

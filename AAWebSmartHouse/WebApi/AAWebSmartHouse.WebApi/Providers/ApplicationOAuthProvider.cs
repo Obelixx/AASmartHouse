@@ -8,7 +8,7 @@
     using Microsoft.Owin.Security;
     using Microsoft.Owin.Security.Cookies;
     using Microsoft.Owin.Security.OAuth;
-    using AAWebSmartHouse.Models;
+    using AAWebSmartHouse.Data.Models;
 
     public class ApplicationOAuthProvider : OAuthAuthorizationServerProvider
     {
@@ -28,7 +28,7 @@
         {
             var userManager = context.OwinContext.GetUserManager<ApplicationUserManager>();
 
-            User user = await userManager.FindAsync(context.UserName, context.Password);
+            user user = await userManager.FindAsync(context.UserName, context.Password);
 
             if (user == null)
             {

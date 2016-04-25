@@ -1,8 +1,8 @@
 ﻿namespace AAWebSmartHouse.WebApi
 {
-    using AAWebSmartHouse.Data;
-    using Data.Migrations;
     using System.Data.Entity;
+    using AAWebSmartHouse.Data;
+    using AAWebSmartHouse.Data.Migrations;
 
     public static class DatabaseConfig
     {

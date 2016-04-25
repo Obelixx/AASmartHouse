@@ -1,8 +1,8 @@
-using System;
-using System.Collections.Generic;
-
-namespace AAWebSmartHouse.Models.Models
+namespace AAWebSmartHouse.Data.Models
 {
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+
     public partial class sensor
     {
         public sensor()
@@ -12,7 +12,7 @@ namespace AAWebSmartHouse.Models.Models
             this.sensordatabymonths = new List<sensordatabymonth>();
             this.sensordatabyweeks = new List<sensordatabyweek>();
         }
-
+        
         public int SensorId { get; set; }
         public string SensorName { get; set; }
         public string SensorDescription { get; set; }

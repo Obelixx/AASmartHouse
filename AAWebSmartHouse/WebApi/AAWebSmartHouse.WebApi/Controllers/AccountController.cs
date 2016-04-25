@@ -16,9 +16,9 @@
     using Microsoft.Owin.Security.OAuth;
     using AAWebSmartHouse.WebApi.Providers;
     using AAWebSmartHouse.WebApi.Results;
-    using AAWebSmartHouse.Models;
     using Models.Account.ViewModels;
     using Models.Account.BindingModels;
+    using AAWebSmartHouse.Data.Models;
 
     [Authorize]
     [RoutePrefix("api/Account")]
@@ -58,9 +58,12 @@
         public UserInfoViewModel GetUserInfo()
         {
             ExternalLoginData externalLogin = ExternalLoginData.FromIdentity(User.Identity as ClaimsIdentity);
-
+            
             return new UserInfoViewModel
             {
+                //FirstName = ,
+                //LastName = GetUserInfo().LastName,
+                //UserName = GetUserInfo().UserName,                
                 Email = User.Identity.GetUserName(),
                 HasRegistered = externalLogin == null,
                 LoginProvider = externalLogin != null ? externalLogin.LoginProvider : null
@@ -251,7 +254,7 @@
                 return new ChallengeResult(provider, this);
             }
 
-            User user = await UserManager.FindAsync(new UserLoginInfo(externalLogin.LoginProvider,
+            user user = await UserManager.FindAsync(new UserLoginInfo(externalLogin.LoginProvider,
                 externalLogin.ProviderKey));
 
             bool hasRegistered = user != null;
@@ -329,7 +332,7 @@
                 return BadRequest(ModelState);
             }
 
-            var user = new User()
+            var user = new user()
             {
                 UserName = model.Email,
                 Email = model.Email,
@@ -365,7 +368,7 @@
                 return InternalServerError();
             }
 
-            var user = new User() { UserName = model.Email, Email = model.Email };
+            var user = new user() { UserName = model.Email, Email = model.Email };
 
             IdentityResult result = await UserManager.CreateAsync(user);
             if (!result.Succeeded)
