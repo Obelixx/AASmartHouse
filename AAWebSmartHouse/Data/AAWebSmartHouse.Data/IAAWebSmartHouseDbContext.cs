@@ -7,13 +7,19 @@
 
     public interface IAAWebSmartHouseDbContext
     {
-        IDbSet<house> houses { get; set; }
-        IDbSet<room> rooms { get; set; }
-        IDbSet<sensordatabyday> sensordatabydays { get; set; }
-        IDbSet<sensordatabyhour> sensordatabyhours { get; set; }
-        IDbSet<sensordatabymonth> sensordatabymonths { get; set; }
-        IDbSet<sensordatabyweek> sensordatabyweeks { get; set; }
-        IDbSet<sensor> sensors { get; set; }
+        IDbSet<House> Houses { get; set; }
+
+        IDbSet<Room> Rooms { get; set; }
+
+        IDbSet<SensorDataByDay> SensorDataByDays { get; set; }
+        
+        IDbSet<SensorDataByHour> SensorDataByHours { get; set; }
+
+        IDbSet<SensorDataByMonth> SensorDataByMonths { get; set; }
+
+        IDbSet<SensorDataByWeek> SensorDataByWeeks { get; set; }
+
+        IDbSet<Sensor> Sensors { get; set; }
 
         DbSet<TEntity> Set<TEntity>() where TEntity : class;
 

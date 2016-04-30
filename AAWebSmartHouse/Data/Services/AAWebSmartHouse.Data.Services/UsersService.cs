@@ -1,23 +1,24 @@
 ﻿namespace AAWebSmartHouse.Data.Services
 {
-    using AAWebSmartHouse.Common;
-    using Models;
     using System.Linq;
+
+    using AAWebSmartHouse.Common;
+    using AAWebSmartHouse.Data.Models;
 
     public class UsersService
     {
-        //private readonly IRepository<SoftwareProject> projects;
-        private readonly IRepository<user> users;
+        // private readonly IRepository<SensorsData> sensors;
+        private readonly IRepository<User> users;
 
         public UsersService(
-            //IRepository<SoftwareProject> projectsRepo,
-            IRepository<user> usersRepo)
+            //// IRepository<SensorsData> sensorsRepo,
+            IRepository<User> usersRepo)
         {
-            //this.projects = projectsRepo;
+            // this.sensors = sensorsRepo;
             this.users = usersRepo;
         }
 
-        public IQueryable<user> All(int page = 1, int pageSize = GlobalConstants.DefaultPageSize)
+        public IQueryable<User> All(int page = 1, int pageSize = GlobalConstants.DefaultPageSize)
         {
             return this.users
                 .All()

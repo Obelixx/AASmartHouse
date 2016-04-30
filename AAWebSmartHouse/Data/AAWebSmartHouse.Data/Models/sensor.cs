@@ -1,27 +1,35 @@
 namespace AAWebSmartHouse.Data.Models
 {
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
 
-    public partial class sensor
+    public partial class Sensor
     {
-        public sensor()
+        public Sensor()
         {
-            this.sensordatabydays = new List<sensordatabyday>();
-            this.sensordatabyhours = new List<sensordatabyhour>();
-            this.sensordatabymonths = new List<sensordatabymonth>();
-            this.sensordatabyweeks = new List<sensordatabyweek>();
+            this.SensorDataByDays = new List<SensorDataByDay>();
+            this.SensorDataByHours = new List<SensorDataByHour>();
+            this.SensorDataByMonths = new List<SensorDataByMonth>();
+            this.SensorDataByWeeks = new List<SensorDataByWeek>();
         }
         
         public int SensorId { get; set; }
+
         public string SensorName { get; set; }
+
         public string SensorDescription { get; set; }
+
         public string SensorUnits { get; set; }
+
         public int RoomId { get; set; }
-        public virtual room room { get; set; }
-        public virtual ICollection<sensordatabyday> sensordatabydays { get; set; }
-        public virtual ICollection<sensordatabyhour> sensordatabyhours { get; set; }
-        public virtual ICollection<sensordatabymonth> sensordatabymonths { get; set; }
-        public virtual ICollection<sensordatabyweek> sensordatabyweeks { get; set; }
+
+        public virtual Room Room { get; set; }
+
+        public virtual ICollection<SensorDataByDay> SensorDataByDays { get; set; }
+
+        public virtual ICollection<SensorDataByHour> SensorDataByHours { get; set; }
+
+        public virtual ICollection<SensorDataByMonth> SensorDataByMonths { get; set; }
+
+        public virtual ICollection<SensorDataByWeek> SensorDataByWeeks { get; set; }
     }
 }

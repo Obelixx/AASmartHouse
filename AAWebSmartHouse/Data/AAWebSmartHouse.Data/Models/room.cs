@@ -1,20 +1,24 @@
 namespace AAWebSmartHouse.Data.Models
 {
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
 
-    public partial class room
+    public partial class Room
     {
-        public room()
+        public Room()
         {
-            this.sensors = new List<sensor>();
+            this.Sensors = new List<Sensor>();
         }
         
         public int RoomId { get; set; }
+
         public string RoomName { get; set; }
+
         public string RoomDescription { get; set; }
+
         public int HouseId { get; set; }
-        public virtual house house { get; set; }
-        public virtual ICollection<sensor> sensors { get; set; }
+
+        public virtual House House { get; set; }
+
+        public virtual ICollection<Sensor> Sensors { get; set; }
     }
 }

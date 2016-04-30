@@ -1,13 +1,15 @@
 ﻿namespace AAWebSmartHouse.WebApi
 {
     using System;
+
+    using AAWebSmartHouse.Data;
+    using AAWebSmartHouse.WebApi.Providers;
+
     using Microsoft.AspNet.Identity;
     using Microsoft.Owin;
     using Microsoft.Owin.Security.Cookies;
     using Microsoft.Owin.Security.OAuth;
     using Owin;
-    using AAWebSmartHouse.WebApi.Providers;
-    using AAWebSmartHouse.Data;
 
     public partial class Startup
     {
@@ -47,15 +49,15 @@
             //app.UseMicrosoftAccountAuthentication(
             //    clientId: "",
             //    clientSecret: "");
-
+              
             //app.UseTwitterAuthentication(
             //    consumerKey: "",
             //    consumerSecret: "");
-
+              
             //app.UseFacebookAuthentication(
             //    appId: "",
             //    appSecret: "");
-
+              
             //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
             //{
             //    ClientId = "",

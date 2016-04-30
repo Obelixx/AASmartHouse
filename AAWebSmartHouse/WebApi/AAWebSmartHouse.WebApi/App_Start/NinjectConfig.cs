@@ -1,23 +1,23 @@
-[assembly: WebActivatorEx.PreApplicationStartMethod(typeof(AAWebSmartHouse.WebApi.App_Start.NinjectWebCommon), "Start")]
-[assembly: WebActivatorEx.ApplicationShutdownMethodAttribute(typeof(AAWebSmartHouse.WebApi.App_Start.NinjectWebCommon), "Stop")]
+[assembly: WebActivatorEx.PreApplicationStartMethod(typeof(AAWebSmartHouse.WebApi.App_Start.NinjectConfig), "Start")]
+[assembly: WebActivatorEx.ApplicationShutdownMethodAttribute(typeof(AAWebSmartHouse.WebApi.App_Start.NinjectConfig), "Stop")]
 
 namespace AAWebSmartHouse.WebApi.App_Start
 {
     using System;
     using System.Web;
+    
+    using AAWebSmartHouse.Common;
+    using AAWebSmartHouse.Data;
 
     using Microsoft.Web.Infrastructure.DynamicModuleHelper;
 
     using Ninject;
-    using Ninject.Web.Common;
     using Ninject.Extensions.Conventions;
+    using Ninject.Web.Common;
 
-    using AAWebSmartHouse.Data;
-    using AAWebSmartHouse.Common;
-
-    public static class NinjectWebCommon 
+    public static class NinjectConfig 
     {
-        private static readonly Bootstrapper bootstrapper = new Bootstrapper();
+        private static readonly Bootstrapper Bootstrapper = new Bootstrapper();
 
         /// <summary>
         /// Starts the application
@@ -26,7 +26,7 @@ namespace AAWebSmartHouse.WebApi.App_Start
         {
             DynamicModuleUtility.RegisterModule(typeof(OnePerRequestHttpModule));
             DynamicModuleUtility.RegisterModule(typeof(NinjectHttpModule));
-            bootstrapper.Initialize(CreateKernel);
+            Bootstrapper.Initialize(CreateKernel);
         }
         
         /// <summary>
@@ -34,7 +34,7 @@ namespace AAWebSmartHouse.WebApi.App_Start
         /// </summary>
         public static void Stop()
         {
-            bootstrapper.ShutDown();
+            Bootstrapper.ShutDown();
         }
         
         /// <summary>

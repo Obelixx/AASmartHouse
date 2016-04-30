@@ -1,11 +1,12 @@
 ﻿namespace AAWebSmartHouse.Data.Services.Contracts
 {
-    using AAWebSmartHouse.Data.Models;
-    using AAWebSmartHouse.Common;
     using System.Linq;
+
+    using AAWebSmartHouse.Common;
+    using AAWebSmartHouse.Data.Models;
 
     public interface IUsersService
     {
-        IQueryable<user> All(int page = 1, int pageSize = GlobalConstants.DefaultPageSize);
+        IQueryable<User> All(int page = 1, int pageSize = GlobalConstants.DefaultPageSize);
     }
 }

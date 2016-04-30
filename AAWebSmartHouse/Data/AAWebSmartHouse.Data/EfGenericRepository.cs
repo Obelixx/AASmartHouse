@@ -34,6 +34,7 @@
         public virtual void Add(T entity)
         {
             var entry = this.Context.Entry(entity);
+
             if (entry.State != EntityState.Detached)
             {
                 entry.State = EntityState.Added;
