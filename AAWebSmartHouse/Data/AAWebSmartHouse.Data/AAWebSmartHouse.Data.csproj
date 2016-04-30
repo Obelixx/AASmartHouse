@@ -65,6 +65,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EfGenericRepository.cs" />
+    <Compile Include="IAAWebSmartHouseDbContext.cs" />
+    <Compile Include="IRepository.cs" />
     <Compile Include="Migrations\201604252014339_InitialCreate.cs" />
     <Compile Include="Migrations\201604252014339_InitialCreate.Designer.cs">
       <DependentUpon>201604252014339_InitialCreate.cs</DependentUpon>

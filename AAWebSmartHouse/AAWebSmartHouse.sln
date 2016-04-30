@@ -11,6 +11,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AAWebSmartHouse.WebApi", "W
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AAWebSmartHouse.Data", "Data\AAWebSmartHouse.Data\AAWebSmartHouse.Data.csproj", "{5EF9ED00-FE83-4566-8B92-7AA138813B10}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{EC744BD8-1449-401A-BF74-F646BF78864C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AAWebSmartHouse.Data.Services", "Data\Services\AAWebSmartHouse.Data.Services\AAWebSmartHouse.Data.Services.csproj", "{5D6888C2-5003-40F8-888A-0FB6A68E547F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{6A61791C-4DF7-4A0D-9C51-AE0257DC8A3F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AAWebSmartHouse.Common", "Common\AAWebSmartHouse.Common\AAWebSmartHouse.Common.csproj", "{198F850C-88AB-4C7D-909A-7882D0F65F4C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,6 +33,14 @@ Global
 		{5EF9ED00-FE83-4566-8B92-7AA138813B10}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5EF9ED00-FE83-4566-8B92-7AA138813B10}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5EF9ED00-FE83-4566-8B92-7AA138813B10}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D6888C2-5003-40F8-888A-0FB6A68E547F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D6888C2-5003-40F8-888A-0FB6A68E547F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D6888C2-5003-40F8-888A-0FB6A68E547F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D6888C2-5003-40F8-888A-0FB6A68E547F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{198F850C-88AB-4C7D-909A-7882D0F65F4C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{198F850C-88AB-4C7D-909A-7882D0F65F4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{198F850C-88AB-4C7D-909A-7882D0F65F4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{198F850C-88AB-4C7D-909A-7882D0F65F4C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -32,5 +48,8 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{F345DE96-7E53-4F01-99FB-D1BE704C78D7} = {8561007D-6B31-4547-AAD1-4398B7B21425}
 		{5EF9ED00-FE83-4566-8B92-7AA138813B10} = {2E55F98E-748B-4740-9B8A-CC01AD37D8BB}
+		{EC744BD8-1449-401A-BF74-F646BF78864C} = {2E55F98E-748B-4740-9B8A-CC01AD37D8BB}
+		{5D6888C2-5003-40F8-888A-0FB6A68E547F} = {EC744BD8-1449-401A-BF74-F646BF78864C}
+		{198F850C-88AB-4C7D-909A-7882D0F65F4C} = {6A61791C-4DF7-4A0D-9C51-AE0257DC8A3F}
 	EndGlobalSection
 EndGlobal

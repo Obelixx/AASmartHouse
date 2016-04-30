@@ -60,10 +60,7 @@
             ExternalLoginData externalLogin = ExternalLoginData.FromIdentity(User.Identity as ClaimsIdentity);
             
             return new UserInfoViewModel
-            {
-                //FirstName = ,
-                //LastName = GetUserInfo().LastName,
-                //UserName = GetUserInfo().UserName,                
+            {                
                 Email = User.Identity.GetUserName(),
                 HasRegistered = externalLogin == null,
                 LoginProvider = externalLogin != null ? externalLogin.LoginProvider : null
