@@ -13,7 +13,7 @@ namespace AAWebSmartHouse.Data.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201604252014339_InitialCreate"; }
+            get { return "201605022147591_InitialCreate"; }
         }
         
         string IMigrationMetadata.Source

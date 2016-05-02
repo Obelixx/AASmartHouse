@@ -4,8 +4,9 @@
 
     using AAWebSmartHouse.Common;
     using AAWebSmartHouse.Data.Models;
+    using AAWebSmartHouse.Data.Services.Contracts;
 
-    public class UsersService
+    public class UsersService : IUsersService
     {
         // private readonly IRepository<SensorsData> sensors;
         private readonly IRepository<User> users;

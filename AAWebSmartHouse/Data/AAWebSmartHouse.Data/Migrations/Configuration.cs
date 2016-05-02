@@ -33,8 +33,6 @@ namespace AAWebSmartHouse.Data.Migrations
             ////      new Person { FullName = "Brice Lambson" },
             ////      new Person { FullName = "Rowan Miller" }
             ////    );
-            ////
-            ////            user.Roles.Add
 
             if (!context.Roles.Any(r => r.Name == "Admin"))
             {
@@ -42,7 +40,7 @@ namespace AAWebSmartHouse.Data.Migrations
                     new IdentityRole[] 
                     {
                         new IdentityRole("Admin"),
-                        new IdentityRole("User")
+                        //new IdentityRole("User")
                     });
 
                 context.SaveChanges();
