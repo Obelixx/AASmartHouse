@@ -8,5 +8,9 @@
     public interface IUsersService
     {
         IQueryable<User> All(int page = 1, int pageSize = GlobalConstants.DefaultPageSize);
+
+        IQueryable<User> Self(string userId);
+
+        IQueryable<User> Edit(string oldEMail, string newEMail, string firstName, string lastName, string phoneNumber)
     }
 }

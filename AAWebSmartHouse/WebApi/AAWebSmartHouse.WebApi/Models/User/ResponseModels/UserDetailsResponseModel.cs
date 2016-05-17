@@ -1,12 +1,10 @@
 ﻿namespace AAWebSmartHouse.WebApi.Models.User.ResponseModels
 {
     using System.Collections.Generic;
-    using AAWebSmartHouse.WebApi.Infrastructure.Mappings;
-    using AAWebSmartHouse.Data.Models;
-    using AutoMapper;
-    using Microsoft.AspNet.Identity.EntityFramework;
     using System.Linq;
-    using Controllers;
+    using AAWebSmartHouse.Data.Models;
+    using AAWebSmartHouse.WebApi.Infrastructure.Mappings;
+    using AutoMapper;
 
     public class UserDetailsResponseModel : IMapFrom<User>, IHaveCustomMappings
     {

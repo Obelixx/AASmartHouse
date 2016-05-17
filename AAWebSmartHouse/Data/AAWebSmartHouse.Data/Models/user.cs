@@ -17,6 +17,12 @@
             this.Houses = new List<House>();
         }
 
+        public User(string userName) :
+            base(userName)
+        {
+            this.Houses = new List<House>();
+        }
+
         [MaxLength(50)]
         public string FirstName { get; set; }
 

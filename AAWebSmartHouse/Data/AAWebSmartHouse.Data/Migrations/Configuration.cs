@@ -3,6 +3,7 @@ namespace AAWebSmartHouse.Data.Migrations
     using System.Data.Entity.Migrations;
     using System.Linq;
 
+    using AAWebSmartHouse.Common;
     using AAWebSmartHouse.Data.Models;
 
     using Microsoft.AspNet.Identity;
@@ -34,30 +35,30 @@ namespace AAWebSmartHouse.Data.Migrations
             ////      new Person { FullName = "Rowan Miller" }
             ////    );
 
-            if (!context.Roles.Any(r => r.Name == "Admin"))
+            if (!context.Roles.Any(r => r.Name == GlobalConstants.AdminRoleName))
             {
                 context.Roles.AddOrUpdate(
                     new IdentityRole[] 
                     {
-                        new IdentityRole("Admin"),
-                        //new IdentityRole("User")
+                        new IdentityRole(GlobalConstants.AdminRoleName),
+                        //// new IdentityRole("User")
                     });
 
                 context.SaveChanges();
             }
 
-            var databaseRole = context.Roles.Where(ro => ro.Name == "Admin").FirstOrDefault();
+            var databaseRole = context.Roles.Where(ro => ro.Name == GlobalConstants.AdminRoleName).FirstOrDefault();
 
-            if (!context.Users.Any(u => u.UserName == "admin"))
+            if (!context.Users.Any(u => u.UserName == GlobalConstants.AdminUserName))
             {
                 User user = new User();
 
-                string passwordHash = new PasswordHasher().HashPassword("adminPassword");
+                string passwordHash = new PasswordHasher().HashPassword(GlobalConstants.AdminPassword);
                 user.PasswordHash = passwordHash;
-                user.FirstName = "admin";
-                user.LastName = "admin";
-                user.Email = "admin";
-                user.UserName = "admin";
+                user.FirstName = GlobalConstants.AdminUserName;
+                user.LastName = GlobalConstants.AdminUserName;
+                user.Email = GlobalConstants.AdminUserName;
+                user.UserName = GlobalConstants.AdminUserName;
                 user.EmailConfirmed = true;
                 user.PhoneNumberConfirmed = true;
 
@@ -65,7 +66,7 @@ namespace AAWebSmartHouse.Data.Migrations
 
                 context.SaveChanges();
 
-                var databaseUser = context.Users.Where(u => u.UserName == "admin").FirstOrDefault();
+                var databaseUser = context.Users.Where(u => u.UserName == GlobalConstants.AdminUserName).FirstOrDefault();
 
                 var userRoleRelation = new IdentityUserRole() { UserId = databaseUser.Id, RoleId = databaseRole.Id };
 

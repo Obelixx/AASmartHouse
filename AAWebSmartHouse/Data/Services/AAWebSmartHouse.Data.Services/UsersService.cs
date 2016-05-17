@@ -3,6 +3,7 @@
     using System.Linq;
 
     using AAWebSmartHouse.Common;
+    using AAWebSmartHouse.Data;
     using AAWebSmartHouse.Data.Models;
     using AAWebSmartHouse.Data.Services.Contracts;
 
@@ -27,6 +28,36 @@
                 .ThenByDescending(us => us.LastName)
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize);
+        }
+
+        public IQueryable<User> Self(string userName)
+        {
+            return this.users
+                .All()
+                .Where(u => u.Email == userName);
+        }
+
+        public IQueryable<User> Edit(string oldEMail, string newEMail, string firstName, string lastName, string phoneNumber)
+        {
+            var user = this.users
+                .All()
+                .Where(u => u.Email == oldEMail).FirstOrDefault();
+
+            if (user == null)
+            {
+                return null;
+            }
+
+            user.Email = newEMail;
+            user.FirstName = firstName;
+            user.LastName = lastName;
+            user.PhoneNumber = phoneNumber;
+
+            this.users.SaveChanges();
+
+            return this.users
+                .All()
+                .Where(u => u.Email == newEMail);
         }
     }
 }
