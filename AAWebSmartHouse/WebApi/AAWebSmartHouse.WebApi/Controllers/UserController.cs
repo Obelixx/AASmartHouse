@@ -43,7 +43,8 @@
 
             return this.Ok(result);
         }
-        
+
+        // GET api/User
         public IHttpActionResult Get()
         {
             var result = this.users
@@ -58,7 +59,8 @@
 
             return this.Ok(result);
         }
-        
+
+        // POST api/User
         public IHttpActionResult Post(UserDetailsRequestModel model)
         {
             if (!this.ModelState.IsValid)

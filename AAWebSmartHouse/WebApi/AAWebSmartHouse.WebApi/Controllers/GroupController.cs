@@ -10,6 +10,7 @@
 
     using AutoMapper.QueryableExtensions;
 
+    // api/Group
     [Authorize]
     public class GroupController : ApiController
     {
@@ -20,7 +21,23 @@
             this.users = usersService;
         }
 
-        // GET api/Group/GetAll
+        // GET api/Group
+        public IHttpActionResult Get(string[] groupIds)
+        {
+            var result = this.users
+                .GetGroupsById(groupIds)
+                .ProjectTo<GroupDetailsResponseModel>()
+                .ToList();
+
+            if (result == null)
+            {
+                // TODO: maybe it is OK to have no groups?
+                return this.NotFound();
+            }
+
+            return this.Ok(result);
+        }
+
         [Authorize(Roles = AdminRole.Name)]
         [Route("api/Group/GetAll")]
         public IHttpActionResult Get(int page, int pageSize = GlobalConstants.DefaultPageSize)
@@ -37,22 +54,6 @@
 
             if (result == null)
             {
-                return this.NotFound();
-            }
-
-            return this.Ok(result);
-        }
-
-        public IHttpActionResult Get(string[] groupIds)
-        {
-            var result = this.users
-                .GetGroupsById(groupIds)
-                .ProjectTo<GroupDetailsResponseModel>()
-                .ToList();
-
-            if (result == null)
-            {
-                // TODO: maybe it is OK to have no groups?
                 return this.NotFound();
             }
 
