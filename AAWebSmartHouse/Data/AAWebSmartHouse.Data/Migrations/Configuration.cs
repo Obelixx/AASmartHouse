@@ -35,30 +35,30 @@ namespace AAWebSmartHouse.Data.Migrations
             ////      new Person { FullName = "Rowan Miller" }
             ////    );
 
-            if (!context.Roles.Any(r => r.Name == GlobalConstants.AdminRoleName))
+            if (!context.Roles.Any(r => r.Name == AdminRole.Name))
             {
                 context.Roles.AddOrUpdate(
                     new IdentityRole[] 
                     {
-                        new IdentityRole(GlobalConstants.AdminRoleName),
+                        new IdentityRole(AdminRole.Name),
                         //// new IdentityRole("User")
                     });
 
                 context.SaveChanges();
             }
 
-            var databaseRole = context.Roles.Where(ro => ro.Name == GlobalConstants.AdminRoleName).FirstOrDefault();
+            var databaseRole = context.Roles.Where(ro => ro.Name == AdminRole.Name).FirstOrDefault();
 
-            if (!context.Users.Any(u => u.UserName == GlobalConstants.AdminUserName))
+            if (!context.Users.Any(u => u.UserName == AdminRole.UserName))
             {
                 User user = new User();
 
-                string passwordHash = new PasswordHasher().HashPassword(GlobalConstants.AdminPassword);
+                string passwordHash = new PasswordHasher().HashPassword(AdminRole.Password);
                 user.PasswordHash = passwordHash;
-                user.FirstName = GlobalConstants.AdminUserName;
-                user.LastName = GlobalConstants.AdminUserName;
-                user.Email = GlobalConstants.AdminUserName;
-                user.UserName = GlobalConstants.AdminUserName;
+                user.FirstName = AdminRole.UserName;
+                user.LastName = AdminRole.UserName;
+                user.Email = AdminRole.UserName;
+                user.UserName = AdminRole.UserName;
                 user.EmailConfirmed = true;
                 user.PhoneNumberConfirmed = true;
 
@@ -66,7 +66,7 @@ namespace AAWebSmartHouse.Data.Migrations
 
                 context.SaveChanges();
 
-                var databaseUser = context.Users.Where(u => u.UserName == GlobalConstants.AdminUserName).FirstOrDefault();
+                var databaseUser = context.Users.Where(u => u.UserName == AdminRole.UserName).FirstOrDefault();
 
                 var userRoleRelation = new IdentityUserRole() { UserId = databaseUser.Id, RoleId = databaseRole.Id };
 

@@ -11,6 +11,7 @@
     using AutoMapper.QueryableExtensions;
 
     // api/User
+    [Authorize]
     public class UserController : ApiController
     {
         private readonly IUsersService users;
@@ -21,28 +22,32 @@
         }
 
         // GET api/User/GetAll
-        [Authorize(Roles = GlobalConstants.AdminRoleName)]
+        [Authorize(Roles = AdminRole.Name)]
         [Route("api/User/GetAll")]
         public IHttpActionResult Get(int page, int pageSize = GlobalConstants.DefaultPageSize)
         {
-            if (!this.User.Identity.IsAuthenticated || !this.User.IsInRole(GlobalConstants.AdminRoleName))
+            if (!this.User.Identity.IsAuthenticated || !this.User.IsInRole(AdminRole.Name))
             {
-                return this.BadRequest("Only " + GlobalConstants.AdminRoleName + " Can request all Users");
+                return this.BadRequest("Only " + AdminRole.Name + " Can request all Users");
             }
 
             var result = this.users
-                .All(page, pageSize)
+                .GetAllUsersPaged(page, pageSize)
                 .ProjectTo<UserDetailsResponseModel>()
                 .ToList();
 
+            if (result == null)
+            {
+                return this.NotFound();
+            }
+
             return this.Ok(result);
         }
-
-        [Authorize]
+        
         public IHttpActionResult Get()
         {
             var result = this.users
-                .Self(this.User.Identity.Name)
+                .GetUser(this.User.Identity.Name)
                 .ProjectTo<UserDetailsResponseModel>()
                 .FirstOrDefault();
 
@@ -53,16 +58,15 @@
 
             return this.Ok(result);
         }
-
-        [Authorize]
-        public IHttpActionResult Post(UserDetailsRquestModel model)
+        
+        public IHttpActionResult Post(UserDetailsRequestModel model)
         {
             if (!this.ModelState.IsValid)
             {
                 return this.BadRequest(this.ModelState);
             }
 
-            if (!this.User.IsInRole(GlobalConstants.AdminRoleName))
+            if (!this.User.IsInRole(AdminRole.Name))
             {
                 if (model.OldEMail != this.User.Identity.Name)
                 {
@@ -74,7 +78,7 @@
                 }
             }
 
-            if (this.users.Self(model.NewEMail) != null)
+            if (this.users.GetUser(model.NewEMail) != null)
             {
                 return this.BadRequest("New E-mail already exists.");
             }
@@ -91,6 +95,5 @@
 
             return this.Ok(result);
         }
-
     }
 }

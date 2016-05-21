@@ -2,8 +2,10 @@
 {
     using System.Collections.Generic;
     using System.Linq;
+
     using AAWebSmartHouse.Data.Models;
     using AAWebSmartHouse.WebApi.Infrastructure.Mappings;
+
     using AutoMapper;
 
     public class UserDetailsResponseModel : IMapFrom<User>, IHaveCustomMappings

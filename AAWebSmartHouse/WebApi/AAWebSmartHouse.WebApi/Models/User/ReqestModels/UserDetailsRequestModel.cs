@@ -1,9 +1,10 @@
 ﻿namespace AAWebSmartHouse.WebApi.Models.User.ReqestModels
 {
     using System.ComponentModel.DataAnnotations;
-    using Common;
 
-    public class UserDetailsRquestModel
+    using AAWebSmartHouse.Common;
+
+    public class UserDetailsRequestModel
     {
         [Required]
         [MaxLength(ValidationConstants.MaxFirstName)]

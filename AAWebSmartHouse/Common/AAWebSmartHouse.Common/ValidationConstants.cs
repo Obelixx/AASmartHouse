@@ -9,5 +9,7 @@
         public const int MaxEMail = 255;
 
         public const int MaxPhoneNumber = 500;
+
+        public const int MaxRoleNameSize = 255;
     }
 }

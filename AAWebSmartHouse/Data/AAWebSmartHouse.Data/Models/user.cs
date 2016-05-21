@@ -30,6 +30,8 @@
         public string LastName { get; set; }
 
         public virtual ICollection<House> Houses { get; set; }
+        
+        public virtual ICollection<IdentityRole> RolesFromUser { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<User> manager, string authenticationType)
         {
