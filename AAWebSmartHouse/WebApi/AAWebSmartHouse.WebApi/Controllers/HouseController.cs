@@ -1,21 +1,15 @@
 ﻿namespace AAWebSmartHouse.WebApi.Controllers
 {
-    using System.Data.Entity;
-    using System.Data.Entity.Infrastructure;
     using System.Linq;
-    using System.Net;
     using System.Web.Http;
-    using System.Web.Http.Description;
 
     using AAWebSmartHouse.Common;
-    using AAWebSmartHouse.Data;
-    using AAWebSmartHouse.Data.Models;
     using AAWebSmartHouse.Data.Services.Contracts;
-    using AAWebSmartHouse.WebApi.Models.User.ReqestModels;
     using AAWebSmartHouse.WebApi.Models.User.ResponseModels;
 
     using AutoMapper.QueryableExtensions;
 
+    // api/House
     [Authorize]
     public class HouseController : ApiController
     {
@@ -49,8 +43,8 @@
 
             return this.Ok(result);
         }
-        
-        // GET: api/House
+
+        // GET api/House
         public IHttpActionResult Get(int page, int pageSize = GlobalConstants.DefaultPageSize)
         {
             var ids = this.users
@@ -59,14 +53,14 @@
                 .Houses.Select(h => h.HouseId)
                 .ToArray();
 
-            if(ids == null)
+            if (ids == null)
             {
                 // TODO: Check the response!
                 return this.Ok("You have no Houses!");
             }
 
             var result = this.houses
-                .GetHousesPaged(ids,page, pageSize)
+                .GetHousesPaged(ids, page, pageSize)
                 .ProjectTo<HousesDetailsResponseModel>()
                 .ToList();
 
