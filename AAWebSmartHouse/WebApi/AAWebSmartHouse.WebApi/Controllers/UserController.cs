@@ -20,8 +20,7 @@
         {
             this.users = usersService;
         }
-
-        // GET api/User/GetAll
+        
         [Authorize(Roles = AdminRole.Name)]
         [Route("api/User/GetAll")]
         public IHttpActionResult Get(int page, int pageSize = GlobalConstants.DefaultPageSize)

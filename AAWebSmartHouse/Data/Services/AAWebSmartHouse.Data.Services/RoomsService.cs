@@ -31,7 +31,7 @@
         {
             return this.rooms
                 .All()
-                .Where(rw => rw.House.HouseId == houseId)
+                .Where(rw => rw.HouseId == houseId)
                 .OrderBy(r => r.RoomName)
                 .ThenByDescending(ro => ro.Sensors.Count)
                 .ThenBy(roo => roo.RoomId)

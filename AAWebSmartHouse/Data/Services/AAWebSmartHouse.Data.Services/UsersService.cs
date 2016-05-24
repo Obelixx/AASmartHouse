@@ -116,16 +116,16 @@
         }
 
         public bool RemoveUserFromGroup(string identityEmail, string groupId)
-        { 
+        {
             var user = this.GetUser(identityEmail).FirstOrDefault();
 
             var userRoleRelation = user
                 .Roles
                 .Where(g => g.RoleId == groupId && g.UserId == user.Id)
                 .FirstOrDefault();
-            
+
             var result = user.Roles.Remove(userRoleRelation);
-            
+
             this.users.SaveChanges();
 
             return result;
