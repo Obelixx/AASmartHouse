@@ -10,5 +10,7 @@
         IQueryable<House> GetHouse(int houseId);
 
         IQueryable<House> GetHousesPaged(int[] ids, int page = 1, int pageSize = 10);
+
+        bool AddUserToHouse(int houseId, string userId);
     }
 }

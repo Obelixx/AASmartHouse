@@ -222,6 +222,7 @@
     <Compile Include="Controllers\HouseController.cs" />
     <Compile Include="Controllers\RoomController.cs" />
     <Compile Include="Controllers\SensorController.cs" />
+    <Compile Include="Controllers\SensorDataController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -245,6 +246,7 @@
     <Compile Include="Models\User\ResponseModels\GroupDetailsResponseModel.cs" />
     <Compile Include="Models\User\ResponseModels\HousesDetailsResponseModel.cs" />
     <Compile Include="Models\User\ResponseModels\RoomDetailsResponseModel.cs" />
+    <Compile Include="Models\User\ResponseModels\SensorDataResponseModel.cs" />
     <Compile Include="Models\User\ResponseModels\SensorDetailsResponseModel.cs" />
     <Compile Include="Models\User\ResponseModels\UserDetailsResponseModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

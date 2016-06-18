@@ -71,5 +71,24 @@
 
             return this.Ok(result);
         }
+
+        // add house to user
+        [Authorize(Roles = AdminRole.Name)]
+        [Route("api/House/AddUser")]
+        public IHttpActionResult Post(int houseId, string userId)
+        {
+            if (!this.User.Identity.IsAuthenticated || !this.User.IsInRole(AdminRole.Name))
+            {
+                return this.BadRequest("Only " + AdminRole.Name + " Can add houses to users!");
+            }
+            
+            if (houses.AddUserToHouse(houseId, userId))
+            {
+                return this.NotFound();
+            }
+            
+            // TODO: massage maybe?
+            return this.Ok("User Added");
+        }
     }
 }

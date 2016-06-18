@@ -9,10 +9,12 @@
     public class HousesService : IHousesService
     {
         private readonly IRepository<House> houses;
+        private readonly IRepository<User> users;
 
-        public HousesService(IRepository<House> housesRepo)
+        public HousesService(IRepository<House> housesRepo, IRepository<User> usersRepo)
         {
             this.houses = housesRepo;
+            this.users = usersRepo;
         }
 
         public IQueryable<House> GetAllHousesPaged(int page = 1, int pageSize = GlobalConstants.DefaultPageSize)
@@ -46,5 +48,26 @@
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize);
         }
+
+        public bool AddUserToHouse(int houseId, string userId)
+        {
+            var house = this.GetHouse(houseId)
+                .FirstOrDefault();
+
+            var user = this.users
+                .All()
+                .Where(u => u.Email == userId)
+                .FirstOrDefault();
+
+            if (house == null || user == null)
+            {
+                return false;
+            }
+
+            house.Users.Add(user);
+            
+            return house.Users.Contains(user);
+        }
+
     }
 }

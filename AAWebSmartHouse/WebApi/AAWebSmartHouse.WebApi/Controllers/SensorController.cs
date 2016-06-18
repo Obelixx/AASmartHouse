@@ -47,7 +47,7 @@
             return this.Ok(result);
         }
 
-        // GET api/Sensor?houseId=houseId&page=1&pageSize=10
+        // GET api/Sensor?roomId=roomId&page=1&pageSize=10
         public IHttpActionResult Get(int roomId, int page, int pageSize = GlobalConstants.DefaultPageSize)
         {
             if (!this.User.IsInRole(AdminRole.Name))
