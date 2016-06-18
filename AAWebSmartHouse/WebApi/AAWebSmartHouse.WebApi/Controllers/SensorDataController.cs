@@ -20,11 +20,13 @@
         public SensorDataController(
             IUsersService usersService,
             IRoomsService roomsService,
-            ISensorsService sensorsService)
+            ISensorsService sensorsService,
+            ISensorsDataService sensorsDataService)
         {
             this.users = usersService;
             this.rooms = roomsService;
             this.sensors = sensorsService;
+            this.sensorsData = sensorsDataService;
         }
                 
         // GET api/SensorData?sensorId=sensorId&&page=1&pageSize=10

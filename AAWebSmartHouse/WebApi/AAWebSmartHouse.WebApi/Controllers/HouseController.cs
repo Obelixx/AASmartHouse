@@ -82,7 +82,7 @@
                 return this.BadRequest("Only " + AdminRole.Name + " Can add houses to users!");
             }
             
-            if (houses.AddUserToHouse(houseId, userId))
+            if (this.houses.AddUserToHouse(houseId, userId))
             {
                 return this.NotFound();
             }

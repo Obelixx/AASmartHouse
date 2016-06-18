@@ -68,6 +68,5 @@
             
             return house.Users.Contains(user);
         }
-
     }
 }

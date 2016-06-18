@@ -32,8 +32,8 @@
             
             ////orderFunc = item => item.SensorDataDateTime;
             ////orderFunc = item => item.SensorValue;
-            // TODO: do i need sort order outside?
 
+            // TODO: do i need sort order outside?
             return this.sensorsDataByHour
                 .All()
                 .Where(sw => sw.SensorId == sensorId)
