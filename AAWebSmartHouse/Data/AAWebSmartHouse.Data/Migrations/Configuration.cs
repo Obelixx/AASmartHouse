@@ -38,7 +38,7 @@ namespace AAWebSmartHouse.Data.Migrations
             if (!context.Roles.Any(r => r.Name == AdminRole.Name))
             {
                 context.Roles.AddOrUpdate(
-                    new IdentityRole[] 
+                    new IdentityRole[]
                     {
                         new IdentityRole(AdminRole.Name),
                         //// new IdentityRole("User")
@@ -73,6 +73,16 @@ namespace AAWebSmartHouse.Data.Migrations
                 databaseUser.Roles.Add(userRoleRelation);
 
                 context.SaveChanges();
+            }
+            
+            UserStore<User> userStore = new UserStore<User>(context);
+            UserManager<User> userManager = new UserManager<User>(userStore);
+            
+            string userId = context.Users.Where(x => x.Email == AdminRole.UserName && string.IsNullOrEmpty(x.SecurityStamp)).Select(x => x.Id).FirstOrDefault();
+
+            if (!string.IsNullOrEmpty(userId))
+            {
+                userManager.UpdateSecurityStamp(userId);
             }
         }
     }

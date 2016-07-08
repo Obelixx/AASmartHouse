@@ -2,6 +2,7 @@
 {
     using System.Linq;
     using System.Web.Http;
+    using System.Web.Http.Cors;
 
     using AAWebSmartHouse.Common;
     using AAWebSmartHouse.Data.Services.Contracts;
@@ -20,10 +21,10 @@
         {
             this.users = usersService;
         }
-        
+
         [Authorize(Roles = AdminRole.Name)]
         [Route("api/User/GetAll")]
-        public IHttpActionResult Get(int page, int pageSize = GlobalConstants.DefaultPageSize)
+        public IHttpActionResult GetAll(int page, int pageSize = GlobalConstants.DefaultPageSize)
         {
             if (!this.User.Identity.IsAuthenticated || !this.User.IsInRole(AdminRole.Name))
             {

@@ -8,17 +8,19 @@
     using System.Threading.Tasks;
     using System.Web;
     using System.Web.Http;
+
+    using AAWebSmartHouse.Data.Models;
+    using AAWebSmartHouse.WebApi.Providers;
+    using AAWebSmartHouse.WebApi.Results;
+
     using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Identity.EntityFramework;
     using Microsoft.AspNet.Identity.Owin;
     using Microsoft.Owin.Security;
     using Microsoft.Owin.Security.Cookies;
     using Microsoft.Owin.Security.OAuth;
-    using AAWebSmartHouse.WebApi.Providers;
-    using AAWebSmartHouse.WebApi.Results;
-    using Models.Account.ViewModels;
     using Models.Account.BindingModels;
-    using AAWebSmartHouse.Data.Models;
+    using Models.Account.ViewModels;
 
     [Authorize]
     [RoutePrefix("api/Account")]
@@ -57,6 +59,7 @@
         // GET api/Account/UserInfo
         [HostAuthentication(DefaultAuthenticationTypes.ExternalBearer)]
         [Route("UserInfo")]
+        [AcceptVerbs("OPTIONS", "GET")]
         public UserInfoViewModel GetUserInfo()
         {
             ExternalLoginData externalLogin = ExternalLoginData.FromIdentity(User.Identity as ClaimsIdentity);

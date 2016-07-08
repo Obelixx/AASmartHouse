@@ -66,7 +66,7 @@
 
             house.Users.Add(user);
 
-            houses.SaveChanges();
+            this.houses.SaveChanges();
             
             return house.Users.Contains(user);
         }

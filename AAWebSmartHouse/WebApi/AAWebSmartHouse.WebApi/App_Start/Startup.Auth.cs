@@ -33,10 +33,9 @@
             PublicClientId = "self";
             OAuthOptions = new OAuthAuthorizationServerOptions
             {
-                // Maybe: /api/Account/Login
-                TokenEndpointPath = new PathString("/Token"),
+                TokenEndpointPath = new PathString("/api/Account/GetToken"),
                 Provider = new ApplicationOAuthProvider(PublicClientId),
-                AuthorizeEndpointPath = new PathString("/api/Account/ExternalLogin"),
+                //AuthorizeEndpointPath = new PathString("/api/Account/ExternalLogin"),
                 AccessTokenExpireTimeSpan = TimeSpan.FromDays(14),
                 // In production mode set AllowInsecureHttp = false
                 AllowInsecureHttp = true
@@ -49,15 +48,15 @@
             //app.UseMicrosoftAccountAuthentication(
             //    clientId: "",
             //    clientSecret: "");
-              
+
             //app.UseTwitterAuthentication(
             //    consumerKey: "",
             //    consumerSecret: "");
-              
+
             //app.UseFacebookAuthentication(
             //    appId: "",
             //    appSecret: "");
-              
+
             //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
             //{
             //    ClientId = "",
