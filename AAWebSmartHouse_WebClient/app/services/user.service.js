@@ -13,23 +13,18 @@ var http_1 = require('@angular/http');
 var http_2 = require('@angular/http');
 var Observable_1 = require('rxjs/Observable');
 var localStorage_service_1 = require('./localStorage.service');
+var app_settings_1 = require('../app.settings');
 var UserService = (function () {
     function UserService(http, localStorageService) {
         this.http = http;
         this.localStorageService = localStorageService;
-        this.tokenKeyName = "Token";
-        this.apiUrl = "http://localhost:51934/";
-        this.registerUrl = this.apiUrl + "api/Account/Register";
-        this.tokenUrl = this.apiUrl + "api/Account/GetToken";
-        this.userInfoUrl = this.apiUrl + "api/Account/UserInfo";
-        this.userUrl = this.apiUrl + "api/User";
-        this.logoutUrl = this.apiUrl + "api/Account/Logout";
+        this.settings = app_settings_1.AppSettings.UserServiceSettings;
     }
     UserService.prototype.register = function (email, password, confirmPassword, firstname, lastname) {
         var body = JSON.stringify({ email: email, password: password, confirmPassword: confirmPassword, firstname: firstname, lastname: lastname });
         var headers = new http_2.Headers({ 'Content-Type': 'application/json' });
         var options = new http_2.RequestOptions({ headers: headers });
-        return this.http.post(this.registerUrl, body, options)
+        return this.http.post(this.settings.apiUrl + this.settings.registerUrl, body, options)
             .map(this.extractData)
             .catch(this.handleError);
     };
@@ -38,24 +33,22 @@ var UserService = (function () {
         var headers = new http_2.Headers();
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
         var options = new http_2.RequestOptions({ headers: headers });
-        return this.http.post(this.tokenUrl, body, options)
+        return this.http.post(this.settings.apiUrl + this.settings.tokenUrl, body, options)
             .map(this.extractData)
             .catch(this.handleError);
     };
-    UserService.prototype.isTokenValid = function (token) {
+    UserService.prototype.getUserData = function (token) {
         var headers = new http_2.Headers();
         headers.append('Accept', 'application/json');
         headers.append('Authorization', 'Bearer ' + token);
         var options = new http_2.RequestOptions({ headers: headers });
-        options.method = "GET";
-        console.log("options: " + JSON.stringify(options));
-        var request = this.http.request(this.userUrl, { headers: headers })
+        var request = this.http.get(this.settings.apiUrl + this.settings.userUrl, { headers: headers })
             .map(this.extractData)
             .catch(this.handleError);
         return request;
     };
     UserService.prototype.isTokenAvailable = function () {
-        return this.localStorageService.hasItem(this.tokenKeyName);
+        return this.localStorageService.hasItem(this.settings.tokenKeyName);
     };
     UserService.prototype.extractData = function (res) {
         var body = res.json();

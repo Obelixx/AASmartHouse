@@ -9,23 +9,29 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var login_component_1 = require('./components/login.component');
-require('./operators/rxjs-operators');
-var user_service_1 = require('./services/user.service');
-var localStorage_service_1 = require('./services/localStorage.service');
-var AppComponent = (function () {
-    function AppComponent() {
+var app_settings_1 = require('../app.settings');
+var ScreenService = (function () {
+    function ScreenService() {
+        this.settings = app_settings_1.AppSettings.ScreenServiceSettings;
+        this.screens = [];
     }
-    AppComponent = __decorate([
-        core_1.Component({
-            selector: 'my-app',
-            template: "\n        <h1>My First Angular 2 App</h1>\n        <br>\n        <login>Loading Login Component...</login>\n        ",
-            directives: [login_component_1.LoginComponent],
-            providers: [user_service_1.UserService, localStorage_service_1.LocalStorageService]
-        }), 
+    // constructor(things: [any]) {
+    //     things.forEach(element => {
+    //         this.screens.push(element);
+    //     });
+    // }
+    ScreenService.prototype.addScreen = function (screeen) {
+        this.screens.push(screeen);
+        while (this.screens.length > this.settings.numberOfScreensToKeep) {
+            this.screens.shift();
+        }
+        return this.screens[this.screens.length - 1];
+    };
+    ScreenService = __decorate([
+        core_1.Injectable(), 
         __metadata('design:paramtypes', [])
-    ], AppComponent);
-    return AppComponent;
+    ], ScreenService);
+    return ScreenService;
 }());
-exports.AppComponent = AppComponent;
-//# sourceMappingURL=app.component.js.map
+exports.ScreenService = ScreenService;
+//# sourceMappingURL=screen.service.js.map

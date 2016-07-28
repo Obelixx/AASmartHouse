@@ -2,17 +2,12 @@ import { Injectable }     from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { Headers, RequestOptions } from '@angular/http'
 import { Observable }     from 'rxjs/Observable';
-import { LocalStorageService } from './localStorage.service'
+import { LocalStorageService } from './localStorage.service';
+import { AppSettings } from '../app.settings';
 
 @Injectable()
 export class UserService {
-    private tokenKeyName = "Token";
-    private apiUrl = "http://localhost:51934/";
-    private registerUrl = this.apiUrl + "api/Account/Register";
-    private tokenUrl = this.apiUrl + "api/Account/GetToken";
-    private userInfoUrl = this.apiUrl + "api/Account/UserInfo";
-    private userUrl = this.apiUrl + "api/User";
-    private logoutUrl = this.apiUrl + "api/Account/Logout";
+    settings = AppSettings.UserServiceSettings;
 
     constructor(private http: Http, private localStorageService: LocalStorageService) { }
 
@@ -28,7 +23,7 @@ export class UserService {
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ headers: headers })
 
-        return this.http.post(this.registerUrl, body, options)
+        return this.http.post(this.settings.apiUrl + this.settings.registerUrl, body, options)
             .map(this.extractData)
             .catch(this.handleError);
     }
@@ -39,22 +34,19 @@ export class UserService {
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
         let options = new RequestOptions({ headers: headers });
 
-        return this.http.post(this.tokenUrl, body, options)
+        return this.http.post(this.settings.apiUrl + this.settings.tokenUrl, body, options)
             .map(this.extractData)
             .catch(this.handleError);
     }
 
-    isTokenValid(token: string){
+    getUserData(token: string){
         let headers = new Headers();
         headers.append('Accept', 'application/json');
         headers.append('Authorization', 'Bearer ' + token);
 
         let options = new RequestOptions({ headers: headers });
-        options.method = "GET"
-        console.log("options: " + JSON.stringify(options));
 
-
-        let request = this.http.request(this.userUrl, { headers })
+        let request = this.http.get(this.settings.apiUrl + this.settings.userUrl, { headers })
             .map(this.extractData)
             .catch(this.handleError);
         
@@ -62,7 +54,7 @@ export class UserService {
     }
 
     isTokenAvailable(): boolean {
-        return this.localStorageService.hasItem(this.tokenKeyName);
+        return this.localStorageService.hasItem(this.settings.tokenKeyName);
     }
 
     private extractData(res: Response) {
