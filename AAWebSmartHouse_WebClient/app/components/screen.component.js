@@ -11,37 +11,47 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var screen_service_1 = require('../services/screen.service');
 var loginNavBar_component_1 = require('./loginNavBar.component');
-var screen_1 = require('../models/screen');
+var screen_model_1 = require('../models/screen.model');
+var app_settings_1 = require('../app.settings');
 var ScreenComponent = (function () {
-    function ScreenComponent(screenService, dcl, injector, _elementRef, _viewContainerRef) {
+    function ScreenComponent(screenService, dcl, injector) {
+        var _this = this;
         this.screenService = screenService;
         this.dcl = dcl;
         this.injector = injector;
-        this._elementRef = _elementRef;
-        this._viewContainerRef = _viewContainerRef;
+        //@ViewChild('screensContainer') screensContainer: ViewContainerRef;
         this.textField = 'initial text';
-        screenService.screens;
+        screenService.screensChangeEvent.subscribe(function () {
+            _this.renderScreens();
+        });
     }
+    ScreenComponent.prototype.getArrayWithMaxScreensLength = function () {
+        return new Array(app_settings_1.AppSettings.ScreenServiceSettings.numberOfScreensToKeep);
+    };
     ScreenComponent.prototype.addToScreenArray = function () {
-        this.screenService.addScreen(new screen_1.Screen(loginNavBar_component_1.LoginNavBarComponent, null));
-        this._viewContainerRef.clear();
-        // this.screenService.screens.forEach(screen => {
-        //     screen.componentElement = this.dcl.loadNextToLocation(screen.componentClass, this._viewContainerRef);
-        // });
-        var start = this.screenService.screens.length - 1;
-        for (var index = start; index >= 0; index--) {
-            var screen_2 = this.screenService.screens[index];
-            screen_2.componentElement = this.dcl.loadNextToLocation(screen_2.componentClass, this._viewContainerRef);
+        this.screenService.addScreen(new screen_model_1.ScreenModel(loginNavBar_component_1.LoginNavBarComponent));
+    };
+    ScreenComponent.prototype.renderScreens = function () {
+        var screens = this.screenService.allScreens();
+        this.screensContainer.clear();
+        for (var index = (screens.length - 1); index >= 0; index--) {
+            var screen_1 = screens[index];
+            //screen.componentElement = this.dcl.loadNextToLocation(screen.componentClass, this.screensContainer);
+            screen_1.componentElement = this.dcl.loadAsRoot(screen_1.componentClass, "#screensContainer" + (screens.length - 1 - index), this.injector);
         }
     };
+    __decorate([
+        core_1.ViewChild('screensContainer', { read: core_1.ViewContainerRef }), 
+        __metadata('design:type', core_1.ViewContainerRef)
+    ], ScreenComponent.prototype, "screensContainer", void 0);
     ScreenComponent = __decorate([
         core_1.Component({
             selector: 'screen',
             providers: [],
             templateUrl: './app/components/templates/screen.component.template.html',
-            directives: []
+            directives: [loginNavBar_component_1.LoginNavBarComponent]
         }), 
-        __metadata('design:paramtypes', [screen_service_1.ScreenService, core_1.DynamicComponentLoader, core_1.Injector, core_1.ElementRef, core_1.ViewContainerRef])
+        __metadata('design:paramtypes', [screen_service_1.ScreenService, core_1.DynamicComponentLoader, core_1.Injector])
     ], ScreenComponent);
     return ScreenComponent;
 }());

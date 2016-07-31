@@ -8,6 +8,7 @@ import { AppSettings } from '../app.settings';
 @Injectable()
 export class UserService {
     settings = AppSettings.UserServiceSettings;
+    isLoggedIn = false;
 
     constructor(private http: Http, private localStorageService: LocalStorageService) { }
 
@@ -55,6 +56,18 @@ export class UserService {
 
     isTokenAvailable(): boolean {
         return this.localStorageService.hasItem(this.settings.tokenKeyName);
+    }
+
+    isUserLoggedIn():boolean {
+        if (this.isTokenAvailable()) {
+            this.getUserData(this.token)
+            .subscribe(res => {
+                this.spanText = JSON.stringify(res);
+            })
+
+        }else{
+            return false;
+        }
     }
 
     private extractData(res: Response) {

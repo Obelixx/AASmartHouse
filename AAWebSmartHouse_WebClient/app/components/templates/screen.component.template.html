@@ -1,7 +1,8 @@
-<div class="screensContainer">
+<div>
     <button (click)="addToScreenArray()" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> AddScreen</button>
-    Screens:
-    <div id="screensContainer">
-
-    </div>
+    <ul>
+        <li *ngFor="let screen of getArrayWithMaxScreensLength(); let i = index">
+            <div #screensContainer id="screensContainer{{i}}">{{i}}</div>
+        </li>
+    </ul>
 </div>

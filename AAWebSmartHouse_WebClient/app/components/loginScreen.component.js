@@ -9,15 +9,25 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
+var user_model_1 = require('../models/user.model');
+var user_service_1 = require('../services/user.service');
 var LoginScreenComponent = (function () {
-    function LoginScreenComponent() {
+    function LoginScreenComponent(userService) {
+        this.userService = userService;
+        this.user = new user_model_1.UserModel('', '');
+        this.errorMsg = '';
     }
+    LoginScreenComponent.prototype.login = function () {
+        if (!this._service.login(this.user)) {
+            this.errorMsg = 'Failed to login';
+        }
+    };
     LoginScreenComponent = __decorate([
         core_1.Component({
             selector: 'loginScreen',
             templateUrl: './app/components/templates/loginScreen.component.template.html'
         }), 
-        __metadata('design:paramtypes', [])
+        __metadata('design:paramtypes', [user_service_1.UserService])
     ], LoginScreenComponent);
     return LoginScreenComponent;
 }());

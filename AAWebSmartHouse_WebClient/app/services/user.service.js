@@ -19,6 +19,7 @@ var UserService = (function () {
         this.http = http;
         this.localStorageService = localStorageService;
         this.settings = app_settings_1.AppSettings.UserServiceSettings;
+        this.isLoggedIn = false;
     }
     UserService.prototype.register = function (email, password, confirmPassword, firstname, lastname) {
         var body = JSON.stringify({ email: email, password: password, confirmPassword: confirmPassword, firstname: firstname, lastname: lastname });
@@ -49,6 +50,18 @@ var UserService = (function () {
     };
     UserService.prototype.isTokenAvailable = function () {
         return this.localStorageService.hasItem(this.settings.tokenKeyName);
+    };
+    UserService.prototype.isUserLoggedIn = function () {
+        var _this = this;
+        if (this.isTokenAvailable()) {
+            this.getUserData(this.token)
+                .subscribe(function (res) {
+                _this.spanText = JSON.stringify(res);
+            });
+        }
+        else {
+            return false;
+        }
     };
     UserService.prototype.extractData = function (res) {
         var body = res.json();

@@ -1,45 +1,48 @@
-import { Component, DynamicComponentLoader, Injector, ElementRef, ViewContainerRef } from '@angular/core';
+import { Component, DynamicComponentLoader, Injector, ViewContainerRef, ViewChild } from '@angular/core';
 import { ScreenService } from '../services/screen.service'
+import { Observable }     from 'rxjs/Observable';
 import { LoginNavBarComponent } from './loginNavBar.component';
-import { Screen } from '../models/screen';
+import { ScreenModel } from '../models/screen.model';
+import { AppSettings } from '../app.settings';
 
 @Component({
     selector: 'screen',
     providers: [],
     templateUrl: './app/components/templates/screen.component.template.html',
-    directives: []
+    directives: [LoginNavBarComponent]
 })
 export class ScreenComponent {
+    @ViewChild('screensContainer', { read: ViewContainerRef }) screensContainer: ViewContainerRef;
+    //@ViewChild('screensContainer') screensContainer: ViewContainerRef;
     textField = 'initial text';
-    public component: any;
 
     constructor(
         private screenService: ScreenService,
         public dcl: DynamicComponentLoader,
-        public injector: Injector,
-        public _elementRef: ElementRef,
-        public _viewContainerRef: ViewContainerRef) {
-            
-            screenService.screens
+        public injector: Injector
+    ) {
+        screenService.screensChangeEvent.subscribe(
+            () => {
+                this.renderScreens();
+            });
     }
 
+    getArrayWithMaxScreensLength(){
+        return new Array(AppSettings.ScreenServiceSettings.numberOfScreensToKeep);
+    }
 
     addToScreenArray() {
-        this.screenService.addScreen(new Screen(LoginNavBarComponent,null));
+        this.screenService.addScreen(new ScreenModel(LoginNavBarComponent));
+    }
 
+    renderScreens() {
+        let screens = this.screenService.allScreens();
+        this.screensContainer.clear();
 
-        this._viewContainerRef.clear();
-
-        // this.screenService.screens.forEach(screen => {
-        //     screen.componentElement = this.dcl.loadNextToLocation(screen.componentClass, this._viewContainerRef);
-        // });
-
-        let start = this.screenService.screens.length-1;
-        for (var index = start; index >= 0; index--) {           
-            let screen = this.screenService.screens[index];
-            screen.componentElement = this.dcl.loadNextToLocation(screen.componentClass, this._viewContainerRef);
-            //screen.componentElement = this.dcl.loadAsRoot(screen.componentClass, "#screensContainer", this.injector)
+        for (var index = (screens.length - 1); index >= 0; index--) {
+            let screen = screens[index];
+            //screen.componentElement = this.dcl.loadNextToLocation(screen.componentClass, this.screensContainer);
+            screen.componentElement = this.dcl.loadAsRoot(screen.componentClass, "#screensContainer" + (screens.length - 1 - index), this.injector)
         }
-
     }
 }

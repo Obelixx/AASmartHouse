@@ -1,25 +1,26 @@
-import { Injectable }     from '@angular/core';
-import { Component } from '@angular/core';
-import { Observable }     from 'rxjs/Observable';
+import { Injectable, EventEmitter } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
 import { AppSettings } from '../app.settings';
-import { Screen } from '../models/screen';
+import { ScreenModel } from '../models/screen';
 
 @Injectable()
 export class ScreenService {
-    settings = AppSettings.ScreenServiceSettings;
-    screens : Screen[] = [];
+    private settings = AppSettings.ScreenServiceSettings;
+    public screensChangeEvent = new EventEmitter;
+    private screens: ScreenModel[] = [];
 
-    // constructor(things: [any]) {
-    //     things.forEach(element => {
-    //         this.screens.push(element);
-    //     });
-    // }
+    allScreens(): ScreenModel[] {
+        return this.screens.slice();
+    }
 
-    addScreen(screeen: Screen) {
+    addScreen(screeen: ScreenModel): ScreenModel {
         this.screens.push(screeen);
         while (this.screens.length > this.settings.numberOfScreensToKeep) {
             this.screens.shift();
         }
-        return this.screens[this.screens.length-1];
+
+        this.screensChangeEvent.emit({value: this.allScreens()})
+
+        return this.screens[this.screens.length - 1];
     }
 }

@@ -13,18 +13,18 @@ var app_settings_1 = require('../app.settings');
 var ScreenService = (function () {
     function ScreenService() {
         this.settings = app_settings_1.AppSettings.ScreenServiceSettings;
+        this.screensChangeEvent = new core_1.EventEmitter;
         this.screens = [];
     }
-    // constructor(things: [any]) {
-    //     things.forEach(element => {
-    //         this.screens.push(element);
-    //     });
-    // }
+    ScreenService.prototype.allScreens = function () {
+        return this.screens.slice();
+    };
     ScreenService.prototype.addScreen = function (screeen) {
         this.screens.push(screeen);
         while (this.screens.length > this.settings.numberOfScreensToKeep) {
             this.screens.shift();
         }
+        this.screensChangeEvent.emit({ value: this.allScreens() });
         return this.screens[this.screens.length - 1];
     };
     ScreenService = __decorate([

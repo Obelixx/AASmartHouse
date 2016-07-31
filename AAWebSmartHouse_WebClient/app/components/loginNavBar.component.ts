@@ -1,20 +1,31 @@
 import { Component } from '@angular/core';
-import { UserService } from '../services/user.service';
-import { Observable }     from 'rxjs/Observable';
 import { Http, Response } from '@angular/http';
+import { Observable }     from 'rxjs/Observable';
+
+import { ScreenModel } from '../models/screen.model';
+
+import { UserService } from '../services/user.service';
+import { ScreenService } from '../services/screen.service';
 import { LocalStorageService } from '../services/localStorage.service';
+
+import { LoginScreenComponent } from './loginScreen.component';
 
 @Component({
     selector: 'loginNavBar',
-    templateUrl: './app/components/templates/loginNavBar.component.template.html'
+    templateUrl: './app/components/templates/loginNavBar.component.template.html',
+    directives: [LoginScreenComponent]
 })
 export class LoginNavBarComponent {
     username = 'stranger';
     spanText = '';
     token = '';
-    isLoggedIn = false;
+    
 
-    constructor(private userService: UserService, private localStorage: LocalStorageService) {
+    constructor(
+        private userService: UserService,
+        private localStorage: LocalStorageService,
+        private screenService: ScreenService
+    ) {
         const TokenKeyName = "Token";
 
         if (localStorage.hasItem(TokenKeyName)) {
@@ -22,21 +33,25 @@ export class LoginNavBarComponent {
 
             userService.getUserData(this.token)
                 .map(this.extractData)
-                .catch((err:any,cought: Observable<any> ) => {
+                .catch((err: any, cought: Observable<any>) => {
                     this.isLoggedIn = false;
                     return this.handleError(err);
                 })
                 .subscribe(res => {
                     this.spanText = JSON.stringify(res);
-                    if(res.userName)
-{}
+                    if (res.userName)
+                    { }
                 })
         };
     }
 
+    loginClicked() {
+        this.screenService.addScreen(new ScreenModel(LoginScreenComponent));
+    }
+
     getTokenClicked() {
         this.userService.getToken('mail@mail.bg', '123456a')
-        //this.userService.getToken('admin', 'adminPassword')
+            //this.userService.getToken('admin', 'adminPassword')
             .subscribe(res => {
                 this.username = res.userName;
                 console.log(res.access_token);
@@ -45,11 +60,11 @@ export class LoginNavBarComponent {
 
     }
 
-    isValidTokenClicked(){
+    isValidTokenClicked() {
         this.userService.getUserData(this.token)
-                .subscribe(res => {
-                    this.spanText = JSON.stringify(res);
-                })
+            .subscribe(res => {
+                this.spanText = JSON.stringify(res);
+            })
     }
 
     private extractData(res: Response) {

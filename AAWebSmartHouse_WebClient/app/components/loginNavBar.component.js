@@ -9,18 +9,21 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var user_service_1 = require('../services/user.service');
 var Observable_1 = require('rxjs/Observable');
+var screen_model_1 = require('../models/screen.model');
+var user_service_1 = require('../services/user.service');
+var screen_service_1 = require('../services/screen.service');
 var localStorage_service_1 = require('../services/localStorage.service');
+var loginScreen_component_1 = require('./loginScreen.component');
 var LoginNavBarComponent = (function () {
-    function LoginNavBarComponent(userService, localStorage) {
+    function LoginNavBarComponent(userService, localStorage, screenService) {
         var _this = this;
         this.userService = userService;
         this.localStorage = localStorage;
+        this.screenService = screenService;
         this.username = 'stranger';
         this.spanText = '';
         this.token = '';
-        this.isLoggedIn = false;
         var TokenKeyName = "Token";
         if (localStorage.hasItem(TokenKeyName)) {
             var token = localStorage.getItem(TokenKeyName);
@@ -37,6 +40,9 @@ var LoginNavBarComponent = (function () {
         }
         ;
     }
+    LoginNavBarComponent.prototype.loginClicked = function () {
+        this.screenService.addScreen(new screen_model_1.ScreenModel(loginScreen_component_1.LoginScreenComponent));
+    };
     LoginNavBarComponent.prototype.getTokenClicked = function () {
         var _this = this;
         this.userService.getToken('mail@mail.bg', '123456a')
@@ -69,9 +75,10 @@ var LoginNavBarComponent = (function () {
     LoginNavBarComponent = __decorate([
         core_1.Component({
             selector: 'loginNavBar',
-            templateUrl: './app/components/templates/loginNavBar.component.template.html'
+            templateUrl: './app/components/templates/loginNavBar.component.template.html',
+            directives: [loginScreen_component_1.LoginScreenComponent]
         }), 
-        __metadata('design:paramtypes', [user_service_1.UserService, localStorage_service_1.LocalStorageService])
+        __metadata('design:paramtypes', [user_service_1.UserService, localStorage_service_1.LocalStorageService, screen_service_1.ScreenService])
     ], LoginNavBarComponent);
     return LoginNavBarComponent;
 }());
