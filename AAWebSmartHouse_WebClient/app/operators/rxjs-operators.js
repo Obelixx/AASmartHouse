@@ -4,6 +4,7 @@
 // Import just the rxjs statics and operators we need for THIS app.
 // Statics
 require('rxjs/add/observable/throw');
+require('rxjs/add/observable/empty');
 // Operators
 require('rxjs/add/operator/catch');
 //import 'rxjs/add/operator/debounceTime';

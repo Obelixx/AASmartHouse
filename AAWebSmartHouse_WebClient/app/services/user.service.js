@@ -35,8 +35,8 @@ var UserService = (function () {
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
         var options = new http_2.RequestOptions({ headers: headers });
         return this.http.post(this.settings.apiUrl + this.settings.tokenUrl, body, options)
-            .map(this.extractData)
-            .catch(this.handleError);
+            .map(this.extractData);
+        //.catch(this.handleError);
     };
     UserService.prototype.getUserData = function (token) {
         var headers = new http_2.Headers();
@@ -51,20 +51,26 @@ var UserService = (function () {
     UserService.prototype.isTokenAvailable = function () {
         return this.localStorageService.hasItem(this.settings.tokenKeyName);
     };
-    UserService.prototype.isUserLoggedIn = function () {
-        var _this = this;
-        if (this.isTokenAvailable()) {
-            this.getUserData(this.token)
-                .subscribe(function (res) {
-                _this.spanText = JSON.stringify(res);
-            });
-        }
-        else {
-            return false;
-        }
-    };
+    // isUserLoggedIn(): boolean {
+    //     if (this.isTokenAvailable()) {
+    //         let headers = new Headers();
+    //         let token = this.localStorageService.getItem(this.settings.tokenKeyName);
+    //         headers.append('Accept', 'application/json');
+    //         headers.append('Authorization', 'Bearer ' + token);
+    //         this.http.get(this.settings.apiUrl + this.settings.userUrl, { headers })
+    //             .map(this.extractData)
+    //             .catch((err:any, cought: Observable<any>) => { return false });
+    //             .subscribe(res => {
+    //             if (res.hasOwnProperty("EMail")) {
+    //             }
+    //         })
+    //     } else {
+    //         return false;
+    //     }
+    // }
     UserService.prototype.extractData = function (res) {
         var body = res.json();
+        this.isLoggedIn = true;
         return body;
     };
     UserService.prototype.handleError = function (error) {
@@ -73,7 +79,8 @@ var UserService = (function () {
         var errMsg = (error.message) ? error.message :
             error.status ? error.status + " - " + error.statusText : 'Server error';
         console.error(errMsg); // log to console instead
-        console.error("!!ERROR!!: " + JSON.stringify(error));
+        console.error("!!ERROR in user.service !!: " + JSON.stringify(error));
+        this.isLoggedIn = false;
         return Observable_1.Observable.throw(errMsg);
     };
     UserService = __decorate([

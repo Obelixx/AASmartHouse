@@ -3,8 +3,7 @@ import { Injectable }     from '@angular/core';
 @Injectable()
 export class LocalStorageService {
     private localStorageKeyItem = 'AAWebSmartHouseWebClient';
-    AAWebSmartHouseWebClient = {};
-
+    private AAWebSmartHouseWebClient = {};
 
     constructor() {
         this.updateObjectFromLocalStorage();

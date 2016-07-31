@@ -10,7 +10,8 @@ export class UserService {
     settings = AppSettings.UserServiceSettings;
     isLoggedIn = false;
 
-    constructor(private http: Http, private localStorageService: LocalStorageService) { }
+    constructor(private http: Http, private localStorageService: LocalStorageService) {
+    }
 
     register(
         email: string,
@@ -37,10 +38,10 @@ export class UserService {
 
         return this.http.post(this.settings.apiUrl + this.settings.tokenUrl, body, options)
             .map(this.extractData)
-            .catch(this.handleError);
+            //.catch(this.handleError);
     }
 
-    getUserData(token: string){
+    getUserData(token: string) {
         let headers = new Headers();
         headers.append('Accept', 'application/json');
         headers.append('Authorization', 'Bearer ' + token);
@@ -50,7 +51,7 @@ export class UserService {
         let request = this.http.get(this.settings.apiUrl + this.settings.userUrl, { headers })
             .map(this.extractData)
             .catch(this.handleError);
-        
+
         return request;
     }
 
@@ -58,20 +59,30 @@ export class UserService {
         return this.localStorageService.hasItem(this.settings.tokenKeyName);
     }
 
-    isUserLoggedIn():boolean {
-        if (this.isTokenAvailable()) {
-            this.getUserData(this.token)
-            .subscribe(res => {
-                this.spanText = JSON.stringify(res);
-            })
+    // isUserLoggedIn(): boolean {
+    //     if (this.isTokenAvailable()) {
+    //         let headers = new Headers();
+    //         let token = this.localStorageService.getItem(this.settings.tokenKeyName);
+    //         headers.append('Accept', 'application/json');
+    //         headers.append('Authorization', 'Bearer ' + token);
 
-        }else{
-            return false;
-        }
-    }
+    //         this.http.get(this.settings.apiUrl + this.settings.userUrl, { headers })
+    //             .map(this.extractData)
+    //             .catch((err:any, cought: Observable<any>) => { return false });
+    //             .subscribe(res => {
+    //             if (res.hasOwnProperty("EMail")) {
+
+    //             }
+    //         })
+
+    //     } else {
+    //         return false;
+    //     }
+    // }
 
     private extractData(res: Response) {
         let body = res.json();
+        this.isLoggedIn = true;
         return body;
     }
 
@@ -81,7 +92,8 @@ export class UserService {
         let errMsg = (error.message) ? error.message :
             error.status ? `${error.status} - ${error.statusText}` : 'Server error';
         console.error(errMsg); // log to console instead
-        console.error("!!ERROR!!: " + JSON.stringify(error));
+        console.error("!!ERROR in user.service !!: " + JSON.stringify(error));
+        this.isLoggedIn = false;
         return Observable.throw(errMsg);
     }
 }

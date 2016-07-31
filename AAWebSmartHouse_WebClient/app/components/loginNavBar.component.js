@@ -11,34 +11,32 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var Observable_1 = require('rxjs/Observable');
 var screen_model_1 = require('../models/screen.model');
+var loginScreen_component_1 = require('./loginScreen.component');
 var user_service_1 = require('../services/user.service');
 var screen_service_1 = require('../services/screen.service');
 var localStorage_service_1 = require('../services/localStorage.service');
-var loginScreen_component_1 = require('./loginScreen.component');
 var LoginNavBarComponent = (function () {
     function LoginNavBarComponent(userService, localStorage, screenService) {
-        var _this = this;
+        // if (localStorage.hasItem(TokenKeyName)) {
+        //     let token = localStorage.getItem(TokenKeyName);
         this.userService = userService;
         this.localStorage = localStorage;
         this.screenService = screenService;
         this.username = 'stranger';
         this.spanText = '';
         this.token = '';
-        var TokenKeyName = "Token";
-        if (localStorage.hasItem(TokenKeyName)) {
-            var token = localStorage.getItem(TokenKeyName);
-            userService.getUserData(this.token)
-                .map(this.extractData)
-                .catch(function (err, cought) {
-                _this.isLoggedIn = false;
-                return _this.handleError(err);
-            })
-                .subscribe(function (res) {
-                _this.spanText = JSON.stringify(res);
-                if (res.userName) { }
-            });
-        }
-        ;
+        //     userService.getUserData(this.token)
+        //         .map(this.extractData)
+        //         .catch((err: any, cought: Observable<any>) => {
+        //             this.isLoggedIn = false;
+        //             return this.handleError(err);
+        //         })
+        //         .subscribe(res => {
+        //             this.spanText = JSON.stringify(res);
+        //             if (res.userName)
+        //             { }
+        //         })
+        // };
     }
     LoginNavBarComponent.prototype.loginClicked = function () {
         this.screenService.addScreen(new screen_model_1.ScreenModel(loginScreen_component_1.LoginScreenComponent));
@@ -75,8 +73,7 @@ var LoginNavBarComponent = (function () {
     LoginNavBarComponent = __decorate([
         core_1.Component({
             selector: 'loginNavBar',
-            templateUrl: './app/components/templates/loginNavBar.component.template.html',
-            directives: [loginScreen_component_1.LoginScreenComponent]
+            templateUrl: './app/components/templates/loginNavBar.component.template.html'
         }), 
         __metadata('design:paramtypes', [user_service_1.UserService, localStorage_service_1.LocalStorageService, screen_service_1.ScreenService])
     ], LoginNavBarComponent);

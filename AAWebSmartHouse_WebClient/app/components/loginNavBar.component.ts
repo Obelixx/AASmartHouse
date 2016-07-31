@@ -4,16 +4,15 @@ import { Observable }     from 'rxjs/Observable';
 
 import { ScreenModel } from '../models/screen.model';
 
+import { LoginScreenComponent } from './loginScreen.component';
+
 import { UserService } from '../services/user.service';
 import { ScreenService } from '../services/screen.service';
 import { LocalStorageService } from '../services/localStorage.service';
 
-import { LoginScreenComponent } from './loginScreen.component';
-
 @Component({
     selector: 'loginNavBar',
-    templateUrl: './app/components/templates/loginNavBar.component.template.html',
-    directives: [LoginScreenComponent]
+    templateUrl: './app/components/templates/loginNavBar.component.template.html'
 })
 export class LoginNavBarComponent {
     username = 'stranger';
@@ -26,23 +25,23 @@ export class LoginNavBarComponent {
         private localStorage: LocalStorageService,
         private screenService: ScreenService
     ) {
-        const TokenKeyName = "Token";
+        
 
-        if (localStorage.hasItem(TokenKeyName)) {
-            let token = localStorage.getItem(TokenKeyName);
+        // if (localStorage.hasItem(TokenKeyName)) {
+        //     let token = localStorage.getItem(TokenKeyName);
 
-            userService.getUserData(this.token)
-                .map(this.extractData)
-                .catch((err: any, cought: Observable<any>) => {
-                    this.isLoggedIn = false;
-                    return this.handleError(err);
-                })
-                .subscribe(res => {
-                    this.spanText = JSON.stringify(res);
-                    if (res.userName)
-                    { }
-                })
-        };
+        //     userService.getUserData(this.token)
+        //         .map(this.extractData)
+        //         .catch((err: any, cought: Observable<any>) => {
+        //             this.isLoggedIn = false;
+        //             return this.handleError(err);
+        //         })
+        //         .subscribe(res => {
+        //             this.spanText = JSON.stringify(res);
+        //             if (res.userName)
+        //             { }
+        //         })
+        // };
     }
 
     loginClicked() {

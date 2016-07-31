@@ -1,18 +1,23 @@
 import { Component, DynamicComponentLoader, Injector, ViewContainerRef, ViewChild } from '@angular/core';
-import { ScreenService } from '../services/screen.service'
 import { Observable }     from 'rxjs/Observable';
-import { LoginNavBarComponent } from './loginNavBar.component';
+
 import { ScreenModel } from '../models/screen.model';
+
+import { LoginNavBarComponent } from './loginNavBar.component';
+
+import { ScreenService } from '../services/screen.service'
+
 import { AppSettings } from '../app.settings';
+
 
 @Component({
     selector: 'screen',
     providers: [],
     templateUrl: './app/components/templates/screen.component.template.html',
-    directives: [LoginNavBarComponent]
+    directives: []
 })
 export class ScreenComponent {
-    @ViewChild('screensContainer', { read: ViewContainerRef }) screensContainer: ViewContainerRef;
+    @ViewChild('screensContainer0', { read: ViewContainerRef }) screensContainer: ViewContainerRef;
     //@ViewChild('screensContainer') screensContainer: ViewContainerRef;
     textField = 'initial text';
 
@@ -41,8 +46,8 @@ export class ScreenComponent {
 
         for (var index = (screens.length - 1); index >= 0; index--) {
             let screen = screens[index];
-            //screen.componentElement = this.dcl.loadNextToLocation(screen.componentClass, this.screensContainer);
-            screen.componentElement = this.dcl.loadAsRoot(screen.componentClass, "#screensContainer" + (screens.length - 1 - index), this.injector)
+            screen.componentElement = this.dcl.loadNextToLocation(screen.componentClass, this.screensContainer);
+            //screen.componentElement = this.dcl.loadAsRoot(screen.componentClass, "#screensContainer" + (screens.length - 1 - index), this.injector)
         }
     }
 }

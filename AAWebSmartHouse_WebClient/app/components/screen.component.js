@@ -9,9 +9,9 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var screen_service_1 = require('../services/screen.service');
-var loginNavBar_component_1 = require('./loginNavBar.component');
 var screen_model_1 = require('../models/screen.model');
+var loginNavBar_component_1 = require('./loginNavBar.component');
+var screen_service_1 = require('../services/screen.service');
 var app_settings_1 = require('../app.settings');
 var ScreenComponent = (function () {
     function ScreenComponent(screenService, dcl, injector) {
@@ -36,12 +36,11 @@ var ScreenComponent = (function () {
         this.screensContainer.clear();
         for (var index = (screens.length - 1); index >= 0; index--) {
             var screen_1 = screens[index];
-            //screen.componentElement = this.dcl.loadNextToLocation(screen.componentClass, this.screensContainer);
-            screen_1.componentElement = this.dcl.loadAsRoot(screen_1.componentClass, "#screensContainer" + (screens.length - 1 - index), this.injector);
+            screen_1.componentElement = this.dcl.loadNextToLocation(screen_1.componentClass, this.screensContainer);
         }
     };
     __decorate([
-        core_1.ViewChild('screensContainer', { read: core_1.ViewContainerRef }), 
+        core_1.ViewChild('screensContainer0', { read: core_1.ViewContainerRef }), 
         __metadata('design:type', core_1.ViewContainerRef)
     ], ScreenComponent.prototype, "screensContainer", void 0);
     ScreenComponent = __decorate([
@@ -49,7 +48,7 @@ var ScreenComponent = (function () {
             selector: 'screen',
             providers: [],
             templateUrl: './app/components/templates/screen.component.template.html',
-            directives: [loginNavBar_component_1.LoginNavBarComponent]
+            directives: []
         }), 
         __metadata('design:paramtypes', [screen_service_1.ScreenService, core_1.DynamicComponentLoader, core_1.Injector])
     ], ScreenComponent);

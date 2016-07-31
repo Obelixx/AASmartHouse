@@ -9,10 +9,10 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
+require('../operators/rxjs-operators');
 var loginNavBar_component_1 = require('../components/loginNavBar.component');
 var screen_component_1 = require('../components/screen.component');
 var loginScreen_component_1 = require('./loginScreen.component');
-require('../operators/rxjs-operators');
 var user_service_1 = require('../services/user.service');
 var localStorage_service_1 = require('../services/localStorage.service');
 var screen_service_1 = require('../services/screen.service');
