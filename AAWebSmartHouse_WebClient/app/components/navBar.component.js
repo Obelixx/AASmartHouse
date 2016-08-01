@@ -9,21 +9,18 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var Observable_1 = require('rxjs/Observable');
 var screen_model_1 = require('../models/screen.model');
 var loginScreen_component_1 = require('./loginScreen.component');
 var user_service_1 = require('../services/user.service');
 var screen_service_1 = require('../services/screen.service');
 var localStorage_service_1 = require('../services/localStorage.service');
-var LoginNavBarComponent = (function () {
-    function LoginNavBarComponent(userService, localStorage, screenService) {
+var NavBarComponent = (function () {
+    function NavBarComponent(userService, localStorage, screenService) {
         // if (localStorage.hasItem(TokenKeyName)) {
         //     let token = localStorage.getItem(TokenKeyName);
         this.userService = userService;
         this.localStorage = localStorage;
         this.screenService = screenService;
-        this.username = 'stranger';
-        this.spanText = '';
         this.token = '';
         //     userService.getUserData(this.token)
         //         .map(this.extractData)
@@ -38,46 +35,20 @@ var LoginNavBarComponent = (function () {
         //         })
         // };
     }
-    LoginNavBarComponent.prototype.loginClicked = function () {
+    NavBarComponent.prototype.loginClicked = function () {
         this.screenService.addScreen(new screen_model_1.ScreenModel(loginScreen_component_1.LoginScreenComponent));
     };
-    LoginNavBarComponent.prototype.getTokenClicked = function () {
-        var _this = this;
-        this.userService.getToken('mail@mail.bg', '123456a')
-            .subscribe(function (res) {
-            _this.username = res.userName;
-            console.log(res.access_token);
-            _this.token = res.access_token;
-        });
+    NavBarComponent.prototype.logoutClicked = function () {
+        this.userService.logout();
     };
-    LoginNavBarComponent.prototype.isValidTokenClicked = function () {
-        var _this = this;
-        this.userService.getUserData(this.token)
-            .subscribe(function (res) {
-            _this.spanText = JSON.stringify(res);
-        });
-    };
-    LoginNavBarComponent.prototype.extractData = function (res) {
-        var body = res.json();
-        return body;
-    };
-    LoginNavBarComponent.prototype.handleError = function (error) {
-        // In a real world app, we might use a remote logging infrastructure
-        // We'd also dig deeper into the error to get a better message
-        var errMsg = (error.message) ? error.message :
-            error.status ? error.status + " - " + error.statusText : 'Server error';
-        console.error(errMsg); // log to console instead
-        console.error("!!ERROR!!: " + JSON.stringify(error));
-        return Observable_1.Observable.throw(errMsg);
-    };
-    LoginNavBarComponent = __decorate([
+    NavBarComponent = __decorate([
         core_1.Component({
-            selector: 'loginNavBar',
-            templateUrl: './app/components/templates/loginNavBar.component.template.html'
+            selector: 'navBar',
+            templateUrl: './app/components/templates/navBar.component.template.html'
         }), 
         __metadata('design:paramtypes', [user_service_1.UserService, localStorage_service_1.LocalStorageService, screen_service_1.ScreenService])
-    ], LoginNavBarComponent);
-    return LoginNavBarComponent;
+    ], NavBarComponent);
+    return NavBarComponent;
 }());
-exports.LoginNavBarComponent = LoginNavBarComponent;
-//# sourceMappingURL=loginNavBar.component.js.map
+exports.NavBarComponent = NavBarComponent;
+//# sourceMappingURL=navBar.component.js.map

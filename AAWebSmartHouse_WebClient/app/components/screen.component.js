@@ -10,7 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var screen_model_1 = require('../models/screen.model');
-var loginNavBar_component_1 = require('./loginNavBar.component');
+var navBar_component_1 = require('./navBar.component');
 var screen_service_1 = require('../services/screen.service');
 var app_settings_1 = require('../app.settings');
 var ScreenComponent = (function () {
@@ -29,7 +29,7 @@ var ScreenComponent = (function () {
         return new Array(app_settings_1.AppSettings.ScreenServiceSettings.numberOfScreensToKeep);
     };
     ScreenComponent.prototype.addToScreenArray = function () {
-        this.screenService.addScreen(new screen_model_1.ScreenModel(loginNavBar_component_1.LoginNavBarComponent));
+        this.screenService.addScreen(new screen_model_1.ScreenModel(navBar_component_1.NavBarComponent));
     };
     ScreenComponent.prototype.renderScreens = function () {
         var screens = this.screenService.allScreens();

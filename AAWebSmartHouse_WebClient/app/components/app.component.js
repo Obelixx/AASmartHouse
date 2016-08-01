@@ -10,7 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 require('../operators/rxjs-operators');
-var loginNavBar_component_1 = require('../components/loginNavBar.component');
+var navBar_component_1 = require('../components/navBar.component');
 var screen_component_1 = require('../components/screen.component');
 var loginScreen_component_1 = require('./loginScreen.component');
 var user_service_1 = require('../services/user.service');
@@ -23,7 +23,7 @@ var AppComponent = (function () {
         core_1.Component({
             selector: 'my-app',
             templateUrl: './app/components/templates/app.component.template.html',
-            directives: [loginNavBar_component_1.LoginNavBarComponent, screen_component_1.ScreenComponent, loginScreen_component_1.LoginScreenComponent],
+            directives: [navBar_component_1.NavBarComponent, screen_component_1.ScreenComponent, loginScreen_component_1.LoginScreenComponent],
             providers: [user_service_1.UserService, localStorage_service_1.LocalStorageService, screen_service_1.ScreenService]
         }), 
         __metadata('design:paramtypes', [])

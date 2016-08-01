@@ -3,7 +3,7 @@ import { Observable }     from 'rxjs/Observable';
 
 import { ScreenModel } from '../models/screen.model';
 
-import { LoginNavBarComponent } from './loginNavBar.component';
+import { NavBarComponent } from './navBar.component';
 
 import { ScreenService } from '../services/screen.service'
 
@@ -37,7 +37,7 @@ export class ScreenComponent {
     }
 
     addToScreenArray() {
-        this.screenService.addScreen(new ScreenModel(LoginNavBarComponent));
+        this.screenService.addScreen(new ScreenModel(NavBarComponent));
     }
 
     renderScreens() {

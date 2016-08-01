@@ -19,22 +19,25 @@ var LoginScreenComponent = (function () {
         this.userService = userService;
         this.localStorageService = localStorageService;
         this.user = new user_model_1.UserModel("", "");
-        this.userName = "foo";
-        this.userPassword = "bar";
-        this.errorMsg = 'inital';
+        this.errorMsg = '';
+        this.successMsg = '';
+        this.isDisabled = '';
     }
     LoginScreenComponent.prototype.login = function () {
         var _this = this;
-        this.userService.getToken(this.user.email, this.user.password)
+        this.userService.getToken(new user_model_1.UserModel(this.user.email, this.user.password))
             .catch(function (err, cought) {
             var error = JSON.parse(err._body);
             _this.errorMsg = error.error_description;
-            return Observable_1.Observable.throw("");
+            return Observable_1.Observable.throw('');
         })
             .subscribe(function (res) {
             _this.localStorageService.setItem(app_settings_1.AppSettings.UserServiceSettings.tokenKeyName, res.access_token);
+            _this.errorMsg = '';
+            _this.successMsg = "Wellcome " + res.userName;
+            _this.userService.username = res.userName;
+            _this.isDisabled = "disabled";
             console.log("res: " + JSON.stringify(res));
-            console.log("Username: " + res.userName);
             console.log("Token: " + res.access_token);
         });
     };

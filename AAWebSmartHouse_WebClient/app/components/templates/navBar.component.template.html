@@ -1,0 +1,24 @@
+<table>
+    <tr>
+        <td>
+            <a class="btn btn-info" href="."><span class="glyphicon glyphicon-home"></span> Home</a>
+            <a class="btn btn-info" href="."><span class="glyphicon glyphicon-cog"></span> Cog</a>
+            <a class="btn btn-info" href="."><span class="glyphicon glyphicon-star"></span> Star</a>
+        </td>
+        <td class="loginNavBar">
+            <div>
+                <div class="loginNavBarContainer">
+                    <span>Hello <b>{{ userService.username }}</b>!</span>
+                    <button *ngIf="userService.isLoggedIn==false" (click)="loginClicked()" class="btn btn-primary">
+	                    <span class="glyphicon glyphicon-off"></span>
+	                    <span>Login</span>
+	                </button>
+                    <button *ngIf="userService.isLoggedIn==true" (click)="logoutClicked()" class="btn btn-danger">
+	                    <span class="glyphicon glyphicon-off"></span>
+	                    <span>Logout</span>
+	                </button>
+                </div>
+            </div>
+        </td>
+    </tr>
+</table>

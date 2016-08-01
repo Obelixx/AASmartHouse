@@ -19,8 +19,22 @@ var UserService = (function () {
         this.http = http;
         this.localStorageService = localStorageService;
         this.settings = app_settings_1.AppSettings.UserServiceSettings;
-        this.isLoggedIn = false;
+        this.loginEvents = new core_1.EventEmitter();
+        this._isLoggedIn = false;
+        this.toStoreToken = true;
+        this.username = 'stranger';
     }
+    Object.defineProperty(UserService.prototype, "isLoggedIn", {
+        get: function () {
+            return this._isLoggedIn;
+        },
+        set: function (value) {
+            this._isLoggedIn = value;
+            this.loginEvents.emit(this._isLoggedIn);
+        },
+        enumerable: true,
+        configurable: true
+    });
     UserService.prototype.register = function (email, password, confirmPassword, firstname, lastname) {
         var body = JSON.stringify({ email: email, password: password, confirmPassword: confirmPassword, firstname: firstname, lastname: lastname });
         var headers = new http_2.Headers({ 'Content-Type': 'application/json' });
@@ -29,48 +43,55 @@ var UserService = (function () {
             .map(this.extractData)
             .catch(this.handleError);
     };
-    UserService.prototype.getToken = function (email, password) {
-        var body = "username=" + email + "&password=" + password + "&grant_type=password";
+    UserService.prototype.getToken = function (user) {
+        var _this = this;
+        var body = "username=" + user.email + "&password=" + user.password + "&grant_type=password";
         var headers = new http_2.Headers();
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
         var options = new http_2.RequestOptions({ headers: headers });
         return this.http.post(this.settings.apiUrl + this.settings.tokenUrl, body, options)
-            .map(this.extractData);
+            .map(function (response, index) {
+            _this.isLoggedIn = true;
+            var result = _this.extractData(response);
+            if (_this.toStoreToken) {
+            }
+            return result;
+        });
         //.catch(this.handleError);
     };
     UserService.prototype.getUserData = function (token) {
+        var _this = this;
         var headers = new http_2.Headers();
         headers.append('Accept', 'application/json');
         headers.append('Authorization', 'Bearer ' + token);
         var options = new http_2.RequestOptions({ headers: headers });
         var request = this.http.get(this.settings.apiUrl + this.settings.userUrl, { headers: headers })
-            .map(this.extractData)
-            .catch(this.handleError);
+            .map(function () {
+            _this.isLoggedIn = true;
+            return _this.extractData;
+        })
+            .catch(function (error) {
+            _this.isLoggedIn = false;
+            return _this.extractData(error);
+        });
         return request;
     };
-    UserService.prototype.isTokenAvailable = function () {
-        return this.localStorageService.hasItem(this.settings.tokenKeyName);
+    Object.defineProperty(UserService.prototype, "token", {
+        get: function () {
+            return this.localStorageService.getItem(this.settings.tokenKeyName);
+        },
+        set: function (token) {
+            this.localStorageService.setItem(this.settings.tokenKeyName, token);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    UserService.prototype.logout = function () {
+        this.localStorageService.clearItem(this.settings.tokenKeyName);
+        this.isLoggedIn = false;
     };
-    // isUserLoggedIn(): boolean {
-    //     if (this.isTokenAvailable()) {
-    //         let headers = new Headers();
-    //         let token = this.localStorageService.getItem(this.settings.tokenKeyName);
-    //         headers.append('Accept', 'application/json');
-    //         headers.append('Authorization', 'Bearer ' + token);
-    //         this.http.get(this.settings.apiUrl + this.settings.userUrl, { headers })
-    //             .map(this.extractData)
-    //             .catch((err:any, cought: Observable<any>) => { return false });
-    //             .subscribe(res => {
-    //             if (res.hasOwnProperty("EMail")) {
-    //             }
-    //         })
-    //     } else {
-    //         return false;
-    //     }
-    // }
     UserService.prototype.extractData = function (res) {
         var body = res.json();
-        this.isLoggedIn = true;
         return body;
     };
     UserService.prototype.handleError = function (error) {

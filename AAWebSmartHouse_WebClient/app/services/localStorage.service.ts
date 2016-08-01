@@ -26,6 +26,12 @@ export class LocalStorageService {
         return this.AAWebSmartHouseWebClient.hasOwnProperty(item);
     }
 
+    clearItem(item: string){
+        this.updateObjectFromLocalStorage();
+        this.AAWebSmartHouseWebClient[item] = undefined;
+        this.updateLocalStorageFromObject();
+    }
+
     clearAll(){
         this.clearLocalStorage();
     }

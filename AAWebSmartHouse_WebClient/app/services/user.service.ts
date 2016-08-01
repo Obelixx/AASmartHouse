@@ -1,14 +1,30 @@
-import { Injectable }     from '@angular/core';
+import { Injectable, EventEmitter }     from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { Headers, RequestOptions } from '@angular/http'
 import { Observable }     from 'rxjs/Observable';
+
+import { UserModel } from '../models/user.model';
+
 import { LocalStorageService } from './localStorage.service';
+
 import { AppSettings } from '../app.settings';
 
 @Injectable()
 export class UserService {
     settings = AppSettings.UserServiceSettings;
-    isLoggedIn = false;
+    loginEvents = new EventEmitter();
+    private _isLoggedIn = false;
+    toStoreToken = true;
+    username = 'stranger';
+
+    get isLoggedIn() {
+        return this._isLoggedIn;
+    }
+
+    set isLoggedIn(value: boolean) {
+        this._isLoggedIn = value;
+        this.loginEvents.emit(this._isLoggedIn);
+    }
 
     constructor(private http: Http, private localStorageService: LocalStorageService) {
     }
@@ -30,15 +46,22 @@ export class UserService {
             .catch(this.handleError);
     }
 
-    getToken(email: string, password: string) {
-        let body = "username=" + email + "&password=" + password + "&grant_type=password";
+    getToken(user: UserModel) {
+        let body = "username=" + user.email + "&password=" + user.password + "&grant_type=password";
         let headers = new Headers();
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
         let options = new RequestOptions({ headers: headers });
 
         return this.http.post(this.settings.apiUrl + this.settings.tokenUrl, body, options)
-            .map(this.extractData)
-            //.catch(this.handleError);
+            .map((response, index) => {
+                this.isLoggedIn = true;
+                let result = this.extractData(response);
+                if (this.toStoreToken) {
+
+                }
+                return result;
+            })
+        //.catch(this.handleError);
     }
 
     getUserData(token: string) {
@@ -49,40 +72,33 @@ export class UserService {
         let options = new RequestOptions({ headers: headers });
 
         let request = this.http.get(this.settings.apiUrl + this.settings.userUrl, { headers })
-            .map(this.extractData)
-            .catch(this.handleError);
+            .map(() => {
+                this.isLoggedIn = true;
+                return this.extractData
+            })
+            .catch((error) => {
+                this.isLoggedIn = false;
+                return this.extractData(error);
+            });
 
         return request;
     }
 
-    isTokenAvailable(): boolean {
-        return this.localStorageService.hasItem(this.settings.tokenKeyName);
+    get token() {
+        return this.localStorageService.getItem(this.settings.tokenKeyName);
     }
 
-    // isUserLoggedIn(): boolean {
-    //     if (this.isTokenAvailable()) {
-    //         let headers = new Headers();
-    //         let token = this.localStorageService.getItem(this.settings.tokenKeyName);
-    //         headers.append('Accept', 'application/json');
-    //         headers.append('Authorization', 'Bearer ' + token);
+    set token(token: string) {
+        this.localStorageService.setItem(this.settings.tokenKeyName,token);
+    }
 
-    //         this.http.get(this.settings.apiUrl + this.settings.userUrl, { headers })
-    //             .map(this.extractData)
-    //             .catch((err:any, cought: Observable<any>) => { return false });
-    //             .subscribe(res => {
-    //             if (res.hasOwnProperty("EMail")) {
-
-    //             }
-    //         })
-
-    //     } else {
-    //         return false;
-    //     }
-    // }
+    logout() {
+        this.localStorageService.clearItem(this.settings.tokenKeyName);
+        this.isLoggedIn = false;
+    }
 
     private extractData(res: Response) {
         let body = res.json();
-        this.isLoggedIn = true;
         return body;
     }
 

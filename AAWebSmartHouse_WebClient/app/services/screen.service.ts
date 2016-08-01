@@ -19,8 +19,14 @@ export class ScreenService {
             this.screens.shift();
         }
 
-        this.screensChangeEvent.emit({value: this.allScreens()})
+        this.screensChangeEvent.emit({ value: this.allScreens() });
 
         return this.screens[this.screens.length - 1];
+    }
+
+    clearScreens() {
+        this.screens = [];
+
+        this.screensChangeEvent.emit({ value: this.allScreens() });
     }
 }

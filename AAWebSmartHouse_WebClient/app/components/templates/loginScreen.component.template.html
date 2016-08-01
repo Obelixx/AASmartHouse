@@ -1,24 +1,22 @@
-<div class="container">
-    <div class="title">
-        Welcome
+<div class="screenContainer">
+    <div>
+        <input [(ngModel)]="user.email" id="email" type="email" class="validate">
+        <label for="email">Email</label>
+        <br>
     </div>
-    <div class="panel-body">
-        <div class="row">
-            <div class="input-field col s12">
-                <input [(ngModel)]="user.email" id="email" type="email" class="validate">
-                <label for="email">Email</label>
-            </div>
-        </div>
+    <div>
+        <input [(ngModel)]="user.password" id="password" type="password" class="validate">
+        <label for="password">Password</label>
+        <br>
 
-        <div class="row">
-            <div class="input-field col s12">
-                <input [(ngModel)]="user.password" id="password" type="password" class="validate">
-                <label for="password">Password</label>
-            </div>
-        </div>
-
-        <span>{{errorMsg}}</span><br>
+    </div>
+    <div>
+        <div>
+            <input *ngIf="userService.isLoggedIn==false" type="checkbox" [(ngModel)]="userService.toStoreToken" id="storeToken" class="ios-toggle" checked/>
+            <label *ngIf="userService.isLoggedIn==false" for="storeToken" class="checkbox-label" data-off="Don't remember me" data-on="Remember me"></label>
+        </div><br>
+        <span class="bg-danger">{{errorMsg}}</span>
+        <span class="bg-success">{{successMsg}}</span><br>
         <button (click)="login()" class="btn" type="submit" name="action">Login</button>
-        
     </div>
 </div>

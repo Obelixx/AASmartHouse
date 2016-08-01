@@ -14,9 +14,9 @@ import { AppSettings } from '../app.settings';
 })
 export class LoginScreenComponent {
     public user: UserModel = new UserModel("", "");
-    public userName = "foo";
-    public userPassword = "bar";
-    public errorMsg = 'inital';
+    public errorMsg = '';
+    public successMsg = '';
+    public isDisabled = '';
 
     constructor(
         private userService: UserService,
@@ -24,16 +24,19 @@ export class LoginScreenComponent {
     ) { }
 
     login() {
-        this.userService.getToken(this.user.email, this.user.password)
+        this.userService.getToken(new UserModel(this.user.email, this.user.password))
             .catch((err, cought) => {
                 let error = JSON.parse(err._body);
                 this.errorMsg = error.error_description;
-                return Observable.throw("");
+                return Observable.throw('');
             })
             .subscribe(res => {
                 this.localStorageService.setItem(AppSettings.UserServiceSettings.tokenKeyName, res.access_token);
+                this.errorMsg = '';
+                this.successMsg = "Wellcome "+ res.userName;
+                this.userService.username = res.userName;
+                this.isDisabled = "disabled";
                 console.log("res: " + JSON.stringify(res));
-                console.log("Username: " + res.userName);
                 console.log("Token: " + res.access_token);
             })
     }

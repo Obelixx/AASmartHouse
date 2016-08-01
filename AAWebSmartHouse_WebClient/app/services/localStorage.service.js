@@ -29,6 +29,11 @@ var LocalStorageService = (function () {
         this.updateObjectFromLocalStorage();
         return this.AAWebSmartHouseWebClient.hasOwnProperty(item);
     };
+    LocalStorageService.prototype.clearItem = function (item) {
+        this.updateObjectFromLocalStorage();
+        this.AAWebSmartHouseWebClient[item] = undefined;
+        this.updateLocalStorageFromObject();
+    };
     LocalStorageService.prototype.clearAll = function () {
         this.clearLocalStorage();
     };

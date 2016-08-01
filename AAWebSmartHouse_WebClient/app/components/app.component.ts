@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import '../operators/rxjs-operators';
 
-import { LoginNavBarComponent } from '../components/loginNavBar.component';
+import { NavBarComponent } from '../components/navBar.component';
 import { ScreenComponent } from '../components/screen.component';
 import { LoginScreenComponent } from './loginScreen.component';
 
@@ -12,7 +12,7 @@ import { ScreenService } from '../services/screen.service'
 @Component({
   	selector: 'my-app',
     templateUrl: './app/components/templates/app.component.template.html',
-    directives: [LoginNavBarComponent, ScreenComponent, LoginScreenComponent],
+    directives: [NavBarComponent, ScreenComponent, LoginScreenComponent],
     providers: [UserService, LocalStorageService, ScreenService]
 })
 export class AppComponent {

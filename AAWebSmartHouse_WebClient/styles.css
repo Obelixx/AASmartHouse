@@ -15,41 +15,109 @@ nav table{
     font-size: 24;
 }
 
-
-
-.container{
-	width:auto;
-	height:auto;
-	margin:100px auto;
-	box-shadow: 2px 3px 15px -8px;
+.screenContainer{
+    background-color: lightcyan;
+	width: auto;
+	height: auto;
+	margin: auto 10px;
+    padding: 20px;
+	box-shadow: 0px 0px 20px 0px black;
 }
 
-.content{
-	height:auto;
-	text-align: center;
-	padding: 70px;
+
+
+
+ /*Checkboxes */
+.checkboxContainer{
+    float: none;
+    text-align: center;
+    position: relative;
 }
 
-.content span{
-	margin-bottom: 30px;
+/*  ========================================================================== */
+/* CUSTOM CSS CHECKBOXES Style */
+.ios-toggle,
+.ios-toggle:active {
+ position: absolute;
+ top: -5000px;
+ height: 0;
+ width: 0;
+ opacity: 0;
+ border: none;
+ outline: none;
 }
 
-.title{
-	width:100%;
-	height:90px;
-	font-size: 28px;
-	color: white;
-	padding: 20px;
-	background: #26A69A;
+.checkbox-label {
+ display: block;
+ position: relative;
+ padding: 10px;
+ margin-bottom: 20px;
+ font-size: 12px;
+ line-height: 16px;
+ width: 100%;
+ height: 20px;
+ -webkit-border-radius: 10px;
+ -moz-border-radius: 10px;
+ border-radius: 10px;
+ background: #f8f8f8;
+ cursor: pointer;
 }
 
-.panel-body{
-	padding: 15px;
+.checkbox-label:before {
+ content: '';
+ display: block;
+ position: absolute;
+ z-index: 1;
+ line-height: 34px;
+ height: 20px;
+ width: 20px;
+ /*border-radius*/
+ -webkit-border-radius: 100%;
+ -moz-border-radius: 100%;
+ border-radius: 100%;
+ top: 0px;
+ left: 0px;
+ background: white;
+ /*box-shadow*/
+ -webkit-box-shadow: 0 3px 3px rgba(0,0,0,.2), 0 0 0 2px #dddddd;
+ -moz-box-shadow: 0 3px 3px rgba(0,0,0,.2), 0 0 0 2px #dddddd;
+ box-shadow: 0 3px 3px rgba(0,0,0,.2), 0 0 0 2px #dddddd;
 }
 
-.panel-body span{
-	color:red;
+.checkbox-label:after {
+ content: attr(data-off);
+ display: block;
+ position: absolute;
+ z-index: 0;
+ top: -6px;
+ left: 30px;
+ padding: 10px;
+ width: 36px;
+ color: #bfbfbf;
+ white-space: nowrap;
 }
-.panel-body button{
-	float:right;
+
+.ios-toggle + .checkbox-label{
+    margin:10px;
+    width:36px;
+    vertical-align: middle;
+}
+
+.ios-toggle:checked + .checkbox-label {
+ -webkit-box-shadow: inset 0 0 0 20px rgba(19,191,17,1), 0 0 0 2px rgba(19,191,17,1);
+ -moz-box-shadow: inset 0 0 0 20px rgba(19,191,17,1), 0 0 0 2px rgba(19,191,17,1);
+ box-shadow: inset 0 0 0 20px rgba(19,191,17,1), 0 0 0 2px rgba(19,191,17,1);
+}
+
+.ios-toggle:checked + .checkbox-label:before {
+ left: calc(100% - 20px);
+ -webkit-box-shadow: 0 0 0 2px transparent, 0 3px 3px rgba(0,0,0,.3);
+ -moz-box-shadow: 0 0 0 2px transparent, 0 3px 3px rgba(0,0,0,.3);
+ box-shadow: 0 0 0 2px transparent, 0 3px 3px rgba(0,0,0,.3);
+}
+
+.ios-toggle:checked + .checkbox-label:after {
+ content: attr(data-on);
+ left: 30px;
+ width: 20px;
 }

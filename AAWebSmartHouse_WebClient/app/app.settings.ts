@@ -1,6 +1,8 @@
 export class AppSettings {
     public static get UserServiceSettings() {
         return {
+            usernameKeyName: "asdu",
+            passwordKeyName: "asdp",
             tokenKeyName: 'Token',
             apiUrl: 'http://localhost:51934',
             registerUrl: '/api/Account/Register',

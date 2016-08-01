@@ -27,6 +27,10 @@ var ScreenService = (function () {
         this.screensChangeEvent.emit({ value: this.allScreens() });
         return this.screens[this.screens.length - 1];
     };
+    ScreenService.prototype.clearScreens = function () {
+        this.screens = [];
+        this.screensChangeEvent.emit({ value: this.allScreens() });
+    };
     ScreenService = __decorate([
         core_1.Injectable(), 
         __metadata('design:paramtypes', [])

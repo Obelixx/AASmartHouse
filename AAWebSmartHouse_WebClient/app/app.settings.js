@@ -5,6 +5,8 @@ var AppSettings = (function () {
     Object.defineProperty(AppSettings, "UserServiceSettings", {
         get: function () {
             return {
+                usernameKeyName: "asdu",
+                passwordKeyName: "asdp",
                 tokenKeyName: 'Token',
                 apiUrl: 'http://localhost:51934',
                 registerUrl: '/api/Account/Register',
