@@ -12,33 +12,31 @@ var core_1 = require('@angular/core');
 var Observable_1 = require('rxjs/Observable');
 var user_model_1 = require('../models/user.model');
 var user_service_1 = require('../services/user.service');
-var localStorage_service_1 = require('../services/localStorage.service');
-var app_settings_1 = require('../app.settings');
 var LoginScreenComponent = (function () {
-    function LoginScreenComponent(userService, localStorageService) {
+    function LoginScreenComponent(userService) {
         this.userService = userService;
-        this.localStorageService = localStorageService;
         this.user = new user_model_1.UserModel("", "");
         this.errorMsg = '';
         this.successMsg = '';
-        this.isDisabled = '';
     }
     LoginScreenComponent.prototype.login = function () {
         var _this = this;
         this.userService.getToken(new user_model_1.UserModel(this.user.email, this.user.password))
             .catch(function (err, cought) {
-            var error = JSON.parse(err._body);
-            _this.errorMsg = error.error_description;
-            return Observable_1.Observable.throw('');
+            try {
+                var error = JSON.parse(err._body);
+                _this.errorMsg = error.error_description || error.Message;
+            }
+            catch (err) {
+                _this.errorMsg = 'Bad network connection or the server Api is down!';
+            }
+            finally {
+                return Observable_1.Observable.throw('LoginScreenComponent, login() - failed!');
+            }
         })
             .subscribe(function (res) {
-            _this.localStorageService.setItem(app_settings_1.AppSettings.UserServiceSettings.tokenKeyName, res.access_token);
             _this.errorMsg = '';
-            _this.successMsg = "Wellcome " + res.userName;
-            _this.userService.username = res.userName;
-            _this.isDisabled = "disabled";
-            console.log("res: " + JSON.stringify(res));
-            console.log("Token: " + res.access_token);
+            _this.successMsg = 'User: ' + res.userName + ' is logged in!';
         });
     };
     LoginScreenComponent = __decorate([
@@ -46,7 +44,7 @@ var LoginScreenComponent = (function () {
             selector: 'loginScreen',
             templateUrl: './app/components/templates/loginScreen.component.template.html'
         }), 
-        __metadata('design:paramtypes', [user_service_1.UserService, localStorage_service_1.LocalStorageService])
+        __metadata('design:paramtypes', [user_service_1.UserService])
     ], LoginScreenComponent);
     return LoginScreenComponent;
 }());

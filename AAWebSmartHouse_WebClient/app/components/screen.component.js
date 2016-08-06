@@ -28,6 +28,7 @@ var ScreenComponent = (function () {
     ScreenComponent.prototype.getArrayWithMaxScreensLength = function () {
         return new Array(app_settings_1.AppSettings.ScreenServiceSettings.numberOfScreensToKeep);
     };
+    // todo: we dont need this!
     ScreenComponent.prototype.addToScreenArray = function () {
         this.screenService.addScreen(new screen_model_1.ScreenModel(navBar_component_1.NavBarComponent));
     };

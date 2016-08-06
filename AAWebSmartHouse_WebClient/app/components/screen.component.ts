@@ -36,11 +36,12 @@ export class ScreenComponent {
         return new Array(AppSettings.ScreenServiceSettings.numberOfScreensToKeep);
     }
 
+// todo: we dont need this!
     addToScreenArray() {
         this.screenService.addScreen(new ScreenModel(NavBarComponent));
     }
 
-    renderScreens() {
+    private renderScreens() {
         let screens = this.screenService.allScreens();
         this.screensContainer.clear();
 

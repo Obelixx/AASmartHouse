@@ -1,7 +1,9 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { AppSettings } from '../app.settings';
+
 import { ScreenModel } from '../models/screen.model';
+
+import { AppSettings } from '../app.settings';
 
 @Injectable()
 export class ScreenService {

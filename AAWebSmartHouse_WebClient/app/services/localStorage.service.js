@@ -12,26 +12,26 @@ var core_1 = require('@angular/core');
 var LocalStorageService = (function () {
     function LocalStorageService() {
         this.localStorageKeyItem = 'AAWebSmartHouseWebClient';
-        this.AAWebSmartHouseWebClient = {};
+        this.storageObject = {};
         this.updateObjectFromLocalStorage();
         this.updateLocalStorageFromObject();
     }
     LocalStorageService.prototype.setItem = function (item, value) {
         this.updateObjectFromLocalStorage();
-        this.AAWebSmartHouseWebClient[item] = value;
+        this.storageObject[item] = value;
         this.updateLocalStorageFromObject();
     };
     LocalStorageService.prototype.getItem = function (item) {
         this.updateObjectFromLocalStorage();
-        return this.AAWebSmartHouseWebClient["item"];
+        return this.storageObject[item];
     };
     LocalStorageService.prototype.hasItem = function (item) {
         this.updateObjectFromLocalStorage();
-        return this.AAWebSmartHouseWebClient.hasOwnProperty(item);
+        return this.storageObject.hasOwnProperty(item);
     };
     LocalStorageService.prototype.clearItem = function (item) {
         this.updateObjectFromLocalStorage();
-        this.AAWebSmartHouseWebClient[item] = undefined;
+        delete this.storageObject[item];
         this.updateLocalStorageFromObject();
     };
     LocalStorageService.prototype.clearAll = function () {
@@ -40,11 +40,11 @@ var LocalStorageService = (function () {
     LocalStorageService.prototype.updateObjectFromLocalStorage = function () {
         var localStorageAsObject = JSON.parse(localStorage.getItem(this.localStorageKeyItem));
         if (localStorageAsObject !== null) {
-            this.AAWebSmartHouseWebClient = JSON.parse(localStorage.getItem(this.localStorageKeyItem));
+            this.storageObject = localStorageAsObject;
         }
     };
     LocalStorageService.prototype.updateLocalStorageFromObject = function () {
-        localStorage.setItem(this.localStorageKeyItem, JSON.stringify(this.AAWebSmartHouseWebClient));
+        localStorage.setItem(this.localStorageKeyItem, JSON.stringify(this.storageObject));
     };
     LocalStorageService.prototype.clearLocalStorage = function () {
         localStorage.removeItem(this.localStorageKeyItem);

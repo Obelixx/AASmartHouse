@@ -20,11 +20,15 @@ var UserService = (function () {
         this.localStorageService = localStorageService;
         this.settings = app_settings_1.AppSettings.UserServiceSettings;
         this.loginEvents = new core_1.EventEmitter();
-        this._isLoggedIn = false;
         this.toStoreToken = true;
-        this.username = 'stranger';
+        this.firstAndLastName = '';
+        this._isLoggedIn = false;
+        if (this.localStorageService.hasItem(this.settings.tokenKeyName)) {
+            this.token = this.localStorageService.getItem(this.settings.tokenKeyName);
+            this.login(this.token);
+        }
     }
-    Object.defineProperty(UserService.prototype, "isLoggedIn", {
+    Object.defineProperty(UserService.prototype, "userIsLoggedIn", {
         get: function () {
             return this._isLoggedIn;
         },
@@ -35,48 +39,7 @@ var UserService = (function () {
         enumerable: true,
         configurable: true
     });
-    UserService.prototype.register = function (email, password, confirmPassword, firstname, lastname) {
-        var body = JSON.stringify({ email: email, password: password, confirmPassword: confirmPassword, firstname: firstname, lastname: lastname });
-        var headers = new http_2.Headers({ 'Content-Type': 'application/json' });
-        var options = new http_2.RequestOptions({ headers: headers });
-        return this.http.post(this.settings.apiUrl + this.settings.registerUrl, body, options)
-            .map(this.extractData)
-            .catch(this.handleError);
-    };
-    UserService.prototype.getToken = function (user) {
-        var _this = this;
-        var body = "username=" + user.email + "&password=" + user.password + "&grant_type=password";
-        var headers = new http_2.Headers();
-        headers.append('Content-Type', 'application/x-www-form-urlencoded');
-        var options = new http_2.RequestOptions({ headers: headers });
-        return this.http.post(this.settings.apiUrl + this.settings.tokenUrl, body, options)
-            .map(function (response, index) {
-            _this.isLoggedIn = true;
-            var result = _this.extractData(response);
-            if (_this.toStoreToken) {
-            }
-            return result;
-        });
-        //.catch(this.handleError);
-    };
-    UserService.prototype.getUserData = function (token) {
-        var _this = this;
-        var headers = new http_2.Headers();
-        headers.append('Accept', 'application/json');
-        headers.append('Authorization', 'Bearer ' + token);
-        var options = new http_2.RequestOptions({ headers: headers });
-        var request = this.http.get(this.settings.apiUrl + this.settings.userUrl, { headers: headers })
-            .map(function () {
-            _this.isLoggedIn = true;
-            return _this.extractData;
-        })
-            .catch(function (error) {
-            _this.isLoggedIn = false;
-            return _this.extractData(error);
-        });
-        return request;
-    };
-    Object.defineProperty(UserService.prototype, "token", {
+    Object.defineProperty(UserService.prototype, "storageToken", {
         get: function () {
             return this.localStorageService.getItem(this.settings.tokenKeyName);
         },
@@ -86,9 +49,78 @@ var UserService = (function () {
         enumerable: true,
         configurable: true
     });
+    UserService.prototype.register = function (email, password, confirmPassword, firstname, lastname) {
+        var body = JSON.stringify({ email: email, password: password, confirmPassword: confirmPassword, firstname: firstname, lastname: lastname });
+        var headers = new http_2.Headers({ 'Content-Type': 'application/json' });
+        var options = new http_2.RequestOptions({ headers: headers });
+        return this.http.post(this.settings.api.Url + this.settings.register.Url, body, options)
+            .map(this.extractData)
+            .catch(this.handleError);
+    };
+    UserService.prototype.getToken = function (user) {
+        var _this = this;
+        var body = "username=" + user.email + "&password=" + user.password + "&grant_type=password";
+        var headers = new http_2.Headers();
+        headers.append('Content-Type', 'application/x-www-form-urlencoded');
+        var options = new http_2.RequestOptions({ headers: headers });
+        var request = this.http.post(this.settings.api.Url + this.settings.token.Url, body, options)
+            .map(function (response, index) {
+            var result = _this.extractData(response);
+            _this.login(result.access_token);
+            return result;
+        });
+        //.catch(this.handleError);
+        return request;
+    };
+    UserService.prototype.getUserData = function (token) {
+        var _this = this;
+        if (token === void 0) { token = this.token; }
+        var headers = this.authorizationHeaders(token);
+        var request = this.http.get(this.settings.api.Url + this.settings.user.Url, { headers: headers })
+            .map(function (response, index) {
+            _this.userIsLoggedIn = true;
+            return _this.extractData(response);
+        })
+            .catch(function (error) {
+            _this.userIsLoggedIn = false;
+            return _this.handleError(error);
+        });
+        return request;
+    };
+    UserService.prototype.setUserData = function (stringifyedUserData, token) {
+        var _this = this;
+        if (token === void 0) { token = this.token; }
+        var headers = this.authorizationHeaders(token);
+        var request = this.http.post(this.settings.api.Url + this.settings.user.Url, stringifyedUserData, { headers: headers })
+            .map(function (response, index) {
+            _this.userIsLoggedIn = true;
+            _this.extractData(response);
+        });
+        return request;
+    };
+    UserService.prototype.login = function (token) {
+        var _this = this;
+        if (this.toStoreToken) {
+            this.localStorageService.setItem(app_settings_1.AppSettings.UserServiceSettings.tokenKeyName, token);
+        }
+        this.token = token;
+        this.userIsLoggedIn = true;
+        this.getUserData(this.token)
+            .subscribe(function (response) {
+            _this.firstAndLastName = response.FirstName + ' ' + response.LastName;
+        });
+    };
     UserService.prototype.logout = function () {
+        this.firstAndLastName = "";
         this.localStorageService.clearItem(this.settings.tokenKeyName);
-        this.isLoggedIn = false;
+        this.userIsLoggedIn = false;
+    };
+    UserService.prototype.authorizationHeaders = function (token) {
+        var headers = new http_2.Headers();
+        headers.append('Accept', 'application/json');
+        headers.append('Authorization', 'Bearer ' + token);
+        headers.append('Content-Type', 'application/json');
+        return headers;
     };
     UserService.prototype.extractData = function (res) {
         var body = res.json();
@@ -98,10 +130,9 @@ var UserService = (function () {
         // In a real world app, we might use a remote logging infrastructure
         // We'd also dig deeper into the error to get a better message
         var errMsg = (error.message) ? error.message :
-            error.status ? error.status + " - " + error.statusText : 'Server error';
+            error.status ? error.status + " - " + error.statusText :
+                error.error_description ? error.error_description : 'Server error';
         console.error(errMsg); // log to console instead
-        console.error("!!ERROR in user.service !!: " + JSON.stringify(error));
-        this.isLoggedIn = false;
         return Observable_1.Observable.throw(errMsg);
     };
     UserService = __decorate([

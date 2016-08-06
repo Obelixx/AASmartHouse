@@ -11,29 +11,14 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var screen_model_1 = require('../models/screen.model');
 var loginScreen_component_1 = require('./loginScreen.component');
+var userDataScreen_component_1 = require('./userDataScreen.component');
 var user_service_1 = require('../services/user.service');
 var screen_service_1 = require('../services/screen.service');
-var localStorage_service_1 = require('../services/localStorage.service');
 var NavBarComponent = (function () {
-    function NavBarComponent(userService, localStorage, screenService) {
-        // if (localStorage.hasItem(TokenKeyName)) {
-        //     let token = localStorage.getItem(TokenKeyName);
+    // We need userService because the template is using data from it!
+    function NavBarComponent(userService, screenService) {
         this.userService = userService;
-        this.localStorage = localStorage;
         this.screenService = screenService;
-        this.token = '';
-        //     userService.getUserData(this.token)
-        //         .map(this.extractData)
-        //         .catch((err: any, cought: Observable<any>) => {
-        //             this.isLoggedIn = false;
-        //             return this.handleError(err);
-        //         })
-        //         .subscribe(res => {
-        //             this.spanText = JSON.stringify(res);
-        //             if (res.userName)
-        //             { }
-        //         })
-        // };
     }
     NavBarComponent.prototype.loginClicked = function () {
         this.screenService.addScreen(new screen_model_1.ScreenModel(loginScreen_component_1.LoginScreenComponent));
@@ -41,12 +26,15 @@ var NavBarComponent = (function () {
     NavBarComponent.prototype.logoutClicked = function () {
         this.userService.logout();
     };
+    NavBarComponent.prototype.displayUserDataScreen = function () {
+        this.screenService.addScreen(new screen_model_1.ScreenModel(userDataScreen_component_1.UserDataScreenComponent));
+    };
     NavBarComponent = __decorate([
         core_1.Component({
             selector: 'navBar',
             templateUrl: './app/components/templates/navBar.component.template.html'
         }), 
-        __metadata('design:paramtypes', [user_service_1.UserService, localStorage_service_1.LocalStorageService, screen_service_1.ScreenService])
+        __metadata('design:paramtypes', [user_service_1.UserService, screen_service_1.ScreenService])
     ], NavBarComponent);
     return NavBarComponent;
 }());

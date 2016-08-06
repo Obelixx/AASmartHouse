@@ -4,19 +4,30 @@ export class AppSettings {
             usernameKeyName: "asdu",
             passwordKeyName: "asdp",
             tokenKeyName: 'Token',
-            apiUrl: 'http://localhost:51934',
-            registerUrl: '/api/Account/Register',
-            tokenUrl: '/api/Account/GetToken',
-            userInfoUrl: '/api/Account/UserInfo',
-            userUrl: '/api/User',
-            logoutUrl: '/api/Account/Logout',
+            api: {
+                Url: 'http://localhost:51934',
+            },
+            register: {
+                Url: '/api/Account/Register',
+            },
+            token: {
+                Url: '/api/Account/GetToken',
+            },
+            user: {
+                Method: "Get",
+                Url: '/api/User',
+                InfoUrl: '/api/Account/UserInfo',
+            },
+            logout: {
+                Url: '/api/Account/Logout',
+            },
         }
     };
 
-    public static get ScreenServiceSettings(){
-       return {
-           numberOfScreensToKeep: 4,
-       }
+    public static get ScreenServiceSettings() {
+        return {
+            numberOfScreensToKeep: 4,
+        }
     };
 
 }

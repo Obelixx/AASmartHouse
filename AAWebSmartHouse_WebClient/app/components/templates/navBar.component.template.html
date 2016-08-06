@@ -8,12 +8,12 @@
         <td class="loginNavBar">
             <div>
                 <div class="loginNavBarContainer">
-                    <span>Hello <b>{{ userService.username }}</b>!</span>
-                    <button *ngIf="userService.isLoggedIn==false" (click)="loginClicked()" class="btn btn-primary">
+                    <span>Hello <a (click)="displayUserDataScreen()"><b>{{ userService.firstAndLastName || "stranger" }}</b>!</a></span>
+                    <button *ngIf="!userService.userIsLoggedIn" (click)="loginClicked()" class="btn btn-primary">
 	                    <span class="glyphicon glyphicon-off"></span>
 	                    <span>Login</span>
 	                </button>
-                    <button *ngIf="userService.isLoggedIn==true" (click)="logoutClicked()" class="btn btn-danger">
+                    <button *ngIf="userService.userIsLoggedIn" (click)="logoutClicked()" class="btn btn-danger">
 	                    <span class="glyphicon glyphicon-off"></span>
 	                    <span>Logout</span>
 	                </button>

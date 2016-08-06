@@ -5,40 +5,22 @@ import { Observable }     from 'rxjs/Observable';
 import { ScreenModel } from '../models/screen.model';
 
 import { LoginScreenComponent } from './loginScreen.component';
+import { UserDataScreenComponent } from './userDataScreen.component';
 
 import { UserService } from '../services/user.service';
 import { ScreenService } from '../services/screen.service';
-import { LocalStorageService } from '../services/localStorage.service';
 
 @Component({
     selector: 'navBar',
     templateUrl: './app/components/templates/navBar.component.template.html'
 })
-export class NavBarComponent {
-    token = '';   
+export class NavBarComponent { 
 
+// We need userService because the template is using data from it!
     constructor(
         private userService: UserService,
-        private localStorage: LocalStorageService,
         private screenService: ScreenService
     ) {
-        
-
-        // if (localStorage.hasItem(TokenKeyName)) {
-        //     let token = localStorage.getItem(TokenKeyName);
-
-        //     userService.getUserData(this.token)
-        //         .map(this.extractData)
-        //         .catch((err: any, cought: Observable<any>) => {
-        //             this.isLoggedIn = false;
-        //             return this.handleError(err);
-        //         })
-        //         .subscribe(res => {
-        //             this.spanText = JSON.stringify(res);
-        //             if (res.userName)
-        //             { }
-        //         })
-        // };
     }
 
     loginClicked() {
@@ -47,5 +29,9 @@ export class NavBarComponent {
 
     logoutClicked() {
         this.userService.logout();
+    }
+
+    displayUserDataScreen(){
+        this.screenService.addScreen(new ScreenModel(UserDataScreenComponent));
     }
 }

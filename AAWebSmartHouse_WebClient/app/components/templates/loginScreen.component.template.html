@@ -1,22 +1,18 @@
 <div class="screenContainer">
     <div>
-        <input [(ngModel)]="user.email" id="email" type="email" class="validate">
-        <label for="email">Email</label>
-        <br>
-    </div>
-    <div>
-        <input [(ngModel)]="user.password" id="password" type="password" class="validate">
-        <label for="password">Password</label>
-        <br>
-
-    </div>
-    <div>
-        <div>
-            <input *ngIf="userService.isLoggedIn==false" type="checkbox" [(ngModel)]="userService.toStoreToken" id="storeToken" class="ios-toggle" checked/>
-            <label *ngIf="userService.isLoggedIn==false" for="storeToken" class="checkbox-label" data-off="Don't remember me" data-on="Remember me"></label>
-        </div><br>
-        <span class="bg-danger">{{errorMsg}}</span>
-        <span class="bg-success">{{successMsg}}</span><br>
-        <button (click)="login()" class="btn" type="submit" name="action">Login</button>
+        <form action="submit">
+            <input [(ngModel)]="user.email" id="email" type="email">
+            <label for="email">E-mail</label>
+            <br>
+            <input [(ngModel)]="user.password" id="password" type="password">
+            <label for="password">Password</label>
+            <br>
+            <label *ngIf="!userService.userIsLoggedIn" for="storeToken">Remember me:</label>
+            <input *ngIf="!userService.userIsLoggedIn" type="checkbox" [(ngModel)]="userService.toStoreToken" id="storeToken" />
+            <br>
+            <span class="bg-danger">{{errorMsg}}</span>
+            <span *ngIf="userService.userIsLoggedIn" class="bg-success">{{successMsg}}</span><br>
+            <button (click)="login()" class="btn" type="submit" name="action">Login</button>
+        </form>
     </div>
 </div>
