@@ -80,9 +80,12 @@
                 }
             }
 
-            if (this.users.GetUser(model.NewEMail) != null)
+            if (model.NewEMail != this.User.Identity.Name)
             {
-                return this.BadRequest("New E-mail already exists.");
+                if (this.users.GetUser(model.NewEMail) != null)
+                {
+                    return this.BadRequest("New E-mail already exists.");
+                }
             }
             
             var result = this.users
