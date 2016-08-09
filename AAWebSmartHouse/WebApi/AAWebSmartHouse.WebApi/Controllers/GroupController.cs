@@ -22,7 +22,7 @@
         }
 
         // GET api/Group
-        public IHttpActionResult Get(string[] groupIds)
+        public IHttpActionResult Get([FromUri]string[] groupIds)
         {
             var result = this.users
                 .GetGroupsById(groupIds)

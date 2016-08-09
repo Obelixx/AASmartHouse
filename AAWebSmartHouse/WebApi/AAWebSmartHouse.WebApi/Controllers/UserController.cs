@@ -70,26 +70,14 @@
 
             if (!this.User.IsInRole(AdminRole.Name))
             {
-                if (model.OldEMail != this.User.Identity.Name)
+                if (model.EMail != this.User.Identity.Name)
                 {
                     return this.BadRequest("Cant edit other users data.");
-                }
-                else
-                {
-                    model.OldEMail = this.User.Identity.Name;
-                }
-            }
-
-            if (model.NewEMail != this.User.Identity.Name)
-            {
-                if (this.users.GetUser(model.NewEMail) != null)
-                {
-                    return this.BadRequest("New E-mail already exists.");
                 }
             }
             
             var result = this.users
-                .Edit(model.OldEMail, model.NewEMail, model.FirstName, model.LastName, model.PhoneNumber)
+                .Edit(model.EMail, model.FirstName, model.LastName, model.PhoneNumber)
                 .ProjectTo<UserDetailsResponseModel>()
                 .FirstOrDefault();
 

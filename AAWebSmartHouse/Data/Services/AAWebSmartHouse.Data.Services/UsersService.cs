@@ -37,23 +37,22 @@
                 .Where(u => u.Email == identityEmail);
         }
 
-        public IQueryable<User> Edit(string oldEMail, string newEMail, string firstName, string lastName, string phoneNumber)
+        public IQueryable<User> Edit(string EMail, string firstName, string lastName, string phoneNumber)
         {
-            var user = this.GetUser(oldEMail).FirstOrDefault();
+            var user = this.GetUser(EMail).FirstOrDefault();
 
             if (user == null)
             {
                 return null;
             }
-
-            user.Email = newEMail;
+            
             user.FirstName = firstName;
             user.LastName = lastName;
             user.PhoneNumber = phoneNumber;
 
             this.users.SaveChanges();
 
-            return this.GetUser(newEMail);
+            return this.GetUser(EMail);
         }
         #endregion
         #region Groups

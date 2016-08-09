@@ -13,7 +13,7 @@
 
         IQueryable<User> GetUser(string userId);
 
-        IQueryable<User> Edit(string oldEMail, string newEMail, string firstName, string lastName, string phoneNumber);
+        IQueryable<User> Edit(string EMail, string firstName, string lastName, string phoneNumber);
 
         IQueryable<IdentityRole> GetAllGroupsPaged(int page = 1, int pageSize = GlobalConstants.DefaultPageSize);
 

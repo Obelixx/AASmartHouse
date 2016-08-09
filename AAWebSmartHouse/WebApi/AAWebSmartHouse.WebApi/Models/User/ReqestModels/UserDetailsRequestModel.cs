@@ -16,11 +16,7 @@
 
         [Required]
         [MaxLength(ValidationConstants.MaxEMail)]
-        public string NewEMail { get; set; }
-
-        [Required]
-        [MaxLength(ValidationConstants.MaxEMail)]
-        public string OldEMail { get; set; }
+        public string EMail { get; set; }
 
         [MaxLength(ValidationConstants.MaxPhoneNumber)]
         public string PhoneNumber { get; set; }
