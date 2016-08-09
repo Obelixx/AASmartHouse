@@ -1,9 +1,7 @@
-import { Component, DynamicComponentLoader, Injector, ViewContainerRef, ViewChild } from '@angular/core';
+import { Component, ViewContainerRef, ViewChild, ComponentResolver } from '@angular/core';
 import { Observable }     from 'rxjs/Observable';
 
-import { ScreenModel } from '../models/screen.model';
-
-import { NavBarComponent } from './navBar.component';
+import { LoginScreenComponent } from './screens/loginScreen.component';
 
 import { ScreenService } from '../services/screen.service'
 
@@ -17,38 +15,33 @@ import { AppSettings } from '../app.settings';
     directives: []
 })
 export class ScreenComponent {
-    @ViewChild('screensContainer0', { read: ViewContainerRef }) screensContainer: ViewContainerRef;
-    //@ViewChild('screensContainer') screensContainer: ViewContainerRef;
-    textField = 'initial text';
+    @ViewChild('screenContainer', { read: ViewContainerRef }) screenContainer: ViewContainerRef;
+    initialCildrenCount = 0;
 
     constructor(
         private screenService: ScreenService,
-        public dcl: DynamicComponentLoader,
-        public injector: Injector
+        public componentResolver: ComponentResolver
     ) {
-        screenService.screensChangeEvent.subscribe(
-            () => {
-                this.renderScreens();
+        screenService.addScreenEvent.subscribe(
+            (screen) => {
+                this.renderScreen(screen);
             });
     }
 
-    getArrayWithMaxScreensLength(){
+    getArrayWithMaxScreensLength() {
         return new Array(AppSettings.ScreenServiceSettings.numberOfScreensToKeep);
     }
 
-// todo: we dont need this!
+    // todo: we dont need this!
     addToScreenArray() {
-        this.screenService.addScreen(new ScreenModel(NavBarComponent));
+        this.screenService.addScreen(LoginScreenComponent);
     }
 
-    private renderScreens() {
-        let screens = this.screenService.allScreens();
-        this.screensContainer.clear();
-
-        for (var index = (screens.length - 1); index >= 0; index--) {
-            let screen = screens[index];
-            screen.componentElement = this.dcl.loadNextToLocation(screen.componentClass, this.screensContainer);
-            //screen.componentElement = this.dcl.loadAsRoot(screen.componentClass, "#screensContainer" + (screens.length - 1 - index), this.injector)
-        }
+    private renderScreen(screen) {
+        this.screenContainer.clear();
+        this.componentResolver.resolveComponent(screen)
+            .then((factory) => {
+                this.screenContainer.createComponent(factory);
+            });
     }
 }

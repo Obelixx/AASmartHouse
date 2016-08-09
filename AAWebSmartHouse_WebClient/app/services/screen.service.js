@@ -13,23 +13,10 @@ var app_settings_1 = require('../app.settings');
 var ScreenService = (function () {
     function ScreenService() {
         this.settings = app_settings_1.AppSettings.ScreenServiceSettings;
-        this.screensChangeEvent = new core_1.EventEmitter;
-        this.screens = [];
+        this.addScreenEvent = new core_1.EventEmitter;
     }
-    ScreenService.prototype.allScreens = function () {
-        return this.screens.slice();
-    };
-    ScreenService.prototype.addScreen = function (screeen) {
-        this.screens.push(screeen);
-        while (this.screens.length > this.settings.numberOfScreensToKeep) {
-            this.screens.shift();
-        }
-        this.screensChangeEvent.emit({ value: this.allScreens() });
-        return this.screens[this.screens.length - 1];
-    };
-    ScreenService.prototype.clearScreens = function () {
-        this.screens = [];
-        this.screensChangeEvent.emit({ value: this.allScreens() });
+    ScreenService.prototype.addScreen = function (screen) {
+        this.addScreenEvent.emit(screen);
     };
     ScreenService = __decorate([
         core_1.Injectable(), 

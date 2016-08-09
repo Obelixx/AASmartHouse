@@ -64,42 +64,54 @@ export class UserService {
         let headers = new Headers();
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
         let options = new RequestOptions({ headers: headers });
-
-        let request = this.http.post(this.settings.api.Url + this.settings.token.Url, body, options)
-            .map((response, index) => {
-                let result = this.extractData(response);
-                this.login(result.access_token);
-                return result;
-            });
-        //.catch(this.handleError);
-        return request;
+        return this.authorizedPostRequestWithData(this.settings.api.Url + this.settings.token.Url, body, options);
     }
 
     getUserData(token: string = this.token) {
-        var headers = this.authorizationHeaders(token);
-        let request = this.http.get(this.settings.api.Url + this.settings.user.Url, { headers })
+        return this.authorizedGetRequest(this.settings.api.Url + this.settings.user.Url, this.authorizationHeaders(this.token));
+    }
+
+    setUserData(stringifyedUserData: string, token: string = this.token) {
+        return this.authorizedPostRequestWithData(this.settings.api.Url + this.settings.user.Url, stringifyedUserData, this.authorizationHeaders(this.token));
+    }
+
+    changePassword(stringifyedUserData: string, token: string = this.token) {
+        return this.authorizedPostRequestWithData(this.settings.api.Url + this.settings.account.ChangePasswordUrl, stringifyedUserData, this.authorizationHeaders(this.token));
+    }
+
+    getGroups(groupIds: [string], token: string = this.token) {
+        let url = this.settings.api.Url + this.settings.groups.Url;
+        url += '?';
+        groupIds.forEach(groupId => {
+            url += 'groupIds=' + groupId + '&';
+        });
+        let options = this.authorizationHeaders(this.token);
+        return this.authorizedGetRequest(url, options);
+    }
+
+    private authorizedGetRequest(url: string, headers: RequestOptions = this.authorizationHeaders(this.token)) {
+        let request = this.http.get(url, headers)
             .map((response, index) => {
                 this.userIsLoggedIn = true;
                 return this.extractData(response);
             })
             .catch((error) => {
-                this.userIsLoggedIn = false;
+                this.logout();
                 return this.handleError(error);
             });
         return request;
     }
 
-    setUserData(stringifyedUserData: string, token: string = this.token) {
-        var headers = this.authorizationHeaders(token);
-        let request = this.http.post(this.settings.api.Url + this.settings.user.Url, stringifyedUserData, { headers })
+    private authorizedPostRequestWithData(url: string, stringifyedUserData: string, options: RequestOptions = this.authorizationHeaders(this.token)) {
+        let request = this.http.post(url, stringifyedUserData, options)
             .map((response, index) => {
                 this.userIsLoggedIn = true;
-                this.extractData(response);
+                return this.extractData(response);
             });
         return request;
     }
 
-    login(token: string) {
+    private login(token: string) {
         if (this.toStoreToken) {
             this.localStorageService.setItem(AppSettings.UserServiceSettings.tokenKeyName, token);
         }
@@ -115,6 +127,7 @@ export class UserService {
     logout() {
         this.firstAndLastName = "";
         this.localStorageService.clearItem(this.settings.tokenKeyName);
+        this.token = '';
         this.userIsLoggedIn = false;
     }
 
@@ -123,11 +136,20 @@ export class UserService {
         headers.append('Accept', 'application/json');
         headers.append('Authorization', 'Bearer ' + token);
         headers.append('Content-Type', 'application/json');
-        return headers;
+        let options = new RequestOptions({ headers: headers });
+        return options;
     }
 
     private extractData(res: Response) {
-        let body = res.json();
+        let body;
+        try {
+            body = res.json(); // This throws on OK(200) response with empty body.
+            if (body.access_token) {
+                this.login(body.access_token);
+            }
+        }
+        catch (err) {
+        }
         return body;
     }
 
@@ -136,7 +158,7 @@ export class UserService {
         // We'd also dig deeper into the error to get a better message
         let errMsg = (error.message) ? error.message :
             error.status ? `${error.status} - ${error.statusText}` :
-            error.error_description ? error.error_description : 'Server error';
+                error.error_description ? error.error_description : 'Server error';
         console.error(errMsg); // log to console instead
         return Observable.throw(errMsg);
     }

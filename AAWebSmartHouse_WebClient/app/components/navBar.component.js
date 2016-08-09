@@ -9,25 +9,26 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var screen_model_1 = require('../models/screen.model');
-var loginScreen_component_1 = require('./loginScreen.component');
-var userDataScreen_component_1 = require('./userDataScreen.component');
+var loginScreen_component_1 = require('./screens/loginScreen.component');
+var userDataScreen_component_1 = require('./screens/userDataScreen.component');
 var user_service_1 = require('../services/user.service');
 var screen_service_1 = require('../services/screen.service');
 var NavBarComponent = (function () {
-    // We need userService because the template is using data from it!
-    function NavBarComponent(userService, screenService) {
+    function NavBarComponent(userService, // We need userService because the template is using data from it!
+        screenService) {
         this.userService = userService;
         this.screenService = screenService;
     }
     NavBarComponent.prototype.loginClicked = function () {
-        this.screenService.addScreen(new screen_model_1.ScreenModel(loginScreen_component_1.LoginScreenComponent));
+        this.screenService.addScreen(loginScreen_component_1.LoginScreenComponent);
     };
     NavBarComponent.prototype.logoutClicked = function () {
         this.userService.logout();
     };
     NavBarComponent.prototype.displayUserDataScreen = function () {
-        this.screenService.addScreen(new screen_model_1.ScreenModel(userDataScreen_component_1.UserDataScreenComponent));
+        if (this.userService.userIsLoggedIn) {
+            this.screenService.addScreen(userDataScreen_component_1.UserDataScreenComponent);
+        }
     };
     NavBarComponent = __decorate([
         core_1.Component({

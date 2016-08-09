@@ -1,11 +1,7 @@
 import { Component } from '@angular/core';
-import { Http, Response } from '@angular/http';
-import { Observable }     from 'rxjs/Observable';
 
-import { ScreenModel } from '../models/screen.model';
-
-import { LoginScreenComponent } from './loginScreen.component';
-import { UserDataScreenComponent } from './userDataScreen.component';
+import { LoginScreenComponent } from './screens/loginScreen.component';
+import { UserDataScreenComponent } from './screens/userDataScreen.component';
 
 import { UserService } from '../services/user.service';
 import { ScreenService } from '../services/screen.service';
@@ -14,24 +10,24 @@ import { ScreenService } from '../services/screen.service';
     selector: 'navBar',
     templateUrl: './app/components/templates/navBar.component.template.html'
 })
-export class NavBarComponent { 
-
-// We need userService because the template is using data from it!
+export class NavBarComponent {
     constructor(
-        private userService: UserService,
+        private userService: UserService, // We need userService because the template is using data from it!
         private screenService: ScreenService
     ) {
     }
 
     loginClicked() {
-        this.screenService.addScreen(new ScreenModel(LoginScreenComponent));
+        this.screenService.addScreen(LoginScreenComponent);
     }
 
     logoutClicked() {
         this.userService.logout();
     }
 
-    displayUserDataScreen(){
-        this.screenService.addScreen(new ScreenModel(UserDataScreenComponent));
+    displayUserDataScreen() {
+        if (this.userService.userIsLoggedIn) {
+            this.screenService.addScreen(UserDataScreenComponent);
+        }
     }
 }

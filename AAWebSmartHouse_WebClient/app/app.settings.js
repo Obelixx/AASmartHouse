@@ -9,21 +9,28 @@ var AppSettings = (function () {
                 passwordKeyName: "asdp",
                 tokenKeyName: 'Token',
                 api: {
-                    Url: 'http://localhost:51934',
+                    Url: 'http://localhost:51934/',
                 },
                 register: {
-                    Url: '/api/Account/Register',
+                    Url: 'api/Account/Register',
                 },
                 token: {
-                    Url: '/api/Account/GetToken',
+                    Url: 'api/Account/GetToken',
                 },
                 user: {
-                    Method: "Get",
-                    Url: '/api/User',
-                    InfoUrl: '/api/Account/UserInfo',
+                    Url: 'api/User',
+                    InfoUrl: 'api/Account/UserInfo',
+                    ChangePasswordUrl: 'api/Account/ChangePassword',
+                },
+                account: {
+                    UserInfoUrl: 'api/Account/UserInfo',
+                    ChangePasswordUrl: 'api/Account/ChangePassword',
+                },
+                groups: {
+                    Url: 'api/Group',
                 },
                 logout: {
-                    Url: '/api/Account/Logout',
+                    Url: 'api/Account/Logout',
                 },
             };
         },

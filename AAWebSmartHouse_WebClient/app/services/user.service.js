@@ -58,43 +58,55 @@ var UserService = (function () {
             .catch(this.handleError);
     };
     UserService.prototype.getToken = function (user) {
-        var _this = this;
         var body = "username=" + user.email + "&password=" + user.password + "&grant_type=password";
         var headers = new http_2.Headers();
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
         var options = new http_2.RequestOptions({ headers: headers });
-        var request = this.http.post(this.settings.api.Url + this.settings.token.Url, body, options)
-            .map(function (response, index) {
-            var result = _this.extractData(response);
-            _this.login(result.access_token);
-            return result;
-        });
-        //.catch(this.handleError);
-        return request;
+        return this.authorizedPostRequestWithData(this.settings.api.Url + this.settings.token.Url, body, options);
     };
     UserService.prototype.getUserData = function (token) {
-        var _this = this;
         if (token === void 0) { token = this.token; }
-        var headers = this.authorizationHeaders(token);
-        var request = this.http.get(this.settings.api.Url + this.settings.user.Url, { headers: headers })
+        return this.authorizedGetRequest(this.settings.api.Url + this.settings.user.Url, this.authorizationHeaders(this.token));
+    };
+    UserService.prototype.setUserData = function (stringifyedUserData, token) {
+        if (token === void 0) { token = this.token; }
+        return this.authorizedPostRequestWithData(this.settings.api.Url + this.settings.user.Url, stringifyedUserData, this.authorizationHeaders(this.token));
+    };
+    UserService.prototype.changePassword = function (stringifyedUserData, token) {
+        if (token === void 0) { token = this.token; }
+        return this.authorizedPostRequestWithData(this.settings.api.Url + this.settings.account.ChangePasswordUrl, stringifyedUserData, this.authorizationHeaders(this.token));
+    };
+    UserService.prototype.getGroups = function (groupIds, token) {
+        if (token === void 0) { token = this.token; }
+        var url = this.settings.api.Url + this.settings.groups.Url;
+        url += '?';
+        groupIds.forEach(function (groupId) {
+            url += 'groupIds=' + groupId + '&';
+        });
+        var options = this.authorizationHeaders(this.token);
+        return this.authorizedGetRequest(url, options);
+    };
+    UserService.prototype.authorizedGetRequest = function (url, headers) {
+        var _this = this;
+        if (headers === void 0) { headers = this.authorizationHeaders(this.token); }
+        var request = this.http.get(url, headers)
             .map(function (response, index) {
             _this.userIsLoggedIn = true;
             return _this.extractData(response);
         })
             .catch(function (error) {
-            _this.userIsLoggedIn = false;
+            _this.logout();
             return _this.handleError(error);
         });
         return request;
     };
-    UserService.prototype.setUserData = function (stringifyedUserData, token) {
+    UserService.prototype.authorizedPostRequestWithData = function (url, stringifyedUserData, options) {
         var _this = this;
-        if (token === void 0) { token = this.token; }
-        var headers = this.authorizationHeaders(token);
-        var request = this.http.post(this.settings.api.Url + this.settings.user.Url, stringifyedUserData, { headers: headers })
+        if (options === void 0) { options = this.authorizationHeaders(this.token); }
+        var request = this.http.post(url, stringifyedUserData, options)
             .map(function (response, index) {
             _this.userIsLoggedIn = true;
-            _this.extractData(response);
+            return _this.extractData(response);
         });
         return request;
     };
@@ -113,6 +125,7 @@ var UserService = (function () {
     UserService.prototype.logout = function () {
         this.firstAndLastName = "";
         this.localStorageService.clearItem(this.settings.tokenKeyName);
+        this.token = '';
         this.userIsLoggedIn = false;
     };
     UserService.prototype.authorizationHeaders = function (token) {
@@ -120,10 +133,19 @@ var UserService = (function () {
         headers.append('Accept', 'application/json');
         headers.append('Authorization', 'Bearer ' + token);
         headers.append('Content-Type', 'application/json');
-        return headers;
+        var options = new http_2.RequestOptions({ headers: headers });
+        return options;
     };
     UserService.prototype.extractData = function (res) {
-        var body = res.json();
+        var body;
+        try {
+            body = res.json(); // This throws on OK(200) response with empty body.
+            if (body.access_token) {
+                this.login(body.access_token);
+            }
+        }
+        catch (err) {
+        }
         return body;
     };
     UserService.prototype.handleError = function (error) {

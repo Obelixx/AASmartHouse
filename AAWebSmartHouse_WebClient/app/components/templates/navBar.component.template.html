@@ -1,24 +1,26 @@
-<table>
-    <tr>
-        <td>
-            <a class="btn btn-info" href="."><span class="glyphicon glyphicon-home"></span> Home</a>
-            <a class="btn btn-info" href="."><span class="glyphicon glyphicon-cog"></span> Cog</a>
-            <a class="btn btn-info" href="."><span class="glyphicon glyphicon-star"></span> Star</a>
-        </td>
-        <td class="loginNavBar">
-            <div>
-                <div class="loginNavBarContainer">
-                    <span>Hello <a (click)="displayUserDataScreen()"><b>{{ userService.firstAndLastName || "stranger" }}</b>!</a></span>
-                    <button *ngIf="!userService.userIsLoggedIn" (click)="loginClicked()" class="btn btn-primary">
+<div>
+    <table>
+        <tr>
+            <td>
+                <a class="btn btn-info" href="."><span class="glyphicon glyphicon-home"></span> Home</a>
+                <a class="btn btn-info" href="."><span class="glyphicon glyphicon-cog"></span> Cog</a>
+                <a class="btn btn-info" href="."><span class="glyphicon glyphicon-star"></span> Star</a>
+            </td>
+            <td class="loginNavBar">
+                <div>
+                    <div class="loginNavBarContainer">
+                        <span>Hello <a (click)="displayUserDataScreen()"><b>{{ userService.firstAndLastName || "stranger" }}</b></a>!</span>
+                        <button *ngIf="!userService.userIsLoggedIn" (click)="loginClicked()" class="btn btn-primary">
 	                    <span class="glyphicon glyphicon-off"></span>
 	                    <span>Login</span>
 	                </button>
-                    <button *ngIf="userService.userIsLoggedIn" (click)="logoutClicked()" class="btn btn-danger">
+                        <button *ngIf="userService.userIsLoggedIn" (click)="logoutClicked()" class="btn btn-danger">
 	                    <span class="glyphicon glyphicon-off"></span>
 	                    <span>Logout</span>
 	                </button>
+                    </div>
                 </div>
-            </div>
-        </td>
-    </tr>
-</table>
+            </td>
+        </tr>
+    </table>
+</div>
