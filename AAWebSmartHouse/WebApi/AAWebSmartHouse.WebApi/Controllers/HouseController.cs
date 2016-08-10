@@ -53,12 +53,12 @@
                 .Houses.Select(h => h.HouseId)
                 .ToArray();
 
-            if (ids == null)
+            if (ids.Length == 0)
             {
                 // TODO: Check the response!
                 return this.Ok("You have no Houses!");
             }
-
+            
             var result = this.houses
                 .GetHousesPaged(ids, page, pageSize)
                 .ProjectTo<HousesDetailsResponseModel>()

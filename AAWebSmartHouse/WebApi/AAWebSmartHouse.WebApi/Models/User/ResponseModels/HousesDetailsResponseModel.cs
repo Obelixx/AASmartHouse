@@ -17,12 +17,12 @@
 
         public string HouseDescription { get; set; }
 
-        public ICollection<int> RoomIds { get; set; }
+        public IEnumerable<int> RoomIds { get; set; }
 
         public void CreateMappings(IConfiguration config)
         {
             config.CreateMap<House, HousesDetailsResponseModel>()
-                .ForMember(m => m.RoomIds, opts => opts.MapFrom(h => h.Rooms.Select(ho => ho.HouseId).ToList()));
+                .ForMember(m => m.RoomIds, opts => opts.MapFrom(h => h.Rooms.Select(r => r.RoomId)));
         }
     }
 }
