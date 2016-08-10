@@ -1,6 +1,6 @@
 import { Injectable, EventEmitter }     from '@angular/core';
 import { Http, Response } from '@angular/http';
-import { Headers, RequestOptions } from '@angular/http'
+import { Headers, RequestOptions } from '@angular/http';
 import { Observable }     from 'rxjs/Observable';
 
 import { UserModel } from '../models/user.model';
@@ -11,12 +11,12 @@ import { AppSettings } from '../app.settings';
 
 @Injectable()
 export class UserService {
-    settings = AppSettings.UserServiceSettings;
+    apiSettings = AppSettings.ApiSettings;
     loginEvents = new EventEmitter();
     toStoreToken = true;
     firstAndLastName = '';
     private _isLoggedIn = false;
-    private token: string;
+    token: string;
 
     get userIsLoggedIn() {
         return this._isLoggedIn;
@@ -27,17 +27,16 @@ export class UserService {
         this.loginEvents.emit(this._isLoggedIn);
     }
 
-
     get storageToken() {
-        return this.localStorageService.getItem(this.settings.tokenKeyName);
+        return this.localStorageService.getItem(this.apiSettings.tokenKeyName);
     }
     set storageToken(token: string) {
-        this.localStorageService.setItem(this.settings.tokenKeyName, token);
+        this.localStorageService.setItem(this.apiSettings.tokenKeyName, token);
     }
 
     constructor(private http: Http, private localStorageService: LocalStorageService) {
-        if (this.localStorageService.hasItem(this.settings.tokenKeyName)) {
-            this.token = this.localStorageService.getItem(this.settings.tokenKeyName);
+        if (this.localStorageService.hasItem(this.apiSettings.tokenKeyName)) {
+            this.token = this.localStorageService.getItem(this.apiSettings.tokenKeyName);
             this.login(this.token);
         }
     }
@@ -54,7 +53,7 @@ export class UserService {
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ headers: headers })
 
-        return this.http.post(this.settings.api.Url + this.settings.register.Url, body, options)
+        return this.http.post(this.apiSettings.api.Url + this.apiSettings.register.Url, body, options)
             .map(this.extractData)
             .catch(this.handleError);
     }
@@ -64,28 +63,34 @@ export class UserService {
         let headers = new Headers();
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
         let options = new RequestOptions({ headers: headers });
-        return this.authorizedPostRequestWithData(this.settings.api.Url + this.settings.token.Url, body, options);
+        return this.authorizedPostRequestWithData(this.apiSettings.api.Url + this.apiSettings.token.Url, body, options);
     }
 
     getUserData(token: string = this.token) {
-        return this.authorizedGetRequest(this.settings.api.Url + this.settings.user.Url, this.authorizationHeaders(this.token));
+        let url = this.apiSettings.api.Url + this.apiSettings.user.Url;
+        let options = this.authorizationHeaders(token);
+        return this.authorizedGetRequest(url, options);
     }
 
     setUserData(stringifyedUserData: string, token: string = this.token) {
-        return this.authorizedPostRequestWithData(this.settings.api.Url + this.settings.user.Url, stringifyedUserData, this.authorizationHeaders(this.token));
+        let url = this.apiSettings.api.Url + this.apiSettings.user.Url;
+        let options = this.authorizationHeaders(token);
+        return this.authorizedPostRequestWithData(url, stringifyedUserData, options);
     }
 
     changePassword(stringifyedUserData: string, token: string = this.token) {
-        return this.authorizedPostRequestWithData(this.settings.api.Url + this.settings.account.ChangePasswordUrl, stringifyedUserData, this.authorizationHeaders(this.token));
+        let url = this.apiSettings.api.Url + this.apiSettings.account.ChangePasswordUrl;
+        let options = this.authorizationHeaders(token);
+        return this.authorizedPostRequestWithData(url, stringifyedUserData, options);
     }
 
     getGroups(groupIds: [string], token: string = this.token) {
-        let url = this.settings.api.Url + this.settings.groups.Url;
+        let url = this.apiSettings.api.Url + this.apiSettings.groups.Url;
         url += '?';
         groupIds.forEach(groupId => {
             url += 'groupIds=' + groupId + '&';
         });
-        let options = this.authorizationHeaders(this.token);
+        let options = this.authorizationHeaders(token);
         return this.authorizedGetRequest(url, options);
     }
 
@@ -113,7 +118,7 @@ export class UserService {
 
     private login(token: string) {
         if (this.toStoreToken) {
-            this.localStorageService.setItem(AppSettings.UserServiceSettings.tokenKeyName, token);
+            this.localStorageService.setItem(AppSettings.ApiSettings.tokenKeyName, token);
         }
         this.token = token;
         this.userIsLoggedIn = true;
@@ -126,7 +131,7 @@ export class UserService {
 
     logout() {
         this.firstAndLastName = "";
-        this.localStorageService.clearItem(this.settings.tokenKeyName);
+        this.localStorageService.clearItem(this.apiSettings.tokenKeyName);
         this.token = '';
         this.userIsLoggedIn = false;
     }
@@ -154,12 +159,10 @@ export class UserService {
     }
 
     private handleError(error: any) {
-        // In a real world app, we might use a remote logging infrastructure
-        // We'd also dig deeper into the error to get a better message
         let errMsg = (error.message) ? error.message :
             error.status ? `${error.status} - ${error.statusText}` :
                 error.error_description ? error.error_description : 'Server error';
-        console.error(errMsg); // log to console instead
+        console.error(errMsg);
         return Observable.throw(errMsg);
     }
 }

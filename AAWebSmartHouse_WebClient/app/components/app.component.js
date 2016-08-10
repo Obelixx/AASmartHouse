@@ -12,8 +12,6 @@ var core_1 = require('@angular/core');
 require('../operators/rxjs-operators');
 var navBar_component_1 = require('./navBar.component');
 var screen_component_1 = require('./screen.component');
-var loginScreen_component_1 = require('./screens/loginScreen.component');
-var userDataScreen_component_1 = require('./screens/userDataScreen.component');
 var user_service_1 = require('../services/user.service');
 var localStorage_service_1 = require('../services/localStorage.service');
 var screen_service_1 = require('../services/screen.service');
@@ -24,7 +22,7 @@ var AppComponent = (function () {
         core_1.Component({
             selector: 'my-app',
             templateUrl: './app/components/templates/app.component.template.html',
-            directives: [navBar_component_1.NavBarComponent, screen_component_1.ScreenComponent, loginScreen_component_1.LoginScreenComponent, userDataScreen_component_1.UserDataScreenComponent],
+            directives: [navBar_component_1.NavBarComponent, screen_component_1.ScreenComponent],
             providers: [user_service_1.UserService, localStorage_service_1.LocalStorageService, screen_service_1.ScreenService]
         }), 
         __metadata('design:paramtypes', [])

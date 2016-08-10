@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 
 import { LoginScreenComponent } from './screens/loginScreen.component';
 import { UserDataScreenComponent } from './screens/userDataScreen.component';
+import { HousesScreenComponent } from './screens/housesScreen.component';
 
 import { UserService } from '../services/user.service';
 import { ScreenService } from '../services/screen.service';
@@ -28,6 +29,12 @@ export class NavBarComponent {
     displayUserDataScreen() {
         if (this.userService.userIsLoggedIn) {
             this.screenService.addScreen(UserDataScreenComponent);
+        }
+    }
+
+    housesClicked(){
+        if (this.userService.userIsLoggedIn) {
+            this.screenService.addScreen(HousesScreenComponent);
         }
     }
 }

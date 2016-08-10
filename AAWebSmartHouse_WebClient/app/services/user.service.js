@@ -18,13 +18,13 @@ var UserService = (function () {
     function UserService(http, localStorageService) {
         this.http = http;
         this.localStorageService = localStorageService;
-        this.settings = app_settings_1.AppSettings.UserServiceSettings;
+        this.apiSettings = app_settings_1.AppSettings.ApiSettings;
         this.loginEvents = new core_1.EventEmitter();
         this.toStoreToken = true;
         this.firstAndLastName = '';
         this._isLoggedIn = false;
-        if (this.localStorageService.hasItem(this.settings.tokenKeyName)) {
-            this.token = this.localStorageService.getItem(this.settings.tokenKeyName);
+        if (this.localStorageService.hasItem(this.apiSettings.tokenKeyName)) {
+            this.token = this.localStorageService.getItem(this.apiSettings.tokenKeyName);
             this.login(this.token);
         }
     }
@@ -41,10 +41,10 @@ var UserService = (function () {
     });
     Object.defineProperty(UserService.prototype, "storageToken", {
         get: function () {
-            return this.localStorageService.getItem(this.settings.tokenKeyName);
+            return this.localStorageService.getItem(this.apiSettings.tokenKeyName);
         },
         set: function (token) {
-            this.localStorageService.setItem(this.settings.tokenKeyName, token);
+            this.localStorageService.setItem(this.apiSettings.tokenKeyName, token);
         },
         enumerable: true,
         configurable: true
@@ -53,7 +53,7 @@ var UserService = (function () {
         var body = JSON.stringify({ email: email, password: password, confirmPassword: confirmPassword, firstname: firstname, lastname: lastname });
         var headers = new http_2.Headers({ 'Content-Type': 'application/json' });
         var options = new http_2.RequestOptions({ headers: headers });
-        return this.http.post(this.settings.api.Url + this.settings.register.Url, body, options)
+        return this.http.post(this.apiSettings.api.Url + this.apiSettings.register.Url, body, options)
             .map(this.extractData)
             .catch(this.handleError);
     };
@@ -62,28 +62,34 @@ var UserService = (function () {
         var headers = new http_2.Headers();
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
         var options = new http_2.RequestOptions({ headers: headers });
-        return this.authorizedPostRequestWithData(this.settings.api.Url + this.settings.token.Url, body, options);
+        return this.authorizedPostRequestWithData(this.apiSettings.api.Url + this.apiSettings.token.Url, body, options);
     };
     UserService.prototype.getUserData = function (token) {
         if (token === void 0) { token = this.token; }
-        return this.authorizedGetRequest(this.settings.api.Url + this.settings.user.Url, this.authorizationHeaders(this.token));
+        var url = this.apiSettings.api.Url + this.apiSettings.user.Url;
+        var options = this.authorizationHeaders(token);
+        return this.authorizedGetRequest(url, options);
     };
     UserService.prototype.setUserData = function (stringifyedUserData, token) {
         if (token === void 0) { token = this.token; }
-        return this.authorizedPostRequestWithData(this.settings.api.Url + this.settings.user.Url, stringifyedUserData, this.authorizationHeaders(this.token));
+        var url = this.apiSettings.api.Url + this.apiSettings.user.Url;
+        var options = this.authorizationHeaders(token);
+        return this.authorizedPostRequestWithData(url, stringifyedUserData, options);
     };
     UserService.prototype.changePassword = function (stringifyedUserData, token) {
         if (token === void 0) { token = this.token; }
-        return this.authorizedPostRequestWithData(this.settings.api.Url + this.settings.account.ChangePasswordUrl, stringifyedUserData, this.authorizationHeaders(this.token));
+        var url = this.apiSettings.api.Url + this.apiSettings.account.ChangePasswordUrl;
+        var options = this.authorizationHeaders(token);
+        return this.authorizedPostRequestWithData(url, stringifyedUserData, options);
     };
     UserService.prototype.getGroups = function (groupIds, token) {
         if (token === void 0) { token = this.token; }
-        var url = this.settings.api.Url + this.settings.groups.Url;
+        var url = this.apiSettings.api.Url + this.apiSettings.groups.Url;
         url += '?';
         groupIds.forEach(function (groupId) {
             url += 'groupIds=' + groupId + '&';
         });
-        var options = this.authorizationHeaders(this.token);
+        var options = this.authorizationHeaders(token);
         return this.authorizedGetRequest(url, options);
     };
     UserService.prototype.authorizedGetRequest = function (url, headers) {
@@ -113,7 +119,7 @@ var UserService = (function () {
     UserService.prototype.login = function (token) {
         var _this = this;
         if (this.toStoreToken) {
-            this.localStorageService.setItem(app_settings_1.AppSettings.UserServiceSettings.tokenKeyName, token);
+            this.localStorageService.setItem(app_settings_1.AppSettings.ApiSettings.tokenKeyName, token);
         }
         this.token = token;
         this.userIsLoggedIn = true;
@@ -124,7 +130,7 @@ var UserService = (function () {
     };
     UserService.prototype.logout = function () {
         this.firstAndLastName = "";
-        this.localStorageService.clearItem(this.settings.tokenKeyName);
+        this.localStorageService.clearItem(this.apiSettings.tokenKeyName);
         this.token = '';
         this.userIsLoggedIn = false;
     };
@@ -149,12 +155,10 @@ var UserService = (function () {
         return body;
     };
     UserService.prototype.handleError = function (error) {
-        // In a real world app, we might use a remote logging infrastructure
-        // We'd also dig deeper into the error to get a better message
         var errMsg = (error.message) ? error.message :
             error.status ? error.status + " - " + error.statusText :
                 error.error_description ? error.error_description : 'Server error';
-        console.error(errMsg); // log to console instead
+        console.error(errMsg);
         return Observable_1.Observable.throw(errMsg);
     };
     UserService = __decorate([

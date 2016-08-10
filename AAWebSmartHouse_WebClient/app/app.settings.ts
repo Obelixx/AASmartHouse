@@ -1,8 +1,7 @@
 export class AppSettings {
-    public static get UserServiceSettings() {
+    public static get ApiSettings() {
         return {
-            usernameKeyName: "asdu",
-            passwordKeyName: "asdp",
+            elementsPerPage: 20,
             tokenKeyName: 'Token',
             api: {
                 Url: 'http://localhost:51934/',
@@ -22,12 +21,15 @@ export class AppSettings {
                 UserInfoUrl: 'api/Account/UserInfo',
                 ChangePasswordUrl: 'api/Account/ChangePassword',
             },
-            groups:{
-                Url:'api/Group',
+            groups: {
+                Url: 'api/Group',
             },
             logout: {
                 Url: 'api/Account/Logout',
             },
+            houses:{
+                Url: 'api/House', // ?page=XX&pageSize=20
+            }
         }
     };
 

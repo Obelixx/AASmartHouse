@@ -4,12 +4,14 @@ import { HTTP_PROVIDERS } from '@angular/http';
 import { UserService } from './services/user.service';
 import { LocalStorageService } from './services/localStorage.service';
 import { ScreenService } from './services/screen.service';
+import { HouseService } from './services/house.service';
 
 bootstrap(AppComponent,
     [
         HTTP_PROVIDERS,
         UserService,
         LocalStorageService,
-        ScreenService
+        ScreenService,
+        HouseService
     ]
 );

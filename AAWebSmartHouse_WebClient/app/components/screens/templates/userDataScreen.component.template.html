@@ -1,0 +1,50 @@
+<div class="screenContainer">
+    <form action="submit">
+        <label for="userId">User ID:</label><br>
+        <input type="text" id="userId" [(ngModel)]="userId" disabled="disabled">
+        <br>
+        <label for="userGroups">User Groups:</label><br>
+        <input type="text" id="userGroups" [(ngModel)]="userGroups" disabled="disabled">
+        <br>
+        <label for="Email">E-Mail:</label><br>
+        <input type="text" id="Email" [(ngModel)]="Email" disabled="disabled">
+        <br>
+        <label for="firstName">First Name:</label><br>
+        <input type="text" id="firstName" [(ngModel)]="firstName" *ngIf="!isEditMode" disabled="disabled">
+        <input type="text" id="firstName" [(ngModel)]="firstName" *ngIf="isEditMode">
+        <br>
+        <label for="lastName">Last Name:</label><br>
+        <input type="text" id="lastName" [(ngModel)]="lastName" *ngIf="!isEditMode" disabled="disabled">
+        <input type="text" id="lastName" [(ngModel)]="lastName" *ngIf="isEditMode">
+        <br>
+        <label for="phoneNumber">Phone Number:</label><br>
+        <input type="text" id="phoneNumber" [(ngModel)]="phoneNumber" *ngIf="!isEditMode" disabled="disabled">
+        <input type="text" id="phoneNumber" [(ngModel)]="phoneNumber" *ngIf="isEditMode">
+        <br>
+        <br>
+        <button class="btn btn-warning" (click)="onSaveChangesClicked()" *ngIf="isEditMode">Save Changes</button>
+    </form>
+    <button class="btn btn-warning" (click)="onEditClicked()" *ngIf="!isEditMode">Edit</button>
+    <br>
+    <span class="bg-danger">{{errorMsg}}</span>
+    <span *ngIf="!isEditMode && successMsg" class="bg-success">{{successMsg}}</span>
+    <br>
+    <br>
+    <form action="submit" *ngIf="isChangePasswordMode">
+        <label for="oldPassword">Old Password:</label><br>
+        <input type="password" id="oldPassword" [(ngModel)]="oldPassword" *ngIf="isChangePasswordMode">
+        <br>
+        <label for="newPassword">New Password:</label><br>
+        <input type="password" id="newPassword" [(ngModel)]="newPassword" *ngIf="isChangePasswordMode">
+        <br>
+        <label for="confirmPassword">Confirm Password:</label><br>
+        <input type="password" id="confirmPassword" [(ngModel)]="confirmPassword" *ngIf="isChangePasswordMode">
+        <br>
+        <br>
+        <button class="btn btn-warning" (click)="onSaveNewPasswordClicked()" *ngIf="isChangePasswordMode">Save New Password</button>
+    </form>
+    <button class="btn btn-warning" (click)="onChangePasswordClicked()" *ngIf="!isChangePasswordMode">ChangePassword</button>
+    <br>
+    <span class="bg-danger">{{passwordErrorMsg}}</span>
+    <span *ngIf="!isChangePasswordMode && passwordSuccessMsg" class="bg-success">{{passwordSuccessMsg}}</span>
+</div>

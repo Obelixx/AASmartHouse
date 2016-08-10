@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var loginScreen_component_1 = require('./screens/loginScreen.component');
 var userDataScreen_component_1 = require('./screens/userDataScreen.component');
+var housesScreen_component_1 = require('./screens/housesScreen.component');
 var user_service_1 = require('../services/user.service');
 var screen_service_1 = require('../services/screen.service');
 var NavBarComponent = (function () {
@@ -28,6 +29,11 @@ var NavBarComponent = (function () {
     NavBarComponent.prototype.displayUserDataScreen = function () {
         if (this.userService.userIsLoggedIn) {
             this.screenService.addScreen(userDataScreen_component_1.UserDataScreenComponent);
+        }
+    };
+    NavBarComponent.prototype.housesClicked = function () {
+        if (this.userService.userIsLoggedIn) {
+            this.screenService.addScreen(housesScreen_component_1.HousesScreenComponent);
         }
     };
     NavBarComponent = __decorate([

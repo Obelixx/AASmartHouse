@@ -2,11 +2,10 @@
 var AppSettings = (function () {
     function AppSettings() {
     }
-    Object.defineProperty(AppSettings, "UserServiceSettings", {
+    Object.defineProperty(AppSettings, "ApiSettings", {
         get: function () {
             return {
-                usernameKeyName: "asdu",
-                passwordKeyName: "asdp",
+                elementsPerPage: 20,
                 tokenKeyName: 'Token',
                 api: {
                     Url: 'http://localhost:51934/',
@@ -32,6 +31,9 @@ var AppSettings = (function () {
                 logout: {
                     Url: 'api/Account/Logout',
                 },
+                houses: {
+                    Url: 'api/House',
+                }
             };
         },
         enumerable: true,
