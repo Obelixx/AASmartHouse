@@ -40,9 +40,7 @@ var HouseService = (function () {
         url += '?page=';
         url += page;
         url += '&pageSize=';
-        url += '1';
-        //url += AppSettings.ApiSettings.elementsPerPage;
-        // ?page=XX&pageSize=20
+        url += app_settings_1.AppSettings.ApiSettings.elementsPerPage;
         return this.authorizedGetRequest(url, options);
     };
     HouseService.prototype.authorizedGetRequest = function (url, headers) {

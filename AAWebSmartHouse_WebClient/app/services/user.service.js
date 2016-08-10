@@ -49,6 +49,7 @@ var UserService = (function () {
         enumerable: true,
         configurable: true
     });
+    // TODO: not used so far..
     UserService.prototype.register = function (email, password, confirmPassword, firstname, lastname) {
         var body = JSON.stringify({ email: email, password: password, confirmPassword: confirmPassword, firstname: firstname, lastname: lastname });
         var headers = new http_2.Headers({ 'Content-Type': 'application/json' });

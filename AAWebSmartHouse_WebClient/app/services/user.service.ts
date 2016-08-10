@@ -41,6 +41,8 @@ export class UserService {
         }
     }
 
+
+    // TODO: not used so far..
     register(
         email: string,
         password: string,

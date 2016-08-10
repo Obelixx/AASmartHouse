@@ -37,10 +37,8 @@ export class HouseService {
         let options = this.authorizationHeaders(token);
         url += '?page=';
         url += page;
-        url += '&pageSize=';
-        url += '1';        
-        //url += AppSettings.ApiSettings.elementsPerPage;
-        // ?page=XX&pageSize=20
+        url += '&pageSize=';   
+        url += AppSettings.ApiSettings.elementsPerPage;
         return this.authorizedGetRequest(url, options);
     }
 

@@ -1,5 +1,4 @@
 import { Injectable, EventEmitter } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
 
 import { AppSettings } from '../app.settings';
 

@@ -2,7 +2,7 @@
     <span>Houses:</span>
     <br>
     <div id="houses">
-        <table class="table table-bordered">
+        <table class="table table-bordered" *ngIf="houses.length != 0">
             <tr class="info">
                 <th>#</th>
                 <th>Id:</th>
@@ -21,9 +21,9 @@
             </tr>
         </table>
         <ul class="pager">
-            <li><button class="btn" (click)="previousClicked()"> << </button></li>
+            <li><button class="btn btn-warning" (click)="previousClicked()"> << </button></li>
             <li><span>Page: {{page}}</span></li>
-            <li><button class="btn" (click)="nextClicked()"> >> </button></li>
+            <li><button class="btn btn-warning" (click)="nextClicked()"> >> </button></li>
         </ul>
     </div>
     <span class='bg-info'>{{message}}</span>
