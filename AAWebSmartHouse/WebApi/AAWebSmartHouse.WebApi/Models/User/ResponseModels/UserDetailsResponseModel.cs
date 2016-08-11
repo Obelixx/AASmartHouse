@@ -24,10 +24,15 @@
 
         public ICollection<string> RoleIds { get; set; }
 
+        public IEnumerable<int> HousesIds { get; set; }
+
         public void CreateMappings(IConfiguration config)
         {
             config.CreateMap<User, UserDetailsResponseModel>()
                 .ForMember(m => m.RoleIds, opts => opts.MapFrom(u => u.Roles.Select(ro => ro.RoleId)));
+
+            config.CreateMap<User, UserDetailsResponseModel>()
+                .ForMember(m => m.HousesIds, opts => opts.MapFrom(u => u.Houses.Select(ho => ho.HouseId)));
         }
     }
 }
