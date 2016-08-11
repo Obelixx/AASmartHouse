@@ -22,7 +22,7 @@ export class LoginScreenComponent {
 
     login() {
         this.userService.getToken(new UserModel(this.user.email, this.user.password))
-            .catch((err, cought) => {
+            .catch((err, caught) => {
                 try {
                     let error = JSON.parse(err._body);
                     this.errorMsg = error.error_description || error.Message;

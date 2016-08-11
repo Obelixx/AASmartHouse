@@ -17,7 +17,6 @@ var ScreenComponent = (function () {
         var _this = this;
         this.screenService = screenService;
         this.componentResolver = componentResolver;
-        this.initialCildrenCount = 0;
         screenService.addScreenEvent.subscribe(function (screen) {
             _this.renderScreen(screen);
         });
@@ -25,9 +24,9 @@ var ScreenComponent = (function () {
     ScreenComponent.prototype.getArrayWithMaxScreensLength = function () {
         return new Array(app_settings_1.AppSettings.ScreenServiceSettings.numberOfScreensToKeep);
     };
-    // todo: we dont need this!
+    // todo: we don't need this!
     ScreenComponent.prototype.addToScreenArray = function () {
-        this.screenService.addScreen(loginScreen_component_1.LoginScreenComponent);
+        this.screenService.toScreen(loginScreen_component_1.LoginScreenComponent);
     };
     ScreenComponent.prototype.renderScreen = function (screen) {
         var _this = this;

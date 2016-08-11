@@ -19,7 +19,7 @@ export class NavBarComponent {
     }
 
     loginClicked() {
-        this.screenService.addScreen(LoginScreenComponent);
+        this.screenService.toScreen(LoginScreenComponent);
     }
 
     logoutClicked() {
@@ -28,13 +28,13 @@ export class NavBarComponent {
 
     displayUserDataScreen() {
         if (this.userService.userIsLoggedIn) {
-            this.screenService.addScreen(UserDataScreenComponent);
+            this.screenService.toScreen(UserDataScreenComponent);
         }
     }
 
     housesClicked(){
         if (this.userService.userIsLoggedIn) {
-            this.screenService.addScreen(HousesScreenComponent);
+            this.screenService.toScreen(HousesScreenComponent);
         }
     }
 }

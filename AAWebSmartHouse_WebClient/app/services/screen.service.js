@@ -15,7 +15,7 @@ var ScreenService = (function () {
         this.settings = app_settings_1.AppSettings.ScreenServiceSettings;
         this.addScreenEvent = new core_1.EventEmitter;
     }
-    ScreenService.prototype.addScreen = function (screen) {
+    ScreenService.prototype.toScreen = function (screen) {
         this.addScreenEvent.emit(screen);
     };
     ScreenService = __decorate([

@@ -22,7 +22,7 @@ var LoginScreenComponent = (function () {
     LoginScreenComponent.prototype.login = function () {
         var _this = this;
         this.userService.getToken(new user_model_1.UserModel(this.user.email, this.user.password))
-            .catch(function (err, cought) {
+            .catch(function (err, caught) {
             try {
                 var error = JSON.parse(err._body);
                 _this.errorMsg = error.error_description || error.Message;

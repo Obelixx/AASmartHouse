@@ -11,15 +11,19 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var Observable_1 = require('rxjs/Observable');
 var user_service_1 = require('../../services/user.service');
+var screen_service_1 = require('../../services/screen.service');
+var housesScreen_component_1 = require('./housesScreen.component');
 var UserDataScreenComponent = (function () {
-    function UserDataScreenComponent(userService) {
+    function UserDataScreenComponent(userService, screenService) {
         var _this = this;
         this.userService = userService;
+        this.screenService = screenService;
         this.userId = 'userId';
         this.userGroups = '';
+        this.userHouses = [];
         this.firstName = 'firstName';
         this.lastName = 'lastName';
-        this.Email = 'Email';
+        this.email = 'Email';
         this.phoneNumber = 'phoneNumber';
         this.isEditMode = false;
         this.errorMsg = '';
@@ -35,9 +39,10 @@ var UserDataScreenComponent = (function () {
             console.log(JSON.stringify(result));
             _this.firstName = result.FirstName;
             _this.lastName = result.LastName;
-            _this.Email = result.EMail;
+            _this.email = result.EMail;
             _this.phoneNumber = result.PhoneNumber;
             _this.userId = result.Id;
+            _this.userHouses = result.HousesIds;
             userService.getGroups(result.RoleIds)
                 .subscribe(function (result) {
                 var groups = [];
@@ -53,11 +58,11 @@ var UserDataScreenComponent = (function () {
         var userData = JSON.stringify({
             FirstName: this.firstName,
             LastName: this.lastName,
-            EMail: this.Email,
+            EMail: this.email,
             PhoneNumber: this.phoneNumber
         });
         this.userService.setUserData(userData)
-            .catch(function (err, cought) {
+            .catch(function (err, caught) {
             try {
                 var error = JSON.parse(err._body);
                 _this.errorMsg = error.error_description || error.Message;
@@ -94,7 +99,7 @@ var UserDataScreenComponent = (function () {
             ConfirmPassword: this.confirmPassword
         });
         this.userService.changePassword(userData)
-            .catch(function (err, cought) {
+            .catch(function (err, caught) {
             try {
                 var error = JSON.parse(err._body);
                 _this.passwordErrorMsg = error.error_description || error.Message;
@@ -115,6 +120,11 @@ var UserDataScreenComponent = (function () {
             _this.isChangePasswordMode = false;
         });
     };
+    UserDataScreenComponent.prototype.housesClicked = function () {
+        if (this.userService.userIsLoggedIn) {
+            this.screenService.toScreen(housesScreen_component_1.HousesScreenComponent);
+        }
+    };
     UserDataScreenComponent = __decorate([
         core_1.Component({
             selector: 'userDataScreen',
@@ -122,7 +132,7 @@ var UserDataScreenComponent = (function () {
             templateUrl: './app/components/screens/templates/userDataScreen.component.template.html',
             directives: []
         }), 
-        __metadata('design:paramtypes', [user_service_1.UserService])
+        __metadata('design:paramtypes', [user_service_1.UserService, screen_service_1.ScreenService])
     ], UserDataScreenComponent);
     return UserDataScreenComponent;
 }());

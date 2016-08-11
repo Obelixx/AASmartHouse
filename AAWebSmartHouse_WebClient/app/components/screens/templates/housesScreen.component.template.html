@@ -26,5 +26,7 @@
             <li><button class="btn btn-warning" (click)="nextClicked()"> >> </button></li>
         </ul>
     </div>
-    <span class='bg-info'>{{message}}</span>
+    <div *ngIf="message">
+        <span>Server message: </span><span class='bg-info'>{{message}}</span>
+    </div>
 </div>

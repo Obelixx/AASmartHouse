@@ -16,7 +16,6 @@ import { AppSettings } from '../app.settings';
 })
 export class ScreenComponent {
     @ViewChild('screenContainer', { read: ViewContainerRef }) screenContainer: ViewContainerRef;
-    initialCildrenCount = 0;
 
     constructor(
         private screenService: ScreenService,
@@ -32,9 +31,9 @@ export class ScreenComponent {
         return new Array(AppSettings.ScreenServiceSettings.numberOfScreensToKeep);
     }
 
-    // todo: we dont need this!
+    // todo: we don't need this!
     addToScreenArray() {
-        this.screenService.addScreen(LoginScreenComponent);
+        this.screenService.toScreen(LoginScreenComponent);
     }
 
     private renderScreen(screen) {

@@ -2,6 +2,9 @@ import { Component }  from '@angular/core';
 import { Observable }     from 'rxjs/Observable';
 
 import { UserService } from '../../services/user.service';
+import { ScreenService } from '../../services/screen.service';
+
+import { HousesScreenComponent } from './housesScreen.component';
 
 @Component({
     selector: 'userDataScreen',
@@ -12,9 +15,10 @@ import { UserService } from '../../services/user.service';
 export class UserDataScreenComponent {
     userId = 'userId';
     userGroups = '';
+    userHouses = [];
     firstName = 'firstName';
     lastName = 'lastName';
-    Email = 'Email';
+    email = 'Email';
     phoneNumber = 'phoneNumber';
     isEditMode = false;
     errorMsg = '';
@@ -26,16 +30,20 @@ export class UserDataScreenComponent {
     newPassword = '';
     confirmPassword = '';
 
-    constructor(private userService: UserService) {
+    constructor(
+        private userService: UserService,
+        private screenService: ScreenService
+    ) {
         userService.getUserData()
             .subscribe((result) => {
                 console.log(JSON.stringify(result));
 
                 this.firstName = result.FirstName;
                 this.lastName = result.LastName;
-                this.Email = result.EMail;
+                this.email = result.EMail;
                 this.phoneNumber = result.PhoneNumber
                 this.userId = result.Id;
+                this.userHouses = result.HousesIds;
                 userService.getGroups(result.RoleIds)
                     .subscribe((result) => {
                         let groups = [];
@@ -51,12 +59,12 @@ export class UserDataScreenComponent {
         let userData = JSON.stringify({
             FirstName: this.firstName,
             LastName: this.lastName,
-            EMail: this.Email,
+            EMail: this.email,
             PhoneNumber: this.phoneNumber
         })
 
         this.userService.setUserData(userData)
-            .catch((err, cought) => {
+            .catch((err, caught) => {
                 try {
                     let error = JSON.parse(err._body);
                     this.errorMsg = error.error_description || error.Message;
@@ -96,7 +104,7 @@ export class UserDataScreenComponent {
         })
 
         this.userService.changePassword(userData)
-            .catch((err, cought) => {
+            .catch((err, caught) => {
                 try {
                     let error = JSON.parse(err._body);
                     this.passwordErrorMsg = error.error_description || error.Message;
@@ -117,5 +125,11 @@ export class UserDataScreenComponent {
                 this.passwordSuccessMsg = 'New password saved!';
                 this.isChangePasswordMode = false;
             });
+    }
+
+    housesClicked() {
+        if (this.userService.userIsLoggedIn) {
+            this.screenService.toScreen(HousesScreenComponent);
+        }
     }
 }

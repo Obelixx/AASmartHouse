@@ -7,7 +7,7 @@ export class ScreenService {
     private settings = AppSettings.ScreenServiceSettings;
     public addScreenEvent = new EventEmitter;
 
-    addScreen(screen) {
+    toScreen(screen) {
         this.addScreenEvent.emit(screen);
     }
 }

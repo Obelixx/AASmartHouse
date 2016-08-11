@@ -21,19 +21,19 @@ var NavBarComponent = (function () {
         this.screenService = screenService;
     }
     NavBarComponent.prototype.loginClicked = function () {
-        this.screenService.addScreen(loginScreen_component_1.LoginScreenComponent);
+        this.screenService.toScreen(loginScreen_component_1.LoginScreenComponent);
     };
     NavBarComponent.prototype.logoutClicked = function () {
         this.userService.logout();
     };
     NavBarComponent.prototype.displayUserDataScreen = function () {
         if (this.userService.userIsLoggedIn) {
-            this.screenService.addScreen(userDataScreen_component_1.UserDataScreenComponent);
+            this.screenService.toScreen(userDataScreen_component_1.UserDataScreenComponent);
         }
     };
     NavBarComponent.prototype.housesClicked = function () {
         if (this.userService.userIsLoggedIn) {
-            this.screenService.addScreen(housesScreen_component_1.HousesScreenComponent);
+            this.screenService.toScreen(housesScreen_component_1.HousesScreenComponent);
         }
     };
     NavBarComponent = __decorate([

@@ -6,8 +6,8 @@
         <label for="userGroups">User Groups:</label><br>
         <input type="text" id="userGroups" [(ngModel)]="userGroups" disabled="disabled">
         <br>
-        <label for="Email">E-Mail:</label><br>
-        <input type="text" id="Email" [(ngModel)]="Email" disabled="disabled">
+        <label for="email">E-Mail:</label><br>
+        <input type="text" id="email" [(ngModel)]="email" disabled="disabled">
         <br>
         <label for="firstName">First Name:</label><br>
         <input type="text" id="firstName" [(ngModel)]="firstName" *ngIf="!isEditMode" disabled="disabled">
@@ -22,11 +22,10 @@
         <input type="text" id="phoneNumber" [(ngModel)]="phoneNumber" *ngIf="isEditMode">
         <br>
         <br>
+        <button class="btn btn-warning" (click)="onEditClicked()" *ngIf="!isEditMode">Edit</button>
         <button class="btn btn-warning" (click)="onSaveChangesClicked()" *ngIf="isEditMode">Save Changes</button>
     </form>
-    <button class="btn btn-warning" (click)="onEditClicked()" *ngIf="!isEditMode">Edit</button>
-    <br>
-    <span class="bg-danger">{{errorMsg}}</span>
+    <span class="bg-danger" *ngIf="errorMsg">{{errorMsg}}</span>
     <span *ngIf="!isEditMode && successMsg" class="bg-success">{{successMsg}}</span>
     <br>
     <br>
@@ -45,6 +44,10 @@
     </form>
     <button class="btn btn-warning" (click)="onChangePasswordClicked()" *ngIf="!isChangePasswordMode">ChangePassword</button>
     <br>
+    <br>
     <span class="bg-danger">{{passwordErrorMsg}}</span>
     <span *ngIf="!isChangePasswordMode && passwordSuccessMsg" class="bg-success">{{passwordSuccessMsg}}</span>
+    <br>
+    <br>
+    <button class="btn btn-info" (click)="housesClicked()" *ngIf="userHouses.length != 0">{{userHouses.length}} <span *ngIf="userHouses.length == 1">House</span><span *ngIf="userHouses.length > 1">Houses</span></button>
 </div>
