@@ -43,8 +43,10 @@ var HousesScreenComponent = (function () {
     HousesScreenComponent.prototype.nextClicked = function () {
         // TODO: Get somehow maxPages??
         // Maybe return houses count to user profile!?
-        this.page++;
-        this.getHouses(this.page);
+        if (this.page < this.houseService.pagesCount) {
+            this.page++;
+            this.getHouses(this.page);
+        }
     };
     HousesScreenComponent = __decorate([
         core_1.Component({

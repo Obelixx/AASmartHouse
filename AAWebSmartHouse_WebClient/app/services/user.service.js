@@ -23,12 +23,14 @@ var UserService = (function () {
         this.toStoreToken = true;
         this.firstAndLastName = '';
         this._isLoggedIn = false;
+        this.houseIds = [];
         if (this.localStorageService.hasItem(this.apiSettings.tokenKeyName)) {
             this.token = this.localStorageService.getItem(this.apiSettings.tokenKeyName);
             this.login(this.token);
         }
     }
     Object.defineProperty(UserService.prototype, "userIsLoggedIn", {
+        // houseIds is populated in ExtractData() after getUserData() call - not a problem because it is called in the controller constructor
         get: function () {
             return this._isLoggedIn;
         },
@@ -50,8 +52,8 @@ var UserService = (function () {
         configurable: true
     });
     // TODO: not used so far..
-    UserService.prototype.register = function (email, password, confirmPassword, firstname, lastname) {
-        var body = JSON.stringify({ email: email, password: password, confirmPassword: confirmPassword, firstname: firstname, lastname: lastname });
+    UserService.prototype.register = function (email, password, confirmPassword, firstName, lastName) {
+        var body = JSON.stringify({ email: email, password: password, confirmPassword: confirmPassword, firstName: firstName, lastName: lastName });
         var headers = new http_2.Headers({ 'Content-Type': 'application/json' });
         var options = new http_2.RequestOptions({ headers: headers });
         return this.http.post(this.apiSettings.api.Url + this.apiSettings.register.Url, body, options)
@@ -71,17 +73,17 @@ var UserService = (function () {
         var options = this.authorizationHeaders(token);
         return this.authorizedGetRequest(url, options);
     };
-    UserService.prototype.setUserData = function (stringifyedUserData, token) {
+    UserService.prototype.setUserData = function (stringifiedUserData, token) {
         if (token === void 0) { token = this.token; }
         var url = this.apiSettings.api.Url + this.apiSettings.user.Url;
         var options = this.authorizationHeaders(token);
-        return this.authorizedPostRequestWithData(url, stringifyedUserData, options);
+        return this.authorizedPostRequestWithData(url, stringifiedUserData, options);
     };
-    UserService.prototype.changePassword = function (stringifyedUserData, token) {
+    UserService.prototype.changePassword = function (stringifiedUserData, token) {
         if (token === void 0) { token = this.token; }
         var url = this.apiSettings.api.Url + this.apiSettings.account.ChangePasswordUrl;
         var options = this.authorizationHeaders(token);
-        return this.authorizedPostRequestWithData(url, stringifyedUserData, options);
+        return this.authorizedPostRequestWithData(url, stringifiedUserData, options);
     };
     UserService.prototype.getGroups = function (groupIds, token) {
         if (token === void 0) { token = this.token; }
@@ -107,10 +109,10 @@ var UserService = (function () {
         });
         return request;
     };
-    UserService.prototype.authorizedPostRequestWithData = function (url, stringifyedUserData, options) {
+    UserService.prototype.authorizedPostRequestWithData = function (url, stringifiedUserData, options) {
         var _this = this;
         if (options === void 0) { options = this.authorizationHeaders(this.token); }
-        var request = this.http.post(url, stringifyedUserData, options)
+        var request = this.http.post(url, stringifiedUserData, options)
             .map(function (response, index) {
             _this.userIsLoggedIn = true;
             return _this.extractData(response);
@@ -149,6 +151,9 @@ var UserService = (function () {
             body = res.json(); // This throws on OK(200) response with empty body.
             if (body.access_token) {
                 this.login(body.access_token);
+            }
+            if (body.HousesIds) {
+                this.houseIds = body.HousesIds;
             }
         }
         catch (err) {

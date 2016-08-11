@@ -17,6 +17,8 @@ export class UserService {
     firstAndLastName = '';
     private _isLoggedIn = false;
     token: string;
+    houseIds = []; 
+    // houseIds is populated in ExtractData() after getUserData() call - not a problem because it is called in the controller constructor
 
     get userIsLoggedIn() {
         return this._isLoggedIn;
@@ -47,11 +49,11 @@ export class UserService {
         email: string,
         password: string,
         confirmPassword: string,
-        firstname: string,
-        lastname: string
+        firstName: string,
+        lastName: string
     ): Observable<Object> {
 
-        let body = JSON.stringify({ email, password, confirmPassword, firstname, lastname });
+        let body = JSON.stringify({ email, password, confirmPassword, firstName, lastName });
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ headers: headers })
 
@@ -74,16 +76,16 @@ export class UserService {
         return this.authorizedGetRequest(url, options);
     }
 
-    setUserData(stringifyedUserData: string, token: string = this.token) {
+    setUserData(stringifiedUserData: string, token: string = this.token) {
         let url = this.apiSettings.api.Url + this.apiSettings.user.Url;
         let options = this.authorizationHeaders(token);
-        return this.authorizedPostRequestWithData(url, stringifyedUserData, options);
+        return this.authorizedPostRequestWithData(url, stringifiedUserData, options);
     }
 
-    changePassword(stringifyedUserData: string, token: string = this.token) {
+    changePassword(stringifiedUserData: string, token: string = this.token) {
         let url = this.apiSettings.api.Url + this.apiSettings.account.ChangePasswordUrl;
         let options = this.authorizationHeaders(token);
-        return this.authorizedPostRequestWithData(url, stringifyedUserData, options);
+        return this.authorizedPostRequestWithData(url, stringifiedUserData, options);
     }
 
     getGroups(groupIds: [string], token: string = this.token) {
@@ -109,8 +111,8 @@ export class UserService {
         return request;
     }
 
-    private authorizedPostRequestWithData(url: string, stringifyedUserData: string, options: RequestOptions = this.authorizationHeaders(this.token)) {
-        let request = this.http.post(url, stringifyedUserData, options)
+    private authorizedPostRequestWithData(url: string, stringifiedUserData: string, options: RequestOptions = this.authorizationHeaders(this.token)) {
+        let request = this.http.post(url, stringifiedUserData, options)
             .map((response, index) => {
                 this.userIsLoggedIn = true;
                 return this.extractData(response);
@@ -153,6 +155,9 @@ export class UserService {
             body = res.json(); // This throws on OK(200) response with empty body.
             if (body.access_token) {
                 this.login(body.access_token);
+            }
+            if (body.HousesIds) {
+                this.houseIds = body.HousesIds;
             }
         }
         catch (err) {

@@ -18,24 +18,38 @@ var HouseService = (function () {
         var _this = this;
         this.userService = userService;
         this.http = http;
-        this.apiSettings = app_settings_1.AppSettings.ApiSettings;
+        this.houseIds = [];
         if (userService.userIsLoggedIn) {
             this.token = this.userService.token;
+            this.houseIds = this.userService.houseIds;
         }
         else {
             this.userService.loginEvents.subscribe(function (onLogin) {
                 if (onLogin) {
                     _this.token = _this.userService.token;
+                    _this.houseIds = _this.userService.houseIds;
                 }
                 else {
                     _this.token = '';
+                    _this.houseIds = [];
                 }
             });
         }
     }
+    Object.defineProperty(HouseService.prototype, "pagesCount", {
+        get: function () {
+            var pagesCount = this.houseIds.length / app_settings_1.AppSettings.ApiSettings.elementsPerPage;
+            if (this.houseIds.length % app_settings_1.AppSettings.ApiSettings.elementsPerPage > 0) {
+                pagesCount++;
+            }
+            return pagesCount;
+        },
+        enumerable: true,
+        configurable: true
+    });
     HouseService.prototype.getHouses = function (page, token) {
         if (token === void 0) { token = this.token; }
-        var url = this.apiSettings.api.Url + this.apiSettings.houses.Url;
+        var url = app_settings_1.AppSettings.ApiSettings.api.Url + app_settings_1.AppSettings.ApiSettings.houses.Url;
         var options = this.authorizationHeaders(token);
         url += '?page=';
         url += page;
@@ -55,10 +69,10 @@ var HouseService = (function () {
         });
         return request;
     };
-    HouseService.prototype.authorizedPostRequestWithData = function (url, stringifyedUserData, options) {
+    HouseService.prototype.authorizedPostRequestWithData = function (url, stringifiedUserData, options) {
         var _this = this;
         if (options === void 0) { options = this.authorizationHeaders(this.token); }
-        var request = this.http.post(url, stringifyedUserData, options)
+        var request = this.http.post(url, stringifiedUserData, options)
             .map(function (response, index) {
             return _this.extractData(response);
         });
