@@ -24,7 +24,7 @@
 
         [Authorize(Roles = AdminRole.Name)]
         [Route("api/Room/GetAll")]
-        public IHttpActionResult Get(int page, int pageSize = GlobalConstants.DefaultPageSize)
+        public IHttpActionResult GetAll(int page, int pageSize = GlobalConstants.DefaultPageSize)
         {
             if (!this.User.Identity.IsAuthenticated || !this.User.IsInRole(AdminRole.Name))
             {
