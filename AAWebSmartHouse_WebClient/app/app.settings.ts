@@ -29,6 +29,9 @@ export class AppSettings {
             },
             houses:{
                 Url: 'api/House', // ?page=XX&pageSize=20
+            },
+            rooms:{
+                Url: 'api/Room', // api/Room?houseId=houseId&page=1&pageSize=10
             }
         }
     };

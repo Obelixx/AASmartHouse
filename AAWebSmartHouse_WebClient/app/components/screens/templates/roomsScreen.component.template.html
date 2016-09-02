@@ -1,25 +1,24 @@
 <div class="screenContainer">
-    <span>Houses:</span>
+    <span>Rooms:</span>
     <br>
-    <div id="houses">
-        <table class="table table-bordered" *ngIf="houses.length != 0">
+    <div id="rooms">
+        <table class="table table-bordered" *ngIf="rooms.length != 0">
             <tr class="info">
                 <th>#</th>
                 <th>Id:</th>
                 <th>Name:</th>
-                <th>Location:</th>
                 <th>Description:</th>
-                <th>Rooms:</th>
+                <th>Sensors:</th>
             </tr>
-            <tr *ngFor="let house of houses;let i = index">
+            <tr *ngFor="let room of rooms;let i = index">
                 <td>{{i+1}}.</td>
-                <td>{{house.HouseId}}</td>
-                <td>{{house.HouseName}}</td>
-                <td>{{house.HouseLocation}}</td>
-                <td>{{house.HouseDescription}}</td>
-                <td><button class="btn btn-info" (click)="roomsClicked(i)">{{house.RoomIds.length}} Rooms</button></td>
+                <td>{{room.RoomId}}</td>
+                <td>{{room.RoomName}}</td>
+                <td>{{room.RoomDescription}}</td>
+                <td><button class="btn btn-info" (click)="sensorsClicked(i)">{{room.SensorsIds.length}} Sensors</button></td>
             </tr>
         </table>
+
         <ul class="pager">
             <li><button class="btn btn-warning" (click)="previousClicked()"> << </button></li>
             <li><span>Page: {{page}}</span></li>

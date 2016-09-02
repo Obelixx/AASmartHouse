@@ -2,55 +2,60 @@ import { Injectable }     from '@angular/core';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Observable }     from 'rxjs/Observable';
 
-import { HouseModel } from '../models/house.model';
+import { RoomModel } from '../models/room.model';
 
 import { UserService } from './user.service';
+import { HouseService } from './house.service';
 
 import { AppSettings } from '../app.settings';
 
 @Injectable()
-export class HouseService {
-    houses: [HouseModel];
-    houseIds = [];
+export class RoomService {
+    houses: [RoomModel];
+    roomIds = [];
     token: string;
-    selectedHouse: HouseModel; // populated on selected house in the housesScreen.component by roomsClicked(houseIndex);
+    selectedRoom: RoomModel; // populated on selected room in the roomsScreen.component by sensorsClicked(houseIndex);
 
-    get pagesCount(){
-        let pagesCount = this.houseIds.length/AppSettings.ApiSettings.elementsPerPage;
-        if(this.houseIds.length%AppSettings.ApiSettings.elementsPerPage > 0){
+    get pagesCount() {
+        let pagesCount = this.roomIds.length / AppSettings.ApiSettings.elementsPerPage;
+        if (this.roomIds.length % AppSettings.ApiSettings.elementsPerPage > 0) {
             pagesCount++;
         }
+        console.log("pages count: " + pagesCount);
         return pagesCount;
     }
 
     constructor(
         private userService: UserService,
+        private houseService: HouseService,
         private http: Http
     ) {
         if (userService.userIsLoggedIn) {
             this.token = this.userService.token;
-            this.houseIds = this.userService.houseIds;
+            this.roomIds = this.houseService.selectedHouse.RoomIds;
         }
         else {
             this.userService.loginEvents.subscribe((onLogin) => {
                 if (onLogin) {
                     this.token = this.userService.token;
-                    this.houseIds = this.userService.houseIds;
+                    this.roomIds = this.houseService.selectedHouse.RoomIds;
                 } else {
                     this.token = '';
-                    this.houseIds = [];
+                    this.roomIds = [];
                 }
             })
         }
     }
 
-    getHouses(page: number, token: string = this.token) {
-        let url = AppSettings.ApiSettings.api.Url + AppSettings.ApiSettings.houses.Url;
+    getRooms(houseId: string, page: number, token: string = this.token) {
+        let url = AppSettings.ApiSettings.api.Url + AppSettings.ApiSettings.rooms.Url;
         let options = this.authorizationHeaders(token);
         url += '?page=';
         url += page;
-        url += '&pageSize=';   
+        url += '&pageSize=';
         url += AppSettings.ApiSettings.elementsPerPage;
+        url += '&houseId=';
+        url += houseId;
         return this.authorizedGetRequest(url, options);
     }
 
@@ -78,6 +83,7 @@ export class HouseService {
         let body;
         try {
             body = res.json(); // This throws on OK(200) response with empty body.
+            console.log(body);
         }
         catch (err) {
         }

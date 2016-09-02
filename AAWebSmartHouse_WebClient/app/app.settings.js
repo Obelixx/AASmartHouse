@@ -33,6 +33,9 @@ var AppSettings = (function () {
                 },
                 houses: {
                     Url: 'api/House',
+                },
+                rooms: {
+                    Url: 'api/Room',
                 }
             };
         },

@@ -11,9 +11,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var house_model_1 = require('../../models/house.model');
 var house_service_1 = require('../../services/house.service');
+var screen_service_1 = require('../../services/screen.service');
+var roomsScreen_component_1 = require('./roomsScreen.component');
 var HousesScreenComponent = (function () {
-    function HousesScreenComponent(houseService) {
+    function HousesScreenComponent(houseService, screenService) {
         this.houseService = houseService;
+        this.screenService = screenService;
         this.houses = [new house_model_1.HouseModel('1', '1', '1', 'desc', [1, 2, 3])];
         this.message = '';
         this.page = 1;
@@ -41,19 +44,21 @@ var HousesScreenComponent = (function () {
         }
     };
     HousesScreenComponent.prototype.nextClicked = function () {
-        // TODO: Get somehow maxPages??
-        // Maybe return houses count to user profile!?
         if (this.page < this.houseService.pagesCount) {
             this.page++;
             this.getHouses(this.page);
         }
+    };
+    HousesScreenComponent.prototype.roomsClicked = function (houseIndex) {
+        this.houseService.selectedHouse = this.houses[houseIndex];
+        this.screenService.toScreen(roomsScreen_component_1.RoomsScreenComponent);
     };
     HousesScreenComponent = __decorate([
         core_1.Component({
             selector: 'housesScreen',
             templateUrl: './app/components/screens/templates/housesScreen.component.template.html'
         }), 
-        __metadata('design:paramtypes', [house_service_1.HouseService])
+        __metadata('design:paramtypes', [house_service_1.HouseService, screen_service_1.ScreenService])
     ], HousesScreenComponent);
     return HousesScreenComponent;
 }());

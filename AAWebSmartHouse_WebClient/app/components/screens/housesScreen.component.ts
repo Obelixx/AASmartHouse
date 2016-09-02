@@ -3,6 +3,9 @@ import { Component } from '@angular/core';
 import { HouseModel } from '../../models/house.model';
 
 import { HouseService } from '../../services/house.service';
+import { ScreenService } from '../../services/screen.service';
+
+import { RoomsScreenComponent } from './roomsScreen.component';
 
 @Component({
     selector: 'housesScreen',
@@ -13,7 +16,10 @@ export class HousesScreenComponent {
     message = '';
     page = 1;
 
-    constructor(private houseService: HouseService) {
+    constructor(
+        private houseService: HouseService,
+        private screenService: ScreenService
+    ) {
         this.houses.splice(0);
         this.getHouses(this.page);
     }
@@ -39,11 +45,14 @@ export class HousesScreenComponent {
     }
 
     nextClicked() {
-        // TODO: Get somehow maxPages??
-        // Maybe return houses count to user profile!?
         if (this.page < this.houseService.pagesCount) {
             this.page++;
             this.getHouses(this.page);
         }
+    }
+
+    roomsClicked(houseIndex){
+        this.houseService.selectedHouse = this.houses[houseIndex];
+        this.screenService.toScreen(RoomsScreenComponent);
     }
 }
