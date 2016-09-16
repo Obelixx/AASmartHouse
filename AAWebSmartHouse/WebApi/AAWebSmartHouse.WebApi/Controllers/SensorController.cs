@@ -54,7 +54,7 @@
             {
                 var userRoom = this.users
                 .GetUser(this.User.Identity.Name)
-                .Select(u => u.Houses.Select(h => h.Rooms.Where(r => r.RoomId == roomId).FirstOrDefault()))
+                .Select(u => u.Houses.Select(h => h.Rooms.Where(r => r.RoomId == roomId)))
                 .FirstOrDefault();
                 
                 // TODO: Maybe it can be null?
