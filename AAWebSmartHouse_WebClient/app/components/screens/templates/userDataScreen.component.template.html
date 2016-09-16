@@ -1,25 +1,25 @@
 <div class="screenContainer">
     <form action="submit">
         <label for="userId">User ID:</label><br>
-        <input type="text" id="userId" [(ngModel)]="userId" disabled="disabled">
+        <input type="text" id="userId" [(ngModel)]="userService.currentUser.Id" disabled="disabled">
         <br>
         <label for="userGroups">User Groups:</label><br>
         <input type="text" id="userGroups" [(ngModel)]="userGroups" disabled="disabled">
         <br>
         <label for="email">E-Mail:</label><br>
-        <input type="text" id="email" [(ngModel)]="email" disabled="disabled">
+        <input type="text" id="email" [(ngModel)]="userService.currentUser.EMail" disabled="disabled">
         <br>
         <label for="firstName">First Name:</label><br>
-        <input type="text" id="firstName" [(ngModel)]="firstName" *ngIf="!isEditMode" disabled="disabled">
-        <input type="text" id="firstName" [(ngModel)]="firstName" *ngIf="isEditMode">
+        <input type="text" id="firstName" [(ngModel)]="userService.currentUser.FirstName" *ngIf="!isEditMode" disabled="disabled">
+        <input type="text" id="firstName" [(ngModel)]="userService.currentUser.FirstName" *ngIf="isEditMode">
         <br>
         <label for="lastName">Last Name:</label><br>
-        <input type="text" id="lastName" [(ngModel)]="lastName" *ngIf="!isEditMode" disabled="disabled">
-        <input type="text" id="lastName" [(ngModel)]="lastName" *ngIf="isEditMode">
+        <input type="text" id="lastName" [(ngModel)]="userService.currentUser.LastName" *ngIf="!isEditMode" disabled="disabled">
+        <input type="text" id="lastName" [(ngModel)]="userService.currentUser.LastName" *ngIf="isEditMode">
         <br>
         <label for="phoneNumber">Phone Number:</label><br>
-        <input type="text" id="phoneNumber" [(ngModel)]="phoneNumber" *ngIf="!isEditMode" disabled="disabled">
-        <input type="text" id="phoneNumber" [(ngModel)]="phoneNumber" *ngIf="isEditMode">
+        <input type="text" id="phoneNumber" [(ngModel)]="userService.currentUser.PhoneNumber" *ngIf="!isEditMode" disabled="disabled">
+        <input type="text" id="phoneNumber" [(ngModel)]="userService.currentUser.PhoneNumber" *ngIf="isEditMode">
         <br>
         <br>
         <button class="btn btn-warning" (click)="onEditClicked()" *ngIf="!isEditMode">Edit</button>
@@ -49,5 +49,5 @@
     <span *ngIf="!isChangePasswordMode && passwordSuccessMsg" class="bg-success">{{passwordSuccessMsg}}</span>
     <br>
     <br>
-    <button class="btn btn-info" (click)="housesClicked()" *ngIf="userHouses.length != 0">{{userHouses.length}} <span *ngIf="userHouses.length == 1">House</span><span *ngIf="userHouses.length > 1">Houses</span></button>
+    <button class="btn btn-info" (click)="housesClicked()" *ngIf="userService.currentUser.HousesIds.length != 0">{{userService.currentUser.HousesIds.length}} <span *ngIf="userService.currentUser.HousesIds.length == 1">House</span><span *ngIf="userService.currentUser.HousesIds.length > 1">Houses</span></button>
 </div>

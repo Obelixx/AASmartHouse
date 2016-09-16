@@ -11,7 +11,8 @@
             <td class="loginNavBar">
                 <div>
                     <div class="loginNavBarContainer">
-                        <span>Hello <a (click)="displayUserDataScreen()"><b>{{ userService.firstAndLastName || "stranger" }}</b></a>!</span>
+                        <span>Hello <a (click)="displayUserDataScreen()">
+                            <b>{{ userService.currentUser && (userService.currentUser.FirstName||userService.currentUser.LastName) ? userService.currentUser.FirstName + " " + userService.currentUser.LastName : "stranger" }}</b></a>!</span>
                         <button *ngIf="!userService.userIsLoggedIn" (click)="loginClicked()" class="btn btn-primary">
 	                    <span class="glyphicon glyphicon-off"></span>
 	                    <span>Login</span>

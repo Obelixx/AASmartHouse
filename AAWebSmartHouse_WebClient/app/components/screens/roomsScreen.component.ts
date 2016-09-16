@@ -6,6 +6,8 @@ import { RoomService } from '../../services/room.service';
 import { HouseService } from '../../services/house.service';
 import { ScreenService } from '../../services/screen.service';
 
+import { SensorsScreenComponent } from './sensorsScreen.component';
+
 @Component({
     selector: 'roomsScreen',
     templateUrl: './app/components/screens/templates/roomsScreen.component.template.html'
@@ -40,7 +42,6 @@ export class RoomsScreenComponent {
             })
     }
 
-
     previousClicked() {
         if (this.page > 1) {
             this.page--;
@@ -57,6 +58,8 @@ export class RoomsScreenComponent {
 
     sensorsClicked(sensorIndex) {
         this.roomService.selectedRoom = this.rooms[sensorIndex];
-        //this.screenService.toScreen(SensorsScreenComponent);
+        if(this.rooms[sensorIndex].SensorsIds.length > 0){
+            this.screenService.toScreen(SensorsScreenComponent);
+        }
     }
 }

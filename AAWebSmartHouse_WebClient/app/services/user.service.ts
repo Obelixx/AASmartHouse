@@ -3,7 +3,7 @@ import { Http, Response } from '@angular/http';
 import { Headers, RequestOptions } from '@angular/http';
 import { Observable }     from 'rxjs/Observable';
 
-import { UserModel } from '../models/user.model';
+import { UserModel } from '../models/user.model'
 
 import { LocalStorageService } from './localStorage.service';
 
@@ -11,14 +11,12 @@ import { AppSettings } from '../app.settings';
 
 @Injectable()
 export class UserService {
+    currentUser : UserModel = new UserModel('','','mail','username','id','pn',[''],['']);
     apiSettings = AppSettings.ApiSettings;
     loginEvents = new EventEmitter();
     toStoreToken = true;
-    firstAndLastName = '';
     private _isLoggedIn = false;
     token: string;
-    houseIds = []; 
-    // houseIds is populated in ExtractData() after getUserData() call - not a problem because it is called in the controller constructor
 
     get userIsLoggedIn() {
         return this._isLoggedIn;
@@ -34,6 +32,10 @@ export class UserService {
     }
     set storageToken(token: string) {
         this.localStorageService.setItem(this.apiSettings.tokenKeyName, token);
+    }
+
+    get userHousesIds(){
+        return this.currentUser.HousesIds;
     }
 
     constructor(private http: Http, private localStorageService: LocalStorageService) {
@@ -62,8 +64,8 @@ export class UserService {
             .catch(this.handleError);
     }
 
-    getToken(user: UserModel) {
-        let body = "username=" + user.email + "&password=" + user.password + "&grant_type=password";
+    getToken(userEmail, userPassword) {
+        let body = "username=" + userEmail + "&password=" + userPassword + "&grant_type=password";
         let headers = new Headers();
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
         let options = new RequestOptions({ headers: headers });
@@ -121,6 +123,7 @@ export class UserService {
     }
 
     private login(token: string) {
+        console.log("logging in ..")
         if (this.toStoreToken) {
             this.localStorageService.setItem(AppSettings.ApiSettings.tokenKeyName, token);
         }
@@ -128,13 +131,14 @@ export class UserService {
         this.userIsLoggedIn = true;
         this.getUserData(this.token)
             .subscribe((response) => {
-                this.firstAndLastName = response.FirstName + ' ' + response.LastName;
+                this.currentUser = response;
             });
 
     }
 
     logout() {
-        this.firstAndLastName = "";
+        console.log("logging out ..")
+        this.currentUser = new UserModel('','','mail','username','id','pn',[''],['']);;
         this.localStorageService.clearItem(this.apiSettings.tokenKeyName);
         this.token = '';
         this.userIsLoggedIn = false;
@@ -157,7 +161,7 @@ export class UserService {
                 this.login(body.access_token);
             }
             if (body.HousesIds) {
-                this.houseIds = body.HousesIds;
+                this.currentUser.HousesIds = body.HousesIds;
             }
         }
         catch (err) {

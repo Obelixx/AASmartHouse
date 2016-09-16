@@ -10,16 +10,17 @@ import { AppSettings } from '../app.settings';
 
 @Injectable()
 export class HouseService {
-    houses: [HouseModel];
     houseIds = [];
     token: string;
     selectedHouse: HouseModel; // populated on selected house in the housesScreen.component by roomsClicked(houseIndex);
 
-    get pagesCount(){
-        let pagesCount = this.houseIds.length/AppSettings.ApiSettings.elementsPerPage;
-        if(this.houseIds.length%AppSettings.ApiSettings.elementsPerPage > 0){
+    public get pagesCount() {
+        let pagesCount = (this.houseIds.length / AppSettings.ApiSettings.elementsPerPage) | 0;
+        if (this.houseIds.length % AppSettings.ApiSettings.elementsPerPage > 0) {
             pagesCount++;
         }
+        console.log(pagesCount);
+        console.log(this.houseIds);
         return pagesCount;
     }
 
@@ -28,14 +29,20 @@ export class HouseService {
         private http: Http
     ) {
         if (userService.userIsLoggedIn) {
+            console.log(this.userService.token);
+            console.log(this.userService);
+            console.log(this.userService.userHousesIds);
+            console.log(this.userService.currentUser);
+            console.log(this.userService.currentUser.HousesIds);
             this.token = this.userService.token;
-            this.houseIds = this.userService.houseIds;
+            this.houseIds = this.userService.currentUser.HousesIds;
+            console.log(this.houseIds);
         }
         else {
             this.userService.loginEvents.subscribe((onLogin) => {
                 if (onLogin) {
                     this.token = this.userService.token;
-                    this.houseIds = this.userService.houseIds;
+                    this.houseIds = this.userService.currentUser.HousesIds;
                 } else {
                     this.token = '';
                     this.houseIds = [];
@@ -49,7 +56,7 @@ export class HouseService {
         let options = this.authorizationHeaders(token);
         url += '?page=';
         url += page;
-        url += '&pageSize=';   
+        url += '&pageSize=';
         url += AppSettings.ApiSettings.elementsPerPage;
         return this.authorizedGetRequest(url, options);
     }

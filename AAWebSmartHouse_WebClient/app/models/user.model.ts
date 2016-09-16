@@ -1,9 +1,30 @@
 export class UserModel {
-    email: string;
-    password: string;
+    FirstName: string;
+    LastName: string;
+    EMail: string;
+    UserName: string;
+    Id: string;
+    PhoneNumber: string;
+    RoleIds: [any];
+    HousesIds: [any];
 
-    constructor(email, password) {
-        this.email = email;
-        this.password = password;
+    constructor(
+        FirstName: any,
+        LastName: string,
+        EMail: string,
+        UserName: string,
+        Id: string,
+        PhoneNumber:string,
+        RoleIds: [any],
+        HousesIds: [any]
+    ) {
+        this.FirstName = FirstName;
+        this.LastName = LastName;
+        this.EMail = EMail;
+        this.UserName = UserName;
+        this.Id = Id;
+        this.PhoneNumber = PhoneNumber;
+        this.RoleIds = RoleIds;
+        this.HousesIds = HousesIds;
     }
 }

@@ -1,5 +1,7 @@
-import { Component }  from '@angular/core';
-import { Observable }     from 'rxjs/Observable';
+import { Component } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+
+import { UserModel } from '../../models/user.model';
 
 import { UserService } from '../../services/user.service';
 import { ScreenService } from '../../services/screen.service';
@@ -13,13 +15,7 @@ import { HousesScreenComponent } from './housesScreen.component';
     directives: []
 })
 export class UserDataScreenComponent {
-    userId = 'userId';
     userGroups = '';
-    userHouses = [];
-    firstName = 'firstName';
-    lastName = 'lastName';
-    email = 'Email';
-    phoneNumber = 'phoneNumber';
     isEditMode = false;
     errorMsg = '';
     successMsg = '';
@@ -36,14 +32,6 @@ export class UserDataScreenComponent {
     ) {
         userService.getUserData()
             .subscribe((result) => {
-                console.log(JSON.stringify(result));
-
-                this.firstName = result.FirstName;
-                this.lastName = result.LastName;
-                this.email = result.EMail;
-                this.phoneNumber = result.PhoneNumber
-                this.userId = result.Id;
-                this.userHouses = result.HousesIds;
                 userService.getGroups(result.RoleIds)
                     .subscribe((result) => {
                         let groups = [];
@@ -57,10 +45,10 @@ export class UserDataScreenComponent {
 
     onSaveChangesClicked() {
         let userData = JSON.stringify({
-            FirstName: this.firstName,
-            LastName: this.lastName,
-            EMail: this.email,
-            PhoneNumber: this.phoneNumber
+            FirstName: this.userService.currentUser.FirstName,
+            LastName: this.userService.currentUser.LastName,
+            EMail: this.userService.currentUser.EMail,
+            PhoneNumber: this.userService.currentUser.PhoneNumber
         })
 
         this.userService.setUserData(userData)

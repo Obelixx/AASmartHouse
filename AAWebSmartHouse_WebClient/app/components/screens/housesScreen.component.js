@@ -31,6 +31,9 @@ var HousesScreenComponent = (function () {
             if (Array.isArray(res)) {
                 _this.houses = res;
                 _this.message = 'Success';
+                if (_this.houses.length == 0) {
+                    _this.message += '; But you have no houses!';
+                }
             }
             else {
                 _this.message = res;
@@ -51,7 +54,9 @@ var HousesScreenComponent = (function () {
     };
     HousesScreenComponent.prototype.roomsClicked = function (houseIndex) {
         this.houseService.selectedHouse = this.houses[houseIndex];
-        this.screenService.toScreen(roomsScreen_component_1.RoomsScreenComponent);
+        if (this.houses[houseIndex].RoomIds.length > 0) {
+            this.screenService.toScreen(roomsScreen_component_1.RoomsScreenComponent);
+        }
     };
     HousesScreenComponent = __decorate([
         core_1.Component({

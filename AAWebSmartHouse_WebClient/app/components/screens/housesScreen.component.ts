@@ -29,8 +29,11 @@ export class HousesScreenComponent {
         this.houseService.getHouses(page)
             .subscribe((res) => {
                 if (Array.isArray(res)) {
-                    this.houses = res;
+                    this.houses = res;                   
                     this.message = 'Success';
+                    if(this.houses.length == 0){
+                        this.message += '; But you have no houses!';
+                    }
                 } else {
                     this.message = res;
                 }
@@ -53,6 +56,8 @@ export class HousesScreenComponent {
 
     roomsClicked(houseIndex){
         this.houseService.selectedHouse = this.houses[houseIndex];
-        this.screenService.toScreen(RoomsScreenComponent);
+        if(this.houses[houseIndex].RoomIds.length > 0){
+            this.screenService.toScreen(RoomsScreenComponent);
+        }
     }
 }

@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
 import { Observable }     from 'rxjs/Observable';
 
-import { UserModel } from '../../models/user.model';
-
 import { UserService } from '../../services/user.service';
 
 import { AppSettings } from '../../app.settings';
@@ -12,7 +10,8 @@ import { AppSettings } from '../../app.settings';
     templateUrl: './app/components/screens/templates/loginScreen.component.template.html'
 })
 export class LoginScreenComponent {
-    public user: UserModel = new UserModel("", "");
+    public userEmail = '';
+    public userPassword = '';
     public errorMsg = '';
     public successMsg = '';
 
@@ -21,7 +20,7 @@ export class LoginScreenComponent {
     ) { }
 
     login() {
-        this.userService.getToken(new UserModel(this.user.email, this.user.password))
+        this.userService.getToken(this.userEmail,this.userPassword)
             .catch((err, caught) => {
                 try {
                     let error = JSON.parse(err._body);

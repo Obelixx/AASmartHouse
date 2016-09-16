@@ -12,37 +12,37 @@ var core_1 = require('@angular/core');
 var http_1 = require('@angular/http');
 var Observable_1 = require('rxjs/Observable');
 var user_service_1 = require('./user.service');
-var house_service_1 = require('./house.service');
+var room_service_1 = require('./room.service');
 var app_settings_1 = require('../app.settings');
-var RoomService = (function () {
-    function RoomService(userService, houseService, http) {
+var SensorService = (function () {
+    function SensorService(userService, roomService, http) {
         var _this = this;
         this.userService = userService;
-        this.houseService = houseService;
+        this.roomService = roomService;
         this.http = http;
-        this.roomIds = [];
+        this.sensorIds = [];
         if (userService.userIsLoggedIn) {
             this.token = this.userService.token;
-            this.roomIds = this.houseService.selectedHouse.RoomIds;
+            this.sensorIds = this.roomService.selectedRoom.SensorsIds;
         }
         else {
             this.userService.loginEvents.subscribe(function (onLogin) {
                 if (onLogin) {
                     _this.token = _this.userService.token;
-                    _this.roomIds = _this.houseService.selectedHouse.RoomIds;
+                    _this.sensorIds = _this.roomService.selectedRoom.SensorsIds;
                 }
                 else {
                     _this.token = '';
-                    _this.roomIds = [];
+                    _this.sensorIds = [];
                 }
             });
         }
     }
-    Object.defineProperty(RoomService.prototype, "pagesCount", {
+    Object.defineProperty(SensorService.prototype, "pagesCount", {
         get: function () {
-            var pagesCount = this.roomIds.length / app_settings_1.AppSettings.ApiSettings.elementsPerPage | 0;
-            if (this.roomIds.length % app_settings_1.AppSettings.ApiSettings.elementsPerPage > 0) {
-                pagesCount++;
+            var pagesCount = this.sensorIds.length / app_settings_1.AppSettings.ApiSettings.elementsPerPage | 0;
+            if (this.sensorIds.length % app_settings_1.AppSettings.ApiSettings.elementsPerPage > 0) {
+                pagesCount += 1;
             }
             console.log(pagesCount);
             return pagesCount;
@@ -50,19 +50,19 @@ var RoomService = (function () {
         enumerable: true,
         configurable: true
     });
-    RoomService.prototype.getRooms = function (houseId, page, token) {
+    SensorService.prototype.getSensors = function (roomId, page, token) {
         if (token === void 0) { token = this.token; }
-        var url = app_settings_1.AppSettings.ApiSettings.api.Url + app_settings_1.AppSettings.ApiSettings.rooms.Url;
+        var url = app_settings_1.AppSettings.ApiSettings.api.Url + app_settings_1.AppSettings.ApiSettings.sensors.Url;
         var options = this.authorizationHeaders(token);
         url += '?page=';
         url += page;
         url += '&pageSize=';
         url += app_settings_1.AppSettings.ApiSettings.elementsPerPage;
-        url += '&houseId=';
-        url += houseId;
+        url += '&roomId=';
+        url += roomId;
         return this.authorizedGetRequest(url, options);
     };
-    RoomService.prototype.authorizedGetRequest = function (url, headers) {
+    SensorService.prototype.authorizedGetRequest = function (url, headers) {
         var _this = this;
         if (headers === void 0) { headers = this.authorizationHeaders(this.token); }
         var request = this.http.get(url, headers)
@@ -74,7 +74,7 @@ var RoomService = (function () {
         });
         return request;
     };
-    RoomService.prototype.authorizationHeaders = function (token) {
+    SensorService.prototype.authorizationHeaders = function (token) {
         var headers = new http_1.Headers();
         headers.append('Accept', 'application/json');
         headers.append('Authorization', 'Bearer ' + token);
@@ -82,7 +82,7 @@ var RoomService = (function () {
         var options = new http_1.RequestOptions({ headers: headers });
         return options;
     };
-    RoomService.prototype.extractData = function (res) {
+    SensorService.prototype.extractData = function (res) {
         var body;
         try {
             body = res.json(); // This throws on OK(200) response with empty body.
@@ -91,18 +91,18 @@ var RoomService = (function () {
         }
         return body;
     };
-    RoomService.prototype.handleError = function (error) {
+    SensorService.prototype.handleError = function (error) {
         var errMsg = (error.message) ? error.message :
             error.status ? error.status + " - " + error.statusText :
                 error.error_description ? error.error_description : 'Server error';
         console.error(errMsg);
         return Observable_1.Observable.throw(errMsg);
     };
-    RoomService = __decorate([
+    SensorService = __decorate([
         core_1.Injectable(), 
-        __metadata('design:paramtypes', [user_service_1.UserService, house_service_1.HouseService, http_1.Http])
-    ], RoomService);
-    return RoomService;
+        __metadata('design:paramtypes', [user_service_1.UserService, room_service_1.RoomService, http_1.Http])
+    ], SensorService);
+    return SensorService;
 }());
-exports.RoomService = RoomService;
-//# sourceMappingURL=room.service.js.map
+exports.SensorService = SensorService;
+//# sourceMappingURL=sensor.service.js.map

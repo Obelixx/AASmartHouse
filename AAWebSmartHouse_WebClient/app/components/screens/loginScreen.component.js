@@ -10,18 +10,18 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var Observable_1 = require('rxjs/Observable');
-var user_model_1 = require('../../models/user.model');
 var user_service_1 = require('../../services/user.service');
 var LoginScreenComponent = (function () {
     function LoginScreenComponent(userService) {
         this.userService = userService;
-        this.user = new user_model_1.UserModel("", "");
+        this.userEmail = '';
+        this.userPassword = '';
         this.errorMsg = '';
         this.successMsg = '';
     }
     LoginScreenComponent.prototype.login = function () {
         var _this = this;
-        this.userService.getToken(new user_model_1.UserModel(this.user.email, this.user.password))
+        this.userService.getToken(this.userEmail, this.userPassword)
             .catch(function (err, caught) {
             try {
                 var error = JSON.parse(err._body);

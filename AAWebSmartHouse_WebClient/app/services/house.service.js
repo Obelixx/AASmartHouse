@@ -20,14 +20,20 @@ var HouseService = (function () {
         this.http = http;
         this.houseIds = [];
         if (userService.userIsLoggedIn) {
+            console.log(this.userService.token);
+            console.log(this.userService);
+            console.log(this.userService.userHousesIds);
+            console.log(this.userService.currentUser);
+            console.log(this.userService.currentUser.HousesIds);
             this.token = this.userService.token;
-            this.houseIds = this.userService.houseIds;
+            this.houseIds = this.userService.currentUser.HousesIds;
+            console.log(this.houseIds);
         }
         else {
             this.userService.loginEvents.subscribe(function (onLogin) {
                 if (onLogin) {
                     _this.token = _this.userService.token;
-                    _this.houseIds = _this.userService.houseIds;
+                    _this.houseIds = _this.userService.currentUser.HousesIds;
                 }
                 else {
                     _this.token = '';
@@ -38,10 +44,12 @@ var HouseService = (function () {
     }
     Object.defineProperty(HouseService.prototype, "pagesCount", {
         get: function () {
-            var pagesCount = this.houseIds.length / app_settings_1.AppSettings.ApiSettings.elementsPerPage;
+            var pagesCount = (this.houseIds.length / app_settings_1.AppSettings.ApiSettings.elementsPerPage) | 0;
             if (this.houseIds.length % app_settings_1.AppSettings.ApiSettings.elementsPerPage > 0) {
                 pagesCount++;
             }
+            console.log(pagesCount);
+            console.log(this.houseIds);
             return pagesCount;
         },
         enumerable: true,

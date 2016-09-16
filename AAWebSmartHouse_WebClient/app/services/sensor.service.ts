@@ -2,23 +2,23 @@ import { Injectable }     from '@angular/core';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Observable }     from 'rxjs/Observable';
 
-import { RoomModel } from '../models/room.model';
+import { SensorModel } from '../models/sensor.model';
 
 import { UserService } from './user.service';
-import { HouseService } from './house.service';
+import { RoomService } from './room.service';
 
 import { AppSettings } from '../app.settings';
 
 @Injectable()
-export class RoomService {
-    roomIds = [];
+export class SensorService {
+    sensorIds = [];
     token: string;
-    selectedRoom: RoomModel; // populated on selected room in the roomsScreen.component by sensorsClicked(houseIndex);
+    selectedSensor: SensorModel; // populated on selected sensor in the sensorsScreen.component by sensorDataClicked(sensorIndex);
 
     get pagesCount() {
-        let pagesCount = this.roomIds.length / AppSettings.ApiSettings.elementsPerPage | 0;
-        if (this.roomIds.length % AppSettings.ApiSettings.elementsPerPage > 0) {
-            pagesCount++;
+        let pagesCount = this.sensorIds.length / AppSettings.ApiSettings.elementsPerPage | 0;
+        if (this.sensorIds.length % AppSettings.ApiSettings.elementsPerPage > 0) {
+            pagesCount+=1;
         }
         console.log(pagesCount);
         return pagesCount;
@@ -26,35 +26,35 @@ export class RoomService {
 
     constructor(
         private userService: UserService,
-        private houseService: HouseService,
+        private roomService: RoomService,
         private http: Http
     ) {
         if (userService.userIsLoggedIn) {
             this.token = this.userService.token;
-            this.roomIds = this.houseService.selectedHouse.RoomIds;
+            this.sensorIds = this.roomService.selectedRoom.SensorsIds;
         }
         else {
             this.userService.loginEvents.subscribe((onLogin) => {
                 if (onLogin) {
                     this.token = this.userService.token;
-                    this.roomIds = this.houseService.selectedHouse.RoomIds;
+                    this.sensorIds = this.roomService.selectedRoom.SensorsIds;
                 } else {
                     this.token = '';
-                    this.roomIds = [];
+                    this.sensorIds = [];
                 }
             })
         }
     }
 
-    getRooms(houseId: string, page: number, token: string = this.token) {
-        let url = AppSettings.ApiSettings.api.Url + AppSettings.ApiSettings.rooms.Url;
+    getSensors(roomId: string, page: number, token: string = this.token) {
+        let url = AppSettings.ApiSettings.api.Url + AppSettings.ApiSettings.sensors.Url;
         let options = this.authorizationHeaders(token);
         url += '?page=';
         url += page;
         url += '&pageSize=';
         url += AppSettings.ApiSettings.elementsPerPage;
-        url += '&houseId=';
-        url += houseId;
+        url += '&roomId=';
+        url += roomId;
         return this.authorizedGetRequest(url, options);
     }
 

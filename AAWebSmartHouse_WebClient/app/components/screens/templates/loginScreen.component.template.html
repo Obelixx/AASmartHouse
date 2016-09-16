@@ -1,10 +1,10 @@
 <div class="screenContainer">
     <form action="submit">
         <label for="email">E-mail:</label><br>
-        <input [(ngModel)]="user.email" id="email" type="email">
+        <input [(ngModel)]="userEmail" id="email" type="email">
         <br>
         <label for="password">Password:</label><br>
-        <input [(ngModel)]="user.password" id="password" type="password">
+        <input [(ngModel)]="userPassword" id="password" type="password">
         <br>
         <label *ngIf="!userService.userIsLoggedIn" for="storeToken">Remember me:</label>
         <input *ngIf="!userService.userIsLoggedIn" type="checkbox" [(ngModel)]="userService.toStoreToken" id="storeToken" />

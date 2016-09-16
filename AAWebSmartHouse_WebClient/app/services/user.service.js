@@ -12,25 +12,24 @@ var core_1 = require('@angular/core');
 var http_1 = require('@angular/http');
 var http_2 = require('@angular/http');
 var Observable_1 = require('rxjs/Observable');
+var user_model_1 = require('../models/user.model');
 var localStorage_service_1 = require('./localStorage.service');
 var app_settings_1 = require('../app.settings');
 var UserService = (function () {
     function UserService(http, localStorageService) {
         this.http = http;
         this.localStorageService = localStorageService;
+        this.currentUser = new user_model_1.UserModel('', '', 'mail', 'username', 'id', 'pn', [''], ['']);
         this.apiSettings = app_settings_1.AppSettings.ApiSettings;
         this.loginEvents = new core_1.EventEmitter();
         this.toStoreToken = true;
-        this.firstAndLastName = '';
         this._isLoggedIn = false;
-        this.houseIds = [];
         if (this.localStorageService.hasItem(this.apiSettings.tokenKeyName)) {
             this.token = this.localStorageService.getItem(this.apiSettings.tokenKeyName);
             this.login(this.token);
         }
     }
     Object.defineProperty(UserService.prototype, "userIsLoggedIn", {
-        // houseIds is populated in ExtractData() after getUserData() call - not a problem because it is called in the controller constructor
         get: function () {
             return this._isLoggedIn;
         },
@@ -51,6 +50,13 @@ var UserService = (function () {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(UserService.prototype, "userHousesIds", {
+        get: function () {
+            return this.currentUser.HousesIds;
+        },
+        enumerable: true,
+        configurable: true
+    });
     // TODO: not used so far..
     UserService.prototype.register = function (email, password, confirmPassword, firstName, lastName) {
         var body = JSON.stringify({ email: email, password: password, confirmPassword: confirmPassword, firstName: firstName, lastName: lastName });
@@ -60,8 +66,8 @@ var UserService = (function () {
             .map(this.extractData)
             .catch(this.handleError);
     };
-    UserService.prototype.getToken = function (user) {
-        var body = "username=" + user.email + "&password=" + user.password + "&grant_type=password";
+    UserService.prototype.getToken = function (userEmail, userPassword) {
+        var body = "username=" + userEmail + "&password=" + userPassword + "&grant_type=password";
         var headers = new http_2.Headers();
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
         var options = new http_2.RequestOptions({ headers: headers });
@@ -121,6 +127,7 @@ var UserService = (function () {
     };
     UserService.prototype.login = function (token) {
         var _this = this;
+        console.log("logging in ..");
         if (this.toStoreToken) {
             this.localStorageService.setItem(app_settings_1.AppSettings.ApiSettings.tokenKeyName, token);
         }
@@ -128,11 +135,13 @@ var UserService = (function () {
         this.userIsLoggedIn = true;
         this.getUserData(this.token)
             .subscribe(function (response) {
-            _this.firstAndLastName = response.FirstName + ' ' + response.LastName;
+            _this.currentUser = response;
         });
     };
     UserService.prototype.logout = function () {
-        this.firstAndLastName = "";
+        console.log("logging out ..");
+        this.currentUser = new user_model_1.UserModel('', '', 'mail', 'username', 'id', 'pn', [''], ['']);
+        ;
         this.localStorageService.clearItem(this.apiSettings.tokenKeyName);
         this.token = '';
         this.userIsLoggedIn = false;
@@ -153,7 +162,7 @@ var UserService = (function () {
                 this.login(body.access_token);
             }
             if (body.HousesIds) {
-                this.houseIds = body.HousesIds;
+                this.currentUser.HousesIds = body.HousesIds;
             }
         }
         catch (err) {

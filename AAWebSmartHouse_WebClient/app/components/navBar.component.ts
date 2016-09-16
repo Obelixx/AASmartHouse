@@ -13,7 +13,7 @@ import { ScreenService } from '../services/screen.service';
 })
 export class NavBarComponent {
     constructor(
-        private userService: UserService, // We need userService because the template is using data from it!
+        private userService: UserService,
         private screenService: ScreenService
     ) {
     }

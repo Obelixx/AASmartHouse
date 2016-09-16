@@ -15,8 +15,7 @@ var housesScreen_component_1 = require('./screens/housesScreen.component');
 var user_service_1 = require('../services/user.service');
 var screen_service_1 = require('../services/screen.service');
 var NavBarComponent = (function () {
-    function NavBarComponent(userService, // We need userService because the template is using data from it!
-        screenService) {
+    function NavBarComponent(userService, screenService) {
         this.userService = userService;
         this.screenService = screenService;
     }

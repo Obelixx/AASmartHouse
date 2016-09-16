@@ -32,6 +32,9 @@ export class AppSettings {
             },
             rooms:{
                 Url: 'api/Room', // api/Room?houseId=houseId&page=1&pageSize=10
+            },
+            sensors:{
+                Url: 'api/Sensor', // api/Sensor?roomId=roomId&page=1&pageSize=10
             }
         }
     };

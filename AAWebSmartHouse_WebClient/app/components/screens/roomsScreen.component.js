@@ -13,6 +13,7 @@ var room_model_1 = require('../../models/room.model');
 var room_service_1 = require('../../services/room.service');
 var house_service_1 = require('../../services/house.service');
 var screen_service_1 = require('../../services/screen.service');
+var sensorsScreen_component_1 = require('./sensorsScreen.component');
 var RoomsScreenComponent = (function () {
     function RoomsScreenComponent(roomService, houseService, screenService) {
         this.roomService = roomService;
@@ -55,7 +56,9 @@ var RoomsScreenComponent = (function () {
     };
     RoomsScreenComponent.prototype.sensorsClicked = function (sensorIndex) {
         this.roomService.selectedRoom = this.rooms[sensorIndex];
-        //this.screenService.toScreen(SensorsScreenComponent);
+        if (this.rooms[sensorIndex].SensorsIds.length > 0) {
+            this.screenService.toScreen(sensorsScreen_component_1.SensorsScreenComponent);
+        }
     };
     RoomsScreenComponent = __decorate([
         core_1.Component({

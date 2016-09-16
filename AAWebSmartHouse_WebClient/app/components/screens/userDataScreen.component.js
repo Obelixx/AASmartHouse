@@ -18,13 +18,7 @@ var UserDataScreenComponent = (function () {
         var _this = this;
         this.userService = userService;
         this.screenService = screenService;
-        this.userId = 'userId';
         this.userGroups = '';
-        this.userHouses = [];
-        this.firstName = 'firstName';
-        this.lastName = 'lastName';
-        this.email = 'Email';
-        this.phoneNumber = 'phoneNumber';
         this.isEditMode = false;
         this.errorMsg = '';
         this.successMsg = '';
@@ -36,13 +30,6 @@ var UserDataScreenComponent = (function () {
         this.confirmPassword = '';
         userService.getUserData()
             .subscribe(function (result) {
-            console.log(JSON.stringify(result));
-            _this.firstName = result.FirstName;
-            _this.lastName = result.LastName;
-            _this.email = result.EMail;
-            _this.phoneNumber = result.PhoneNumber;
-            _this.userId = result.Id;
-            _this.userHouses = result.HousesIds;
             userService.getGroups(result.RoleIds)
                 .subscribe(function (result) {
                 var groups = [];
@@ -56,10 +43,10 @@ var UserDataScreenComponent = (function () {
     UserDataScreenComponent.prototype.onSaveChangesClicked = function () {
         var _this = this;
         var userData = JSON.stringify({
-            FirstName: this.firstName,
-            LastName: this.lastName,
-            EMail: this.email,
-            PhoneNumber: this.phoneNumber
+            FirstName: this.userService.currentUser.FirstName,
+            LastName: this.userService.currentUser.LastName,
+            EMail: this.userService.currentUser.EMail,
+            PhoneNumber: this.userService.currentUser.PhoneNumber
         });
         this.userService.setUserData(userData)
             .catch(function (err, caught) {

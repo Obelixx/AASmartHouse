@@ -36,6 +36,9 @@ var AppSettings = (function () {
                 },
                 rooms: {
                     Url: 'api/Room',
+                },
+                sensors: {
+                    Url: 'api/Sensor',
                 }
             };
         },
