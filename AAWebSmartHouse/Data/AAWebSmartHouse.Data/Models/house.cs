@@ -14,6 +14,10 @@ namespace AAWebSmartHouse.Data.Models
 
         public string HouseName { get; set; }
 
+        public int ControlerNumber { get; set; }
+
+        public string VerificationCode { get; set; }
+
         public string HouseLocation { get; set; }
 
         public string HouseDescription { get; set; }

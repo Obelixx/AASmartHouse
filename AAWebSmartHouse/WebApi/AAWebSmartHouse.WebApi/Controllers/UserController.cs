@@ -21,13 +21,13 @@
             this.users = usersService;
         }
 
-        [Authorize(Roles = AdminRole.Name)]
+        [Authorize(Roles = AdminUser.Name)]
         [Route("api/User/GetAll")]
         public IHttpActionResult GetAll(int page, int pageSize = GlobalConstants.DefaultPageSize)
         {
-            if (!this.User.Identity.IsAuthenticated || !this.User.IsInRole(AdminRole.Name))
+            if (!this.User.Identity.IsAuthenticated || !this.User.IsInRole(AdminUser.Name))
             {
-                return this.BadRequest("Only " + AdminRole.Name + " Can request all Users");
+                return this.BadRequest("Only " + AdminUser.Name + " Can request all Users");
             }
 
             var result = this.users
@@ -67,7 +67,7 @@
                 return this.BadRequest(this.ModelState);
             }
 
-            if (!this.User.IsInRole(AdminRole.Name))
+            if (!this.User.IsInRole(AdminUser.Name))
             {
                 if (model.EMail != this.User.Identity.Name)
                 {

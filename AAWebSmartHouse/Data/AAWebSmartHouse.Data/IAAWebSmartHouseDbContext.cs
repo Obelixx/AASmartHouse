@@ -11,13 +11,7 @@
 
         IDbSet<Room> Rooms { get; set; }
 
-        IDbSet<SensorDataByDay> SensorDataByDays { get; set; }
-        
-        IDbSet<SensorDataByHour> SensorDataByHours { get; set; }
-
-        IDbSet<SensorDataByMonth> SensorDataByMonths { get; set; }
-
-        IDbSet<SensorDataByWeek> SensorDataByWeeks { get; set; }
+        IDbSet<SensorValue> SensorValues { get; set; }
 
         IDbSet<Sensor> Sensors { get; set; }
 

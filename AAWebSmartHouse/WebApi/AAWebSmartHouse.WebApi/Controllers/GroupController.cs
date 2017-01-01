@@ -38,13 +38,13 @@
             return this.Ok(result);
         }
 
-        [Authorize(Roles = AdminRole.Name)]
+        [Authorize(Roles = AdminUser.Name)]
         [Route("api/Group/GetAll")]
         public IHttpActionResult Get(int page, int pageSize = GlobalConstants.DefaultPageSize)
         {
-            if (!this.User.Identity.IsAuthenticated || !this.User.IsInRole(AdminRole.Name))
+            if (!this.User.Identity.IsAuthenticated || !this.User.IsInRole(AdminUser.Name))
             {
-                return this.BadRequest("Only " + AdminRole.Name + " Can request all Groups");
+                return this.BadRequest("Only " + AdminUser.Name + " Can request all Groups");
             }
 
             var result = this.users
@@ -60,7 +60,7 @@
             return this.Ok(result);
         }
 
-        [Authorize(Roles = AdminRole.Name)]
+        [Authorize(Roles = AdminUser.Name)]
         [Route("api/Group/CreateGroup")]
         public IHttpActionResult Post(GroupRequestModel model)
         {
@@ -82,7 +82,7 @@
             return this.Ok(result);                
         }
 
-        [Authorize(Roles = AdminRole.Name)]
+        [Authorize(Roles = AdminUser.Name)]
         [Route("api/Group/AddUserToGroup")]
         public IHttpActionResult Post(UserAndGroupRequestModel model)
         {
@@ -113,7 +113,7 @@
             }
         }
 
-        [Authorize(Roles = AdminRole.Name)]
+        [Authorize(Roles = AdminUser.Name)]
         [Route("api/Group/RemoveUserFromGroup")]
         public IHttpActionResult Delete(UserAndGroupRequestModel model)
         {

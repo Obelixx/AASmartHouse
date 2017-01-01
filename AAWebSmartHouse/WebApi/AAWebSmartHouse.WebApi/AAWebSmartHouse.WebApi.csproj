@@ -238,7 +238,7 @@
     <Compile Include="Controllers\HouseController.cs" />
     <Compile Include="Controllers\RoomController.cs" />
     <Compile Include="Controllers\SensorController.cs" />
-    <Compile Include="Controllers\SensorDataController.cs" />
+    <Compile Include="Controllers\SensorValueController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -261,9 +261,9 @@
     <Compile Include="Models\User\ReqestModels\UserAndGroupRequestModel.cs" />
     <Compile Include="Models\User\ReqestModels\UserDetailsRequestModel.cs" />
     <Compile Include="Models\User\ResponseModels\GroupDetailsResponseModel.cs" />
-    <Compile Include="Models\User\ResponseModels\HousesDetailsResponseModel.cs" />
+    <Compile Include="Models\User\ResponseModels\HouseDetailsResponseModel.cs" />
     <Compile Include="Models\User\ResponseModels\RoomDetailsResponseModel.cs" />
-    <Compile Include="Models\User\ResponseModels\SensorDataResponseModel.cs" />
+    <Compile Include="Models\User\ResponseModels\SensorValueResponseModel.cs" />
     <Compile Include="Models\User\ResponseModels\SensorDetailsResponseModel.cs" />
     <Compile Include="Models\User\ResponseModels\UserDetailsResponseModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -300,7 +300,9 @@
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Properties\PublishProfiles\SHSite.pubxml" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

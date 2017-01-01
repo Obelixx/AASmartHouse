@@ -35,30 +35,31 @@ namespace AAWebSmartHouse.Data.Migrations
             ////      new Person { FullName = "Rowan Miller" }
             ////    );
 
-            if (!context.Roles.Any(r => r.Name == AdminRole.Name))
+            if (!context.Roles.Any(r => r.Name == AdminUser.Name))
             {
                 context.Roles.AddOrUpdate(
                     new IdentityRole[]
                     {
-                        new IdentityRole(AdminRole.Name),
+                        new IdentityRole(AdminUser.Name),
                         //// new IdentityRole("User")
                     });
 
                 context.SaveChanges();
             }
 
-            var databaseRole = context.Roles.Where(ro => ro.Name == AdminRole.Name).FirstOrDefault();
-
-            if (!context.Users.Any(u => u.UserName == AdminRole.UserName))
+            var databaseRole = context.Roles.Where(ro => ro.Name == AdminUser.Name).FirstOrDefault();
+            
+            // Adding admin user..
+            if (!context.Users.Any(u => u.UserName == AdminUser.UserName))
             {
                 User user = new User();
 
-                string passwordHash = new PasswordHasher().HashPassword(AdminRole.Password);
+                string passwordHash = new PasswordHasher().HashPassword(AdminUser.Password);
                 user.PasswordHash = passwordHash;
-                user.FirstName = AdminRole.UserName;
-                user.LastName = AdminRole.UserName;
-                user.Email = AdminRole.UserName;
-                user.UserName = AdminRole.UserName;
+                user.FirstName = AdminUser.UserName;
+                user.LastName = AdminUser.UserName;
+                user.Email = AdminUser.UserName;
+                user.UserName = AdminUser.UserName;
                 user.EmailConfirmed = true;
                 user.PhoneNumberConfirmed = true;
 
@@ -66,7 +67,7 @@ namespace AAWebSmartHouse.Data.Migrations
 
                 context.SaveChanges();
 
-                var databaseUser = context.Users.Where(u => u.UserName == AdminRole.UserName).FirstOrDefault();
+                var databaseUser = context.Users.Where(u => u.UserName == AdminUser.UserName).FirstOrDefault();
 
                 var userRoleRelation = new IdentityUserRole() { UserId = databaseUser.Id, RoleId = databaseRole.Id };
 
@@ -78,11 +79,30 @@ namespace AAWebSmartHouse.Data.Migrations
             UserStore<User> userStore = new UserStore<User>(context);
             UserManager<User> userManager = new UserManager<User>(userStore);
             
-            string userId = context.Users.Where(x => x.Email == AdminRole.UserName && string.IsNullOrEmpty(x.SecurityStamp)).Select(x => x.Id).FirstOrDefault();
+            string userId = context.Users.Where(x => x.Email == AdminUser.UserName && string.IsNullOrEmpty(x.SecurityStamp)).Select(x => x.Id).FirstOrDefault();
 
             if (!string.IsNullOrEmpty(userId))
             {
                 userManager.UpdateSecurityStamp(userId);
+            }
+
+            // Adding simple user..
+            if (!context.Users.Any(u => u.UserName == SimpleUser.UserName))
+            {
+                User user = new User();
+
+                string passwordHash = new PasswordHasher().HashPassword(SimpleUser.Password);
+                user.PasswordHash = passwordHash;
+                user.FirstName = SimpleUser.UserName;
+                user.LastName = SimpleUser.UserName;
+                user.Email = SimpleUser.UserName;
+                user.UserName = SimpleUser.UserName;
+                user.EmailConfirmed = true;
+                user.PhoneNumberConfirmed = true;
+
+                context.Users.AddOrUpdate(user);
+
+                context.SaveChanges();               
             }
         }
     }

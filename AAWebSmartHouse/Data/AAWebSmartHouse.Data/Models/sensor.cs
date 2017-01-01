@@ -6,13 +6,12 @@ namespace AAWebSmartHouse.Data.Models
     {
         public Sensor()
         {
-            this.SensorDataByDays = new List<SensorDataByDay>();
-            this.SensorDataByHours = new List<SensorDataByHour>();
-            this.SensorDataByMonths = new List<SensorDataByMonth>();
-            this.SensorDataByWeeks = new List<SensorDataByWeek>();
+            this.SensorValues = new List<SensorValue>();
         }
         
         public int SensorId { get; set; }
+
+        public int ControlerNumber { get; set; }
 
         public string SensorName { get; set; }
 
@@ -20,16 +19,12 @@ namespace AAWebSmartHouse.Data.Models
 
         public string SensorUnits { get; set; }
 
+        public bool Registerd { get; set; }
+
         public int RoomId { get; set; }
 
         public virtual Room Room { get; set; }
 
-        public virtual ICollection<SensorDataByDay> SensorDataByDays { get; set; }
-
-        public virtual ICollection<SensorDataByHour> SensorDataByHours { get; set; }
-
-        public virtual ICollection<SensorDataByMonth> SensorDataByMonths { get; set; }
-
-        public virtual ICollection<SensorDataByWeek> SensorDataByWeeks { get; set; }
+        public virtual ICollection<SensorValue> SensorValues { get; set; }
     }
 }

@@ -43,8 +43,9 @@
     <Compile Include="Assemblies.cs" />
     <Compile Include="GlobalConstants.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="AdminRole.cs" />
+    <Compile Include="AdminUser.cs" />
     <Compile Include="SensorAggregationType.cs" />
+    <Compile Include="SimpleUser.cs" />
     <Compile Include="ValidationConstants.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

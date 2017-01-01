@@ -2,9 +2,9 @@
 {
     public enum SensorAggregationType
     {
+        ByHour,
         ByDay,
+        ByWeek,
         ByMonth,
-        ByYear,
-        ByYears
     }
 }

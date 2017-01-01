@@ -22,13 +22,13 @@
             this.rooms = roomsService;
         }
 
-        [Authorize(Roles = AdminRole.Name)]
+        [Authorize(Roles = AdminUser.Name)]
         [Route("api/Room/GetAll")]
         public IHttpActionResult GetAll(int page, int pageSize = GlobalConstants.DefaultPageSize)
         {
-            if (!this.User.Identity.IsAuthenticated || !this.User.IsInRole(AdminRole.Name))
+            if (!this.User.Identity.IsAuthenticated || !this.User.IsInRole(AdminUser.Name))
             {
-                return this.BadRequest("Only " + AdminRole.Name + " Can request all Rooms");
+                return this.BadRequest("Only " + AdminUser.Name + " Can request all Rooms");
             }
 
             var result = this.rooms
@@ -47,7 +47,7 @@
         // GET api/Room?houseId=houseId&page=1&pageSize=10
         public IHttpActionResult Get(int houseId, int page, int pageSize = GlobalConstants.DefaultPageSize)
         {
-            if (!this.User.IsInRole(AdminRole.Name))
+            if (!this.User.IsInRole(AdminUser.Name))
             {
                 var userHouse = this.users
                 .GetUser(this.User.Identity.Name)

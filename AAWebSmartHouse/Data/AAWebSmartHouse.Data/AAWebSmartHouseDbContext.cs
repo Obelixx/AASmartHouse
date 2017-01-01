@@ -16,13 +16,7 @@
 
         public virtual IDbSet<Room> Rooms { get; set; }
 
-        public virtual IDbSet<SensorDataByDay> SensorDataByDays { get; set; }
-
-        public virtual IDbSet<SensorDataByHour> SensorDataByHours { get; set; }
-
-        public virtual IDbSet<SensorDataByMonth> SensorDataByMonths { get; set; }
-
-        public virtual IDbSet<SensorDataByWeek> SensorDataByWeeks { get; set; }
+        public virtual IDbSet<SensorValue> SensorValues { get; set; }
 
         public virtual IDbSet<Sensor> Sensors { get; set; }
         

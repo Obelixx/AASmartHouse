@@ -25,13 +25,13 @@
             this.sensors = sensorsService;
         }
 
-        [Authorize(Roles = AdminRole.Name)]
+        [Authorize(Roles = AdminUser.Name)]
         [Route("api/Sensor/GetAll")]
         public IHttpActionResult Get(int page, int pageSize = GlobalConstants.DefaultPageSize)
         {
-            if (!this.User.Identity.IsAuthenticated || !this.User.IsInRole(AdminRole.Name))
+            if (!this.User.Identity.IsAuthenticated || !this.User.IsInRole(AdminUser.Name))
             {
-                return this.BadRequest("Only " + AdminRole.Name + " Can request all Rooms");
+                return this.BadRequest("Only " + AdminUser.Name + " Can request all Rooms");
             }
 
             var result = this.sensors
@@ -50,7 +50,7 @@
         // GET api/Sensor?roomId=roomId&page=1&pageSize=10
         public IHttpActionResult Get(int roomId, int page, int pageSize = GlobalConstants.DefaultPageSize)
         {
-            if (!this.User.IsInRole(AdminRole.Name))
+            if (!this.User.IsInRole(AdminUser.Name))
             {
                 var userRoom = this.users
                 .GetUser(this.User.Identity.Name)

@@ -22,18 +22,18 @@
             this.users = usersService;
         }
 
-        [Authorize(Roles = AdminRole.Name)]
+        [Authorize(Roles = AdminUser.Name)]
         [Route("api/House/GetAll")]
         public IHttpActionResult GetAll(int page, int pageSize = GlobalConstants.DefaultPageSize)
         {
-            if (!this.User.Identity.IsAuthenticated || !this.User.IsInRole(AdminRole.Name))
+            if (!this.User.Identity.IsAuthenticated || !this.User.IsInRole(AdminUser.Name))
             {
-                return this.BadRequest("Only " + AdminRole.Name + " Can request all Users");
+                return this.BadRequest("Only " + AdminUser.Name + " Can request all Users");
             }
 
             var result = this.houses
                 .GetAllHousesPaged(page, pageSize)
-                .ProjectTo<HousesDetailsResponseModel>()
+                .ProjectTo<HouseDetailsResponseModel>()
                 .ToList();
 
             if (result == null)
@@ -58,10 +58,10 @@
                 // TODO: Check the response!
                 return this.Ok("You have no Houses!");
             }
-            
+
             var result = this.houses
                 .GetHousesPaged(ids, page, pageSize)
-                .ProjectTo<HousesDetailsResponseModel>()
+                .ProjectTo<HouseDetailsResponseModel>()
                 .ToList();
 
             if (result == null)
@@ -73,22 +73,36 @@
         }
 
         // add house to user
-        [Authorize(Roles = AdminRole.Name)]
+        [Authorize(Roles = AdminUser.Name)]
         [Route("api/House/AddUser")]
         public IHttpActionResult Post(int houseId, string userId)
         {
-            if (!this.User.Identity.IsAuthenticated || !this.User.IsInRole(AdminRole.Name))
+            if (!this.User.Identity.IsAuthenticated || !this.User.IsInRole(AdminUser.Name))
             {
-                return this.BadRequest("Only " + AdminRole.Name + " Can add houses to users!");
+                return this.BadRequest("Only " + AdminUser.Name + " Can add houses to users!");
             }
-            
+
             if (this.houses.AddUserToHouse(houseId, userId))
             {
                 return this.NotFound();
             }
-            
+
             // TODO: massage maybe?
             return this.Ok("User Added");
+        }
+
+        [Authorize(Roles = AdminUser.Name)]
+        [Route("api/House/SeedHouse")]
+        public IHttpActionResult SeedHouse(string userId,
+            string houseName,
+            int controlerNumber,
+            string verificationCode,
+            string houseLocation,
+            string houseDescription
+            )
+        {
+
+            return this.Ok("House seeded.");
         }
     }
 }
