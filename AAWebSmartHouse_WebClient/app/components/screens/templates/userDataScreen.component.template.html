@@ -27,8 +27,7 @@
     </form>
     <span class="bg-danger" *ngIf="errorMsg">{{errorMsg}}</span>
     <span *ngIf="!isEditMode && successMsg" class="bg-success">{{successMsg}}</span>
-    <br>
-    <br>
+    <hr>
     <form action="submit" *ngIf="isChangePasswordMode">
         <label for="oldPassword">Old Password:</label><br>
         <input type="password" id="oldPassword" [(ngModel)]="oldPassword" *ngIf="isChangePasswordMode">
@@ -43,11 +42,10 @@
         <button class="btn btn-warning" (click)="onSaveNewPasswordClicked()" *ngIf="isChangePasswordMode">Save New Password</button>
     </form>
     <button class="btn btn-warning" (click)="onChangePasswordClicked()" *ngIf="!isChangePasswordMode">ChangePassword</button>
-    <br>
-    <br>
+    <br *ngIf="passwordErrorMsg || passwordSuccessMsg">
+    <br *ngIf="passwordErrorMsg || passwordSuccessMsg">
     <span class="bg-danger">{{passwordErrorMsg}}</span>
     <span *ngIf="!isChangePasswordMode && passwordSuccessMsg" class="bg-success">{{passwordSuccessMsg}}</span>
-    <br>
-    <br>
+    <hr *ngIf="userService.currentUser.HousesIds.length != 0">
     <button class="btn btn-info" (click)="housesClicked()" *ngIf="userService.currentUser.HousesIds.length != 0">{{userService.currentUser.HousesIds.length}} <span *ngIf="userService.currentUser.HousesIds.length == 1">House</span><span *ngIf="userService.currentUser.HousesIds.length > 1">Houses</span></button>
 </div>

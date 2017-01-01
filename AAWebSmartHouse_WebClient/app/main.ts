@@ -7,6 +7,7 @@ import { ScreenService } from './services/screen.service';
 import { HouseService } from './services/house.service';
 import { RoomService } from './services/room.service';
 import { SensorService } from './services/sensor.service';
+import { SensorValueService } from './services/sensorValue.service';
 
 bootstrap(AppComponent,
     [
@@ -17,6 +18,7 @@ bootstrap(AppComponent,
         HouseService,
         RoomService,
         HouseService,
-        SensorService
+        SensorService,
+        SensorValueService
     ]
 );

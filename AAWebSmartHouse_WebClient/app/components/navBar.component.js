@@ -10,6 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var loginScreen_component_1 = require('./screens/loginScreen.component');
+var registerScreen_component_1 = require('./screens/registerScreen.component');
 var userDataScreen_component_1 = require('./screens/userDataScreen.component');
 var housesScreen_component_1 = require('./screens/housesScreen.component');
 var user_service_1 = require('../services/user.service');
@@ -24,6 +25,10 @@ var NavBarComponent = (function () {
     };
     NavBarComponent.prototype.logoutClicked = function () {
         this.userService.logout();
+        this.screenService.toScreen(loginScreen_component_1.LoginScreenComponent);
+    };
+    NavBarComponent.prototype.registerClicked = function () {
+        this.screenService.toScreen(registerScreen_component_1.RegisterScreenComponent);
     };
     NavBarComponent.prototype.displayUserDataScreen = function () {
         if (this.userService.userIsLoggedIn) {

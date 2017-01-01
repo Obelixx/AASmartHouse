@@ -17,7 +17,7 @@
                 <td>{{sensor.SensorName}}</td>
                 <td>{{sensor.SensorDescription}}</td>
                 <td>{{sensor.SensorUnits}}</td>
-                <td><button class="btn btn-info" (click)="sensorDataClicked(i)">SensorData</button></td>
+                <td><button class="btn btn-info" (click)="sensorValuesClicked(i)">{{sensor.SensorValuesIds.length}} Sensor Values</button></td>
             </tr>
         </table>
 

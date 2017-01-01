@@ -13,12 +13,13 @@ var sensor_model_1 = require('../../models/sensor.model');
 var sensor_service_1 = require('../../services/sensor.service');
 var room_service_1 = require('../../services/room.service');
 var screen_service_1 = require('../../services/screen.service');
+var sensorValuesScreen_component_1 = require('./sensorValuesScreen.component');
 var SensorsScreenComponent = (function () {
     function SensorsScreenComponent(sensorService, roomService, screenService) {
         this.sensorService = sensorService;
         this.roomService = roomService;
         this.screenService = screenService;
-        this.sensors = [new sensor_model_1.SensorModel(1, "temp1", "Temp in kitchen", "C", 1)];
+        this.sensors = [new sensor_model_1.SensorModel(1, "temp1", "Temp in kitchen", "C", 1, [''])]; //,[''],[''],[''])]
         this.message = '';
         this.page = 1;
         this.sensors.splice(0);
@@ -53,10 +54,12 @@ var SensorsScreenComponent = (function () {
             this.getSensors(this.page);
         }
     };
-    SensorsScreenComponent.prototype.sensorDataClicked = function (sensorDataIndex) {
-        this.sensorService.selectedSensor = this.sensors[sensorDataIndex];
-        //this.sensors[sensorDataIndex].SensorId
+    SensorsScreenComponent.prototype.sensorValuesClicked = function (sensorValuesIndex) {
+        this.sensorService.selectedSensor = this.sensors[sensorValuesIndex];
         //this.screenService.toScreen(SensorsScreenComponent);
+        if (this.sensorService.selectedSensor.SensorValuesIds.length > 0) {
+            this.screenService.toScreen(sensorValuesScreen_component_1.SensorValuesScreenComponent);
+        }
     };
     SensorsScreenComponent = __decorate([
         core_1.Component({

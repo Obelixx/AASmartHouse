@@ -1,0 +1,25 @@
+<div class="screenContainer">
+    <form action="submit">
+        <label for="email">E-mail:</label><br>
+        <input [(ngModel)]="userEmail" id="email" type="email">
+        <br>
+        <label for="password">Password:</label><br>
+        <input [(ngModel)]="userPassword" id="password" type="password">
+        <br>
+        <label for="confirmPassword">Confirm Password:</label><br>
+        <input [(ngModel)]="userConfirmPassword" id="confirmPassword" type="password">
+        <br>
+        <label for="fname">First Name:</label><br>
+        <input [(ngModel)]="firstName" id="fname" type="text">
+        <br>
+        <label for="lname">Last Name:</label><br>
+        <input [(ngModel)]="lastName" id="lname" type="text">
+        <br>
+        <br *ngIf="successMsg || errorMsg">
+        <span class="bg-danger">{{errorMsg}}</span>
+        <span class="bg-success">{{successMsg}}</span>
+        <br *ngIf="!successMsg">
+        <br *ngIf="successMsg || errorMsg">
+        <button *ngIf="!successMsg" (click)="register()" class="btn btn-danger" type="submit" name="action">Register</button>
+    </form>
+</div>

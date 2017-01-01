@@ -39,6 +39,9 @@ var AppSettings = (function () {
                 },
                 sensors: {
                     Url: 'api/Sensor',
+                },
+                sensorValues: {
+                    Url: 'api/SensorValue',
                 }
             };
         },
@@ -59,4 +62,11 @@ var AppSettings = (function () {
     return AppSettings;
 }());
 exports.AppSettings = AppSettings;
+(function (SensorDataAggregationType) {
+    SensorDataAggregationType[SensorDataAggregationType["ByHour"] = 0] = "ByHour";
+    SensorDataAggregationType[SensorDataAggregationType["ByDay"] = 1] = "ByDay";
+    SensorDataAggregationType[SensorDataAggregationType["ByWeek"] = 2] = "ByWeek";
+    SensorDataAggregationType[SensorDataAggregationType["ByMonth"] = 3] = "ByMonth";
+})(exports.SensorDataAggregationType || (exports.SensorDataAggregationType = {}));
+var SensorDataAggregationType = exports.SensorDataAggregationType;
 //# sourceMappingURL=app.settings.js.map

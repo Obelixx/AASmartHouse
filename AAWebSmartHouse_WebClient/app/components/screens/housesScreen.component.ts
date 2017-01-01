@@ -12,7 +12,7 @@ import { RoomsScreenComponent } from './roomsScreen.component';
     templateUrl: './app/components/screens/templates/housesScreen.component.template.html'
 })
 export class HousesScreenComponent {
-    houses: [HouseModel] = [new HouseModel('1', '1', '1', 'desc', [1, 2, 3])];
+    houses: HouseModel[] = [new HouseModel('1', '1', '1', 'desc', [1, 2, 3])];
     message = '';
     page = 1;
 

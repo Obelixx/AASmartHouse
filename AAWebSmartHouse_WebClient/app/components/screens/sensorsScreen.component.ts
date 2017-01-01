@@ -6,12 +6,14 @@ import { SensorService } from '../../services/sensor.service';
 import { RoomService } from '../../services/room.service';
 import { ScreenService } from '../../services/screen.service';
 
+import { SensorValuesScreenComponent } from './sensorValuesScreen.component';
+
 @Component({
     selector: 'sensorsScreen',
     templateUrl: './app/components/screens/templates/sensorsScreen.component.template.html'
 })
 export class SensorsScreenComponent {
-    sensors: [SensorModel] = [new SensorModel(1, "temp1", "Temp in kitchen", "C",1)]
+    sensors: SensorModel[] = [new SensorModel(1, "temp1", "Temp in kitchen", "C",1,[''])]//,[''],[''],[''])]
     message = '';
     page = 1;
 
@@ -55,9 +57,12 @@ export class SensorsScreenComponent {
         }
     }
 
-    sensorDataClicked(sensorDataIndex) {
-        this.sensorService.selectedSensor = this.sensors[sensorDataIndex];
-        //this.sensors[sensorDataIndex].SensorId
+    sensorValuesClicked(sensorValuesIndex) {
+        this.sensorService.selectedSensor = this.sensors[sensorValuesIndex];
+        
             //this.screenService.toScreen(SensorsScreenComponent);
+        if(this.sensorService.selectedSensor.SensorValuesIds.length > 0){
+            this.screenService.toScreen(SensorValuesScreenComponent);
+        }
     }
 }

@@ -1,5 +1,5 @@
 export class HouseModel {
-    HouseId: string;
+    HouseId: any;
     HouseName: string;
     HouseLocation: string;
     HouseDescription: string;

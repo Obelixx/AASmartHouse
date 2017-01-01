@@ -35,6 +35,9 @@ export class AppSettings {
             },
             sensors:{
                 Url: 'api/Sensor', // api/Sensor?roomId=roomId&page=1&pageSize=10
+            },
+            sensorValues:{
+                Url: 'api/SensorValue', // GET api/SensorData?sensorId=sensorId&aggregationType=ByHour/ByDay/ByWeek/ByMonth&page=1&pageSize=10
             }
         }
     };
@@ -45,4 +48,11 @@ export class AppSettings {
         }
     };
 
+}
+
+export enum SensorDataAggregationType{
+    ByHour,
+    ByDay,
+    ByWeek,
+    ByMonth,
 }

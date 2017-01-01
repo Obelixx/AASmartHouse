@@ -63,8 +63,8 @@ var UserService = (function () {
         var headers = new http_2.Headers({ 'Content-Type': 'application/json' });
         var options = new http_2.RequestOptions({ headers: headers });
         return this.http.post(this.apiSettings.api.Url + this.apiSettings.register.Url, body, options)
-            .map(this.extractData)
-            .catch(this.handleError);
+            .map(this.extractData);
+        //.catch(this.handleError);
     };
     UserService.prototype.getToken = function (userEmail, userPassword) {
         var body = "username=" + userEmail + "&password=" + userPassword + "&grant_type=password";

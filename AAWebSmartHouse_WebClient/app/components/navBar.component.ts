@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 
 import { LoginScreenComponent } from './screens/loginScreen.component';
+import { RegisterScreenComponent } from './screens/registerScreen.component';
 import { UserDataScreenComponent } from './screens/userDataScreen.component';
 import { HousesScreenComponent } from './screens/housesScreen.component';
 
@@ -24,6 +25,11 @@ export class NavBarComponent {
 
     logoutClicked() {
         this.userService.logout();
+        this.screenService.toScreen(LoginScreenComponent);
+    }
+    
+    registerClicked(){
+        this.screenService.toScreen(RegisterScreenComponent);
     }
 
     displayUserDataScreen() {

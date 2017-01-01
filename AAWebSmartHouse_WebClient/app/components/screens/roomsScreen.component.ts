@@ -13,7 +13,7 @@ import { SensorsScreenComponent } from './sensorsScreen.component';
     templateUrl: './app/components/screens/templates/roomsScreen.component.template.html'
 })
 export class RoomsScreenComponent {
-    rooms: [RoomModel] = [new RoomModel(1, "room", "et. 4", [1, 1, 1])]
+    rooms: RoomModel[] = [new RoomModel(1, "room", "et. 4", [1, 1, 1])]
     message = '';
     page = 1;
 
@@ -58,7 +58,7 @@ export class RoomsScreenComponent {
 
     sensorsClicked(sensorIndex) {
         this.roomService.selectedRoom = this.rooms[sensorIndex];
-        if(this.rooms[sensorIndex].SensorsIds.length > 0){
+        if(this.roomService.selectedRoom.SensorsIds.length > 0){
             this.screenService.toScreen(SensorsScreenComponent);
         }
     }

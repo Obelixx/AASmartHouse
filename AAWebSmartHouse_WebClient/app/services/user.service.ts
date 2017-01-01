@@ -60,8 +60,8 @@ export class UserService {
         let options = new RequestOptions({ headers: headers })
 
         return this.http.post(this.apiSettings.api.Url + this.apiSettings.register.Url, body, options)
-            .map(this.extractData)
-            .catch(this.handleError);
+            .map(this.extractData);
+            //.catch(this.handleError);
     }
 
     getToken(userEmail, userPassword) {

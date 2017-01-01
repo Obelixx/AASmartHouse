@@ -3,6 +3,12 @@ header{
     padding: 2px;
 }
 
+hr{ 
+    background: darkgray !important;
+    border: 0 !important;
+    height: 1px !important;    
+}
+
 nav table{
     width: 100%;
 }
@@ -30,6 +36,11 @@ nav table{
 }
 .screenContainer tr:hover{
     background-color: lightgray;
+}
+
+.screenContainer span{
+    white-space: wrap;
+    word-wrap: break-word;
 }
 
 checkbox{

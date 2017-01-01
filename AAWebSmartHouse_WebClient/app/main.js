@@ -8,6 +8,7 @@ var screen_service_1 = require('./services/screen.service');
 var house_service_1 = require('./services/house.service');
 var room_service_1 = require('./services/room.service');
 var sensor_service_1 = require('./services/sensor.service');
+var sensorValue_service_1 = require('./services/sensorValue.service');
 platform_browser_dynamic_1.bootstrap(app_component_1.AppComponent, [
     http_1.HTTP_PROVIDERS,
     user_service_1.UserService,
@@ -16,6 +17,7 @@ platform_browser_dynamic_1.bootstrap(app_component_1.AppComponent, [
     house_service_1.HouseService,
     room_service_1.RoomService,
     house_service_1.HouseService,
-    sensor_service_1.SensorService
+    sensor_service_1.SensorService,
+    sensorValue_service_1.SensorValueService
 ]);
 //# sourceMappingURL=main.js.map

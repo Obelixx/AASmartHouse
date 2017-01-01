@@ -56,7 +56,7 @@ var RoomsScreenComponent = (function () {
     };
     RoomsScreenComponent.prototype.sensorsClicked = function (sensorIndex) {
         this.roomService.selectedRoom = this.rooms[sensorIndex];
-        if (this.rooms[sensorIndex].SensorsIds.length > 0) {
+        if (this.roomService.selectedRoom.SensorsIds.length > 0) {
             this.screenService.toScreen(sensorsScreen_component_1.SensorsScreenComponent);
         }
     };
