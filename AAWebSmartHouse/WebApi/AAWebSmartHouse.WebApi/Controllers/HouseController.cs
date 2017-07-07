@@ -72,6 +72,21 @@
             return this.Ok(result);
         }
 
+        public IHttpActionResult Get(int houseId)
+        {
+            var result = this.houses
+                .GetHouseById(houseId)
+                .ProjectTo<HouseDetailsResponseModel>()
+                .FirstOrDefault();
+
+            if (result == null)
+            {
+                return this.NotFound();
+            }
+
+            return this.Ok(result);
+        }
+
         // add house to user
         [Authorize(Roles = AdminUser.Name)]
         [Route("api/House/AddUser")]

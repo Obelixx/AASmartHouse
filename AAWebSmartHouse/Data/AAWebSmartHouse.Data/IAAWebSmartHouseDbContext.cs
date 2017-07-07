@@ -15,6 +15,8 @@
 
         IDbSet<Sensor> Sensors { get; set; }
 
+        Database Database { get; }
+
         DbSet<TEntity> Set<TEntity>() where TEntity : class;
 
         DbEntityEntry<TEntity> Entry<TEntity>(TEntity entity) where TEntity : class;

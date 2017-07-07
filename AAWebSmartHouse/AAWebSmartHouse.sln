@@ -19,6 +19,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{6A6179
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AAWebSmartHouse.Common", "Common\AAWebSmartHouse.Common\AAWebSmartHouse.Common.csproj", "{198F850C-88AB-4C7D-909A-7882D0F65F4C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AAWebSmartHouse.DataGenerator", "Data\DemoData\AAWebSmartHouse.DataGenerator.csproj", "{710A33D0-3FEC-462E-8BA3-DAC033FD3E26}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +43,10 @@ Global
 		{198F850C-88AB-4C7D-909A-7882D0F65F4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{198F850C-88AB-4C7D-909A-7882D0F65F4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{198F850C-88AB-4C7D-909A-7882D0F65F4C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{710A33D0-3FEC-462E-8BA3-DAC033FD3E26}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{710A33D0-3FEC-462E-8BA3-DAC033FD3E26}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{710A33D0-3FEC-462E-8BA3-DAC033FD3E26}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{710A33D0-3FEC-462E-8BA3-DAC033FD3E26}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -51,5 +57,6 @@ Global
 		{EC744BD8-1449-401A-BF74-F646BF78864C} = {2E55F98E-748B-4740-9B8A-CC01AD37D8BB}
 		{5D6888C2-5003-40F8-888A-0FB6A68E547F} = {EC744BD8-1449-401A-BF74-F646BF78864C}
 		{198F850C-88AB-4C7D-909A-7882D0F65F4C} = {6A61791C-4DF7-4A0D-9C51-AE0257DC8A3F}
+		{710A33D0-3FEC-462E-8BA3-DAC033FD3E26} = {2E55F98E-748B-4740-9B8A-CC01AD37D8BB}
 	EndGlobalSection
 EndGlobal

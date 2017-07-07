@@ -29,7 +29,7 @@
                 .Take(pageSize);
         }
 
-        public IQueryable<House> GetHouse(int houseId)
+        public IQueryable<House> GetHouseById(int houseId)
         {
             return this.houses
                 .All()
@@ -51,7 +51,7 @@
 
         public bool AddUserToHouse(int houseId, string userId)
         {
-            var house = this.GetHouse(houseId)
+            var house = this.GetHouseById(houseId)
                 .FirstOrDefault();
 
             var user = this.users

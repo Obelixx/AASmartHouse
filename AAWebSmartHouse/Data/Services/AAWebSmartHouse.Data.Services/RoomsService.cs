@@ -27,6 +27,13 @@
                 .Take(pageSize);
         }
 
+        public IQueryable<Room> GetRoomById(int roomId)
+        {
+            return this.rooms
+                .All()
+                .Where(u => u.RoomId == roomId);
+        }
+
         public IQueryable<Room> GetRoomsByHouseIdPaged(int houseId, int page = 1, int pageSize = GlobalConstants.DefaultPageSize)
         {
             return this.rooms

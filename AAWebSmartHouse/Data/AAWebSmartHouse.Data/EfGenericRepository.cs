@@ -2,6 +2,7 @@
 {
     using System;
     using System.Data.Entity;
+    using System.Data.Entity.Infrastructure;
     using System.Linq;
 
     public class EfGenericRepository<T> : IRepository<T> where T : class
@@ -20,6 +21,21 @@
         protected IDbSet<T> DbSet { get; set; }
 
         protected IAAWebSmartHouseDbContext Context { get; set; }
+
+        //public string GetDatabaseName()
+        //{
+        //    return this.Context.Database.Connection.Database;
+        //}
+
+        public virtual IQueryable<T> CustomQuery(string sqlQuery, params object[] arguments)
+        {
+            return this.Context.Database.SqlQuery<T>(sqlQuery, arguments).AsQueryable();
+        }
+
+        public virtual IQueryable<Y> CustomQuery<Y>(string sqlQuery, params object[] arguments)
+        {
+            return this.Context.Database.SqlQuery<Y>(sqlQuery, arguments).AsQueryable();
+        }
 
         public virtual IQueryable<T> All()
         {

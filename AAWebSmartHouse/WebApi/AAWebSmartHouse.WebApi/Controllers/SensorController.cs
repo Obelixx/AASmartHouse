@@ -76,5 +76,34 @@
 
             return this.Ok(result);
         }
+
+        public IHttpActionResult Get(int sensorId)
+        {
+            if (!this.User.IsInRole(AdminUser.Name))
+            {
+                var userSensor = this.users
+                .GetUser(this.User.Identity.Name)
+                .Select(u => u.Houses.Select(h => h.Rooms.Select(s => s.Sensors.Where(us => us.SensorId == sensorId))))
+                .FirstOrDefault();
+
+                // TODO: Maybe it can be null? // fixed
+                if (userSensor == null || userSensor.Count() == 0)
+                {
+                    return this.BadRequest();
+                }
+            }
+
+            var result = this.sensors
+                .GetSensorById(sensorId)
+                .ProjectTo<SensorDetailsResponseModel>()
+                .FirstOrDefault();
+
+            if (result == null)
+            {
+                return this.NotFound();
+            }
+
+            return this.Ok(result);
+        }
     }
 }

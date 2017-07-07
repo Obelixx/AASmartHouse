@@ -73,5 +73,34 @@
 
             return this.Ok(result);
         }
+
+        public IHttpActionResult Get(int roomId)
+        {
+            if (!this.User.IsInRole(AdminUser.Name))
+            {
+                var userRoom = this.users
+                .GetUser(this.User.Identity.Name)
+                .Select(u => u.Houses.Select(h => h.Rooms.Where(r => r.RoomId == roomId)))
+                .FirstOrDefault();
+
+                // TODO: Maybe it can be null?
+                if (userRoom.Count() == 0)
+                {
+                    return this.BadRequest();
+                }
+            }
+
+            var result = this.rooms
+                .GetRoomById(roomId)
+                .ProjectTo<RoomDetailsResponseModel>()
+                .FirstOrDefault();
+
+            if (result == null)
+            {
+                return this.NotFound();
+            }
+
+            return this.Ok(result);
+        }
     }
 }

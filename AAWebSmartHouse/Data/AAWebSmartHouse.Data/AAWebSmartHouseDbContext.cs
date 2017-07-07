@@ -1,5 +1,6 @@
 ﻿namespace AAWebSmartHouse.Data
 {
+    using System.Linq;
     using System.Data.Entity;
 
     using AAWebSmartHouse.Data.Models;
@@ -10,6 +11,7 @@
         public AAWebSmartHouseDbContext()
             : base("LocalMySQLConnection", throwIfV1Schema: false)
         {
+            this.Database.Log = s => System.Diagnostics.Debug.WriteLine(s);
         }
 
         public virtual IDbSet<House> Houses { get; set; }

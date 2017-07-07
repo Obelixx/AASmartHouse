@@ -1,5 +1,6 @@
 ﻿namespace AAWebSmartHouse.Data.Services
 {
+    using System;
     using System.Linq;
 
     using AAWebSmartHouse.Common;
@@ -24,6 +25,13 @@
                 .ThenBy(sen => sen.SensorDescription)
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize);
+        }
+
+        public IQueryable<Sensor> GetSensorById(int sensorId)
+        {
+            return this.sensors
+                .All()
+                .Where(u => u.SensorId == sensorId);
         }
 
         public IQueryable<Sensor> GetSensorsByRoomIdPaged(int roomId, int page = 1, int pageSize = GlobalConstants.DefaultPageSize)

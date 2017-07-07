@@ -1,7 +1,7 @@
 ﻿namespace AAWebSmartHouse.Data.Services
 {
     using System;
-    using System.Globalization;
+    using System.Data.Entity;
     using System.Linq;
 
     using AAWebSmartHouse.Common;
@@ -18,113 +18,97 @@
             this.sensorData = sensorDataRepo;
         }
 
-        public IQueryable<SensorValue> GetSensorValuesPaged(int sensorId, int page = 1, int pageSize = GlobalConstants.DefaultPageSize)
+        public IQueryable<SensorValue> GetSensorValueById(int sensorValueId)
         {
-            ////Func<SensorDataByHour, Object> orderFunc = null;
-            ////System.Linq.Expressions.Expression<Func<SensorDataByHour, Object>> orderFunc = null;
-
-            ////orderFunc = item => item.SensorDataDateTime;
-            ////orderFunc = item => item.SensorValue;
-
-            // TODO: do i need sort order outside?
-            var query = this.sensorData
+            return this.sensorData
                 .All()
-                .Where(sw => sw.SensorId == sensorId);
-
-            query = query.OrderByDescending(it => it.SensorValueDateTime);
-
-            return query.Skip((page - 1) * pageSize)
-                .Take(pageSize);
+                .Where(u => u.SensorValueId == sensorValueId);
         }
 
-        //filtrirane i agregirane(den/sedmica/mesec)
-        public IQueryable<SensorValue> GetSensorValuesPagedOrderdAndFiltered(int sensorId, int page = 1, int pageSize = GlobalConstants.DefaultPageSize, bool orderAscendingByDate = false, SensorAggregationType agregation = SensorAggregationType.ByHour)
+        //filter and agregate(day/week/month)
+        public IQueryable<SensorValue> GetSensorValuesPagedOrderdAndAgregated(int sensorId, int page = 1, int pageSize = GlobalConstants.DefaultPageSize, bool orderAscendingByDate = false, SensorAggregationType aggregation = SensorAggregationType.ByHour)
         {
-            var query = this.sensorData
-               .All()
-               .Where(sw => sw.SensorId == sensorId);
+            var query = this.sensorData.All();
+            var parmSensorId = new MySql.Data.MySqlClient.MySqlParameter("@SensorId", sensorId);
+            var parmTake = new MySql.Data.MySqlClient.MySqlParameter("@take", pageSize);
+            var parmSkip = new MySql.Data.MySqlClient.MySqlParameter("@skip", (page - 1) * pageSize);
 
-            switch (agregation)
+            switch (aggregation)
             {
                 case SensorAggregationType.ByHour:
-                    break;
+                    query = query.Where(s => s.SensorId == sensorId);
+                    if (orderAscendingByDate)
+                    {
+                        query = query.OrderBy(it => it.SensorValueDateTime);
+                    }
+                    else
+                    {
+                        query = query.OrderByDescending(it => it.SensorValueDateTime);
+                    }
+                    return query.Skip((page - 1) * pageSize).Take(pageSize);
                 case SensorAggregationType.ByDay:
-                    query = query.GroupBy(g => new { group = g.SensorValueDateTime.Day })
-                        .Select(s => new SensorValue()
-                        {
-                            Value = s.Average(se => se.Value),
-                            SensorValueDateTime = new DateTime(s.Select(se => se.SensorValueDateTime.Year).FirstOrDefault(), 
-                                                                      s.Select(se => se.SensorValueDateTime.Month).FirstOrDefault(), 
-                                                                      s.Select(se => se.SensorValueDateTime.Day).FirstOrDefault(), 0, 0, 0, 0),
-                            Sensor = s.Select(se => se.Sensor).FirstOrDefault(),
-                            SensorId = s.Select(se => se.SensorId).FirstOrDefault(),
-                            SensorValueId = s.Key.group
-                        });
-                    break;
+                    return this.sensorData
+                        .CustomQuery(@"SELECT year(`SensorValueDateTime`) * 10000 + month(`SensorValueDateTime`) * 100 + day(`SensorValueDateTime`) as `SensorValueId`,avg(`Value`) as `Value`,`SensorId`,`SensorValueDateTime`
+FROM `sensorvalues`
+WHERE `SensorId` = @SensorId
+GROUP BY year(`SensorValueDateTime`) * 10000 + month(`SensorValueDateTime`) * 100 + day(`SensorValueDateTime`)
+ORDER BY SensorValueDateTime" + (orderAscendingByDate ? "" : " desc") + @"
+LIMIT @skip, @take", parmSensorId, parmSkip, parmTake);
                 case SensorAggregationType.ByWeek:
-                    query = query.GroupBy(g => new { group = DateTimeFormatInfo.CurrentInfo.Calendar.GetWeekOfYear(g.SensorValueDateTime, CalendarWeekRule.FirstFullWeek, DayOfWeek.Monday)})
-                        .Select(s => new SensorValue()
-                        {
-                            Value = s.Average(se => se.Value),
-                            SensorValueDateTime = new DateTime(s.Select(se => se.SensorValueDateTime.Year).FirstOrDefault(),
-                                                                      s.Select(se => se.SensorValueDateTime.Month).FirstOrDefault(),
-                                                                      s.Select(se => se.SensorValueDateTime.Day).FirstOrDefault(), 0, 0, 0, 0),
-                            Sensor = s.Select(se => se.Sensor).FirstOrDefault(),
-                            SensorId = s.Select(se => se.SensorId).FirstOrDefault(),
-                            SensorValueId = s.Key.group
-                        });
-                    break;
+                    return this.sensorData
+                        .CustomQuery(@"SELECT year(`SensorValueDateTime`) * 100 +  weekofyear(`SensorValueDateTime`) as `SensorValueId`,avg(`Value`) as `Value`,`SensorId`,`SensorValueDateTime`
+FROM `sensorvalues`
+WHERE `SensorId` = @SensorId
+GROUP BY year(`SensorValueDateTime`) * 100 +  weekofyear(`SensorValueDateTime`)
+ORDER BY SensorValueDateTime" + (orderAscendingByDate ? "" : " desc") + @"
+LIMIT @skip, @take", parmSensorId, parmSkip, parmTake);
                 case SensorAggregationType.ByMonth:
-                    query = query.GroupBy(g => new { group = g.SensorValueDateTime.Month })
-                        .Select(s => new SensorValue()
-                        {
-                            Value = s.Average(se => se.Value),
-                            SensorValueDateTime = new DateTime(s.Select(se => se.SensorValueDateTime.Year).FirstOrDefault(),
-                                                                      s.Select(se => se.SensorValueDateTime.Month).FirstOrDefault(),
-                                                                      1, 0, 0, 0, 0),
-                            Sensor = s.Select(se => se.Sensor).FirstOrDefault(),
-                            SensorId = s.Select(se => se.SensorId).FirstOrDefault(),
-                            SensorValueId = s.Key.group
-                        });
-                    break;
+                    return this.sensorData
+                        .CustomQuery(@"SELECT year(`SensorValueDateTime`) * 100 + month(`SensorValueDateTime`) as `SensorValueId`,avg(`Value`) as `Value`,`SensorId`,`SensorValueDateTime`
+FROM `sensorvalues`
+WHERE `SensorId` = @SensorId
+GROUP BY year(`SensorValueDateTime`) * 100 + month(`SensorValueDateTime`)
+ORDER BY SensorValueDateTime" + (orderAscendingByDate ? "" : " desc") + @"
+LIMIT @skip, @take", parmSensorId, parmSkip, parmTake);
                 default:
-                    break;
+                    throw new ArgumentException("Unknown aggregation type.", "aggregation");
             }
-
-            if (orderAscendingByDate)
-            {
-                query = query.OrderBy(it => it.SensorValueDateTime);
-            }
-            else
-            {
-                query = query.OrderByDescending(it => it.SensorValueDateTime);
-            }
-
-            //query = query.Select(fi => fi.SensorValueDateTime >= //)
-
-            return query.Skip((page - 1) * pageSize)
-                .Take(pageSize);
         }
 
-        //public IQueryable<SensorDataByWeek> GetSensorDataByWeekPaged(int sensorId, int page = 1, int pageSize = GlobalConstants.DefaultPageSize)
-        //{
-        //    return this.sensorsDataByWeek
-        //        .All()
-        //        .Where(sw => sw.SensorId == sensorId)
-        //        .OrderByDescending(it => it.SensorDataDateTime)
-        //        .AsQueryable()
-        //        .Skip((page - 1) * pageSize)
-        //        .Take(pageSize);
-        //}
+        public int GetSensorValuesCountByAggregation(int sensorId, SensorAggregationType aggregation = SensorAggregationType.ByHour)
+        {
+            var query = this.sensorData.All();
+            var parmSensorId = new MySql.Data.MySqlClient.MySqlParameter("@SensorId", sensorId);
 
-        //public IQueryable<SensorDataByMonth> GetSensorDataByMonthPaged(int sensorId, int page = 1, int pageSize = GlobalConstants.DefaultPageSize)
-        //{
-        //    return this.sensorsDataByMonth
-        //        .All()
-        //        .Where(sw => sw.SensorId == sensorId)
-        //        .OrderByDescending(it => it.SensorDataDateTime)
-        //        .Skip((page - 1) * pageSize)
-        //        .Take(pageSize);
-        //}
+            switch (aggregation)
+            {
+                case SensorAggregationType.ByHour:
+                    return query.Where(s => s.SensorId == sensorId).Count();
+                case SensorAggregationType.ByDay:
+                    return this.sensorData
+                        .CustomQuery<int>(@"SELECT year(`SensorValueDateTime`) * 100 + month(`SensorValueDateTime`) as `SensorValueId`
+FROM `sensorvalues`
+WHERE `SensorId` = @SensorId
+GROUP BY year(`SensorValueDateTime`) * 10000 + month(`SensorValueDateTime`) * 100 + day(`SensorValueDateTime`)", parmSensorId)
+                        .Count();
+
+                case SensorAggregationType.ByWeek:
+                    return this.sensorData
+                        .CustomQuery<int>(@"SELECT year(`SensorValueDateTime`) * 100 +  weekofyear(`SensorValueDateTime`) as `SensorValueId`
+FROM `sensorvalues`
+WHERE `SensorId` = @SensorId
+GROUP BY year(`SensorValueDateTime`) * 100 +  weekofyear(`SensorValueDateTime`)", parmSensorId)
+                        .Count();
+                case SensorAggregationType.ByMonth:
+                    return this.sensorData
+                        .CustomQuery<int>(@"SELECT  year(`SensorValueDateTime`) * 100 + month(`SensorValueDateTime`) as `SensorValueId`
+FROM `sensorvalues`
+WHERE `SensorId` = @SensorId
+GROUP BY year(`SensorValueDateTime`) * 100 + month(`SensorValueDateTime`)", parmSensorId)
+                        .Count();
+                default:
+                    throw new ArgumentException("Unknown aggregation type.", "aggregation");
+            }
+        }
     }
 }

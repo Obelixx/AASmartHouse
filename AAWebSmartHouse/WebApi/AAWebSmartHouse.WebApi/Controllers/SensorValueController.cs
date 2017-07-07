@@ -38,16 +38,15 @@
                 .GetUser(this.User.Identity.Name)
                 .Select(u => u.Houses.Select(h => h.Rooms.Select(s => s.Sensors.Where(us => us.SensorId == sensorId))))
                 .FirstOrDefault();
-
-                // TODO: Maybe it can be null?
-                if (userSensor.Count() == 0)
+                
+                if (userSensor == null || userSensor.Count() == 0)
                 {
                     return this.BadRequest();
                 }
             }
 
             var result = this.sensorValues
-                .GetSensorValuesPagedOrderdAndFiltered(sensorId, page, pageSize, orderAscendingByDate, aggregationType)
+                .GetSensorValuesPagedOrderdAndAgregated(sensorId, page, pageSize, orderAscendingByDate, aggregationType)
                 .ProjectTo<SensorValueResponseModel>()
                 .ToList();
 
@@ -55,6 +54,29 @@
             {
                 return this.NotFound();
             }
+
+            return this.Ok(result);
+        }
+
+        // GET api/SensorValue?sensorId=sensorId&aggregationType=ByHour/ByDay/ByWeek/ByMonth
+        // get elements count by aggregationType
+        public IHttpActionResult Get(int sensorId, SensorAggregationType aggregationType = SensorAggregationType.ByHour)
+        {
+            if (!this.User.IsInRole(AdminUser.Name))
+            {
+                var userSensor = this.users
+                .GetUser(this.User.Identity.Name)
+                .Select(u => u.Houses.Select(h => h.Rooms.Select(s => s.Sensors.Where(us => us.SensorId == sensorId))))
+                .FirstOrDefault();
+
+                if (userSensor == null || userSensor.Count() == 0)
+                {
+                    return this.BadRequest();
+                }
+            }
+
+            var result = this.sensorValues
+                .GetSensorValuesCountByAggregation(sensorId, aggregationType);
 
             return this.Ok(result);
         }

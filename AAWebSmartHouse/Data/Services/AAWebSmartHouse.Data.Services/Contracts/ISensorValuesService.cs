@@ -6,8 +6,10 @@
 
     public interface ISensorValuesService
     {
-        IQueryable<SensorValue> GetSensorValuesPaged(int sensorId, int page = 1, int pageSize = 10);
+        IQueryable<SensorValue> GetSensorValueById(int sensorValueId);
 
-        IQueryable<SensorValue> GetSensorValuesPagedOrderdAndFiltered(int sensorId, int page = 1, int pageSize = GlobalConstants.DefaultPageSize, bool orderAscendingByDate = false, SensorAggregationType agregation = SensorAggregationType.ByHour);
+        IQueryable<SensorValue> GetSensorValuesPagedOrderdAndAgregated(int sensorId, int page = 1, int pageSize = GlobalConstants.DefaultPageSize, bool orderAscendingByDate = false, SensorAggregationType agregation = SensorAggregationType.ByHour);
+
+        int GetSensorValuesCountByAggregation(int sensorId, SensorAggregationType agregation = SensorAggregationType.ByHour);
     }
 }
