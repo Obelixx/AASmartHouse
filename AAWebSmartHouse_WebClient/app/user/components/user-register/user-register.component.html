@@ -1,0 +1,32 @@
+<div class="jumbotron container-fluid">
+  <div class="col-md-6 col-md-offset-3">
+
+    <h2>Register</h2>
+    <form>
+      <div class="form-group">
+        <label for="email"><span>@</span> E-mail</label>
+        <input #email name="email" type="text" class="form-control" placeholder="Your e-mail" />
+      </div>
+      <div class="form-group">
+        <label for="password"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span> Password</label>
+        <input #password name="password" type="password" class="form-control" placeholder="Your password" />
+      </div>
+      <div class="form-group">
+        <label for="confirmPassword"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span> Confirm password</label>
+        <input #confirmPassword name="confirmPassword" type="password" class="form-control" placeholder="Confirm password" />
+      </div>
+      <div class="form-group">
+        <label for="fname"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> First name</label>
+        <input #fname name="fname" type="text" class="form-control" placeholder="Your first name" />
+      </div>
+      <div class="form-group">
+        <label for="lname"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Last name</label>
+        <input #lname name="lname" type="text" class="form-control" placeholder="Your last name" />
+      </div>
+
+      <div class="form-group">
+        <button class="btn btn-primary" (click)="this.user.register(email.value, password.value,confirmPassword.value,fname.value,lname.value)"><span class="glyphicon glyphicon-asterisk" aria-hidden="true"></span> Register</button>
+      </div>
+    </form>
+  </div>
+</div>

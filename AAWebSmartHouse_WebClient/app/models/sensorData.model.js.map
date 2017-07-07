@@ -1,1 +1,0 @@
-{"version":3,"file":"sensorData.model.js","sourceRoot":"","sources":["sensorData.model.ts"],"names":[],"mappings":";AAAA;IAKI,0BAAY,QAAa,EAAE,KAAa,EAAE,mBAA2B;QACjE,IAAI,CAAC,QAAQ,GAAG,QAAQ,CAAC;QACzB,IAAI,CAAC,KAAK,GAAG,KAAK,CAAC;QACnB,IAAI,CAAC,mBAAmB,GAAG,mBAAmB,CAAC;IACnD,CAAC;IACL,uBAAC;AAAD,CAAC,AAVD,IAUC;AAVY,wBAAgB,mBAU5B,CAAA"}

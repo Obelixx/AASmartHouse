@@ -1,0 +1,50 @@
+<div class="jumbotron container-fluid">
+  <div class="col-md-6 col-md-offset-3">
+
+    <h2>Login</h2>
+    <form>
+      <!--this.FirstName = FirstName;
+        this.LastName = LastName;
+        this.EMail = EMail;
+        this.UserName = UserName;
+        this.Id = Id;
+        this.PhoneNumber = PhoneNumber;
+        this.RoleIds = RoleIds;
+        this.HousesIds = HousesIds;-->
+
+      <div class="form-group">
+        <label for="fname"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> First name</label>
+        <input class="form-control" id="fname" type="text" value="{{this.service.user.currentUser.FirstName}}" readonly="readonly" />
+      </div>
+      <div class="form-group">
+        <label for="lname"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Last name</label>
+        <input class="form-control" id="lname" type="text" value="{{this.service.user.currentUser.LastName}}" readonly="readonly" />
+      </div>
+      <div class="form-group">
+        <label for="email"><span>@</span> E-mail</label>
+        <input class="form-control" id="email" type="text" value="{{this.service.user.currentUser.EMail}}" readonly="readonly" />
+      </div>
+      <div class="form-group">
+        <label for="uname"><span>@</span> Username</label>
+        <input class="form-control" id="uname" type="text" value="{{this.service.user.currentUser.UserName}}" readonly="readonly" />
+      </div>
+      <div class="form-group">
+        <label for="uid"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> User id</label>
+        <input class="form-control" id="uid" type="text" value="{{this.service.user.currentUser.Id}}" readonly="readonly" />
+      </div>
+      <div class="form-group">
+        <label for="pn"><span class="glyphicon glyphicon-earphone" aria-hidden="true"></span> Phone number</label>
+        <input class="form-control" id="pn" type="text" value="{{this.service.user.currentUser.PhoneNumber}}" readonly="readonly" />
+      </div>
+      <div class="form-group">
+        <label for="ug"><span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span> User groups</label>
+        <input class="form-control" id="ug" type="text" value="{{this.service.user.currentUserGroups}}" readonly="readonly" />
+      </div>
+      
+
+      <!--<div class="form-group">
+        <button class="btn btn-primary" (click)="this.user.login(email.value, password.value)"><span class="glyphicon glyphicon-off" aria-hidden="true"></span> Login</button>
+      </div>-->
+    </form>
+  </div>
+</div>

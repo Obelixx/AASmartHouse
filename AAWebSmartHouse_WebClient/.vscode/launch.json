@@ -1,33 +1,19 @@
 {
-    "version": "0.2.0",
-    "configurations": [
-        {
-            "name": "(CHROME) Launch localhost (without sourcemaps)",
-            "type": "chrome",
-            "request": "launch",
-            "url": "http://localhost:3000",
-            "webRoot": "${workspaceRoot}"
-        },
-        {
-            "name": "(CHROME) Attach (without sourcemaps)",
-            "type": "chrome",
-            "request": "attach",
-            "port": 9222,
-            "webRoot": "${workspaceRoot}"
-        },
-        {
-            "name": "(EDGE) Launch localhost (without sourcemaps)",
-            "type": "edge",
-            "request": "launch",
-            "url": "http://localhost:3000",
-            "webRoot": "${workspaceRoot}"
-        },
-        {
-            "name": "(EDGE) Attach (without sourcemaps)",
-            "type": "edge",
-            "request": "attach",
-            "port": 9222,
-            "webRoot": "${workspaceRoot}"
-        }
-    ]
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Launch Chrome against localhost",
+      "type": "chrome",
+      "request": "launch",
+      "url": "http://localhost:8080",
+      "webRoot": "${workspaceRoot}"
+    },
+    {
+      "name": "Attach to Chrome",
+      "type": "chrome",
+      "request": "attach",
+      "port": 9222,
+      "webRoot": "${workspaceRoot}"
+    }
+  ]
 }

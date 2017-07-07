@@ -1,0 +1,44 @@
+<div class="container">
+  <div *ngFor="let sensor of this.service.userSensors" class="col-md-4 col-sm-4 col-xs-6">
+    <div class="panel panel-primary text-center">
+
+      <div class="panel-heading">{{sensor.SensorName}}</div>
+      <div class="panel-body">Units: {{sensor.SensorUnits}}</div>
+      <div class="panel-body">{{sensor.SensorDescription}}</div>
+      <!--<div class="panel-body">{{sensor.SensorLocation}}</div>-->
+      <div class="panel-body">
+        <a (click)="sensorClickedTable(sensor)" class="btn btn-primary">
+          <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span> View {{ sensor.SensorValuesIds.length }} Values
+        </a>
+      </div>
+      <div class="panel-body">
+        <a (click)="sensorClickedChart(sensor)" class="btn btn-primary">
+          <span class="glyphicon glyphicon-signal" aria-hidden="true"></span> View Chart
+        </a>
+      </div>
+      <div class="panel-footer">Id: {{sensor.SensorId}}</div>
+
+    </div>
+  </div>
+</div>
+<!--pager-->
+<nav class="container text-center" aria-label="...">
+  <ul class="pagination">
+    <li [class.disabled]="this.service.pageNumber == 1">
+      <a (click)="prevPage()" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+    </li>
+
+    <li *ngFor="let page of this.service.pages" [class.active]="page == this.service.pageNumber" [class.disabled]="this.isPageNearVisible(page)">
+      <a *ngIf="this.isPageVisible(page)" (click)="onPage(page)">{{page}}</a>
+      <a *ngIf="this.isPageNearVisible(page)">...</a>
+    </li>
+
+    <!--<li *ngFor="let page of this.service.pages" [class.active]="page == this.service.pageNumber">
+      <a (click)="onPage(page)">{{page}}</a>
+    </li>-->
+
+    <li [class.disabled]="this.service.pageNumber == this.service.pages[this.service.pages.length-1]">
+      <a (click)="nextPage()" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
+    </li>
+  </ul>
+</nav>

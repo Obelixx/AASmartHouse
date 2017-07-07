@@ -1,0 +1,34 @@
+<div class="container">
+  <div *ngFor="let room of this.service.userRooms" class="col-md-4 col-sm-4 col-xs-6">
+    <div class="panel panel-primary text-center">
+
+      <div class="panel-heading">{{room.RoomName}}</div>
+      <div class="panel-body">{{room.RoomDescription}}</div>
+      <!--<div class="panel-body">{{room.RoomLocation}}</div>-->
+      <div class="panel-body">
+        <a (click)="roomClicked(room)" *ngIf="room.SensorsIds == 1" class="btn btn-primary">{{room.SensorsIds.length}} sensor</a>
+        <a (click)="roomClicked(room)" *ngIf="room.SensorsIds != 1" class="btn btn-primary">{{room.SensorsIds.length}} sensors</a>
+      </div>
+      <div class="panel-footer">Id: {{room.RoomId}}</div>
+
+    </div>
+  </div>
+</div>
+<!--pager-->
+<nav class="container text-center" aria-label="...">
+  <ul class="pagination">
+    <li [class.disabled]="this.service.pageNumber == 1">
+      <a (click)="prevPage()" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+    </li>
+    <li *ngFor="let page of this.service.pages" [class.active]="page == this.service.pageNumber" [class.disabled]="this.isPageNearVisible(page)">
+      <a *ngIf="this.isPageVisible(page)" (click)="onPage(page)">{{page}}</a>
+      <a *ngIf="this.isPageNearVisible(page)">...</a>
+    </li>
+    <!--<li *ngFor="let page of this.service.pages" [class.active]="page == this.service.pageNumber">
+      <a (click)="onPage(page)">{{page}}</a>
+    </li>-->
+    <li [class.disabled]="this.service.pageNumber == this.service.pages[this.service.pages.length-1]">
+      <a (click)="nextPage()" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
+    </li>
+  </ul>
+</nav>

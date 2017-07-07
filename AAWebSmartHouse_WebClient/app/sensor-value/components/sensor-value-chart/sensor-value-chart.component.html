@@ -1,0 +1,74 @@
+<div class="container">
+
+  <div>
+    <label for="aggregation">Aggregation:</label>
+    <select id="aggregation" (change)="aggregationTypeChange($event.target.value)">
+     <!--(change)="parseValue($event.target.value)">-->
+    <option *ngFor="let type of aggregationTypes()" >{{type}}</option>
+  </select>
+  </div>
+
+  <hr>
+
+  <!--pager-->
+  <nav class="container text-center" aria-label="...">
+    <ul class="pagination">
+      <li [class.disabled]="this.service.pageNumber == 1">
+        <a (click)="prevPage()" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+      </li>
+
+      <li *ngFor="let page of this.service.pages" [class.active]="page == this.service.pageNumber" [class.disabled]="this.isPageNearVisible(page)">
+        <a *ngIf="this.isPageVisible(page)" (click)="onPage(page)">{{page}}</a>
+        <a *ngIf="this.isPageNearVisible(page)">...</a>
+      </li>
+
+      <li [class.disabled]="this.service.pageNumber == this.service.pages[this.service.pages.length-1]">
+        <a (click)="nextPage()" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
+      </li>
+    </ul>
+  </nav>
+
+  <hr>
+
+  
+    <google-chart class="container" [data]="lineChartData"></google-chart>
+  
+
+  <hr>
+
+  <div class="container">
+    <table class="table table-striped">
+      <tr>
+        <th>Id</th>
+        <th>Sensor Id</th>
+        <th>Value</th>
+        <th>Date Time</th>
+      </tr>
+      <tr *ngFor="let value of this.service.userSensorValues">
+        <td>{{value.SensorValueId}}</td>
+        <td>{{value.SensorId}}</td>
+        <td>{{value.Value | number : '1.0-2'}} {{this.service.sensor.SensorUnits}}</td>
+        <td>{{value.SensorValueDateTime | date:'fullDate'}}</td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+
+<!--pager-->
+<nav class="container text-center" aria-label="...">
+  <ul class="pagination">
+    <li [class.disabled]="this.service.pageNumber == 1">
+      <a (click)="prevPage()" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+    </li>
+
+    <li *ngFor="let page of this.service.pages" [class.active]="page == this.service.pageNumber" [class.disabled]="this.isPageNearVisible(page)">
+      <a *ngIf="this.isPageVisible(page)" (click)="onPage(page)">{{page}}</a>
+      <a *ngIf="this.isPageNearVisible(page)">...</a>
+    </li>
+
+    <li [class.disabled]="this.service.pageNumber == this.service.pages[this.service.pages.length-1]">
+      <a (click)="nextPage()" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
+    </li>
+  </ul>
+</nav>
