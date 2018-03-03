@@ -3,10 +3,11 @@ import { Observable } from 'rxjs/Observable';
 import { AppSettings } from '../../shared/app.settings';
 import { Http, Response } from '@angular/http';
 import { Headers, RequestOptions } from '@angular/http';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class DatabaseService {
-  constructor(private http: Http) {
+  constructor(private http: Http, private router: Router) {
   }
 
   get token(): string {
@@ -31,11 +32,9 @@ export class DatabaseService {
   public authorizedGetRequest(url: string, headers: RequestOptions = this.authorizationHeaders(this.token)) {
     let request = this.http.get(url, headers)
       .map((response: any, index: any) => {
-        // this.userIsLoggedIn = true;
         return this.extractData(response);
       })
       .catch((error: any) => {
-        //this.logout();
         return this.handleError(error);
       });
     return request;
@@ -67,6 +66,18 @@ export class DatabaseService {
   }
 
   private handleError(error: any) {
+
+    if (error.status == 401 && error.statusText == "Unauthorized") {
+      console.log("Ding - Unauthorized! This url:" + this.router.url);
+      localStorage.removeItem(AppSettings.UserSettings.tokenKeyName);
+      if (this.router.url != '/') {
+        this.router.navigate(['/']);
+      }
+      else {
+        this.router.navigate(['/home']);
+      }
+    }
+
     let errMsg = (error.message) ? error.message :
       error.status ? `${error.status} - ${error.statusText}` :
         error.error_description ? error.error_description : 'Server error';

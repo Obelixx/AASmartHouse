@@ -13,27 +13,28 @@ export class UserMetadataService {
   constructor(private db: DatabaseService) {
     if (localStorage.getItem(AppSettings.UserSettings.tokenKeyName)) {
       this.userIsLoggedIn = true;
-      // this.loadHousesCount();
-      // this.loadRoomsCount();
     }
   }
 
   userIsLoggedInChanged: EventEmitter<boolean> = new EventEmitter();
   private _isLoggedIn = false;
-  get userIsLoggedIn() {    
+  get userIsLoggedIn() {
+    if (!localStorage.getItem(AppSettings.UserSettings.tokenKeyName)) {
+      this.userIsLoggedIn = false;
+    }
     return this._isLoggedIn;
   }
 
-  set userIsLoggedIn(value: boolean) {    
+  set userIsLoggedIn(value: boolean) {
     this._isLoggedIn = value;
     this.userIsLoggedInChanged.emit(this._isLoggedIn);
   }
 
   private _currentUser: UserModel = UserModel.emptyUser;
-  public get currentUser(){
+  public get currentUser() {
     return this._currentUser;
   }
-  public set currentUser(value:UserModel){
+  public set currentUser(value: UserModel) {
     this._currentUser = value;
     this.currentUserChanged.emit(this._currentUser);
   }

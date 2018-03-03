@@ -39,9 +39,17 @@ export class SensorValueService {
   }
   set aggregationType(value: AggregationType) {
     this._aggregationType = value;
-    this.getSensorValuesCount(this.sensorId, this.aggregationType);
-    this._pageNumber = 0;
-    this.pageNumber = 1;
+    this.getSensorValuesCount();
+  }
+
+  //orderAscendingByDate
+  private _orderAscendingByDate: boolean = false;
+  get orderAscendingByDate() {
+    return this._orderAscendingByDate
+  }
+  set orderAscendingByDate(value: boolean) {
+    this._orderAscendingByDate = value;
+    this.pageNumber = this.pages.length + 1 - this.pageNumber;
   }
 
   constructor(private db: DatabaseService, private router: Router) {
@@ -50,10 +58,16 @@ export class SensorValueService {
   //// GET api/SensorValue?sensorId=sensorId&page=1&aggregationType=ByHour/ByDay/ByWeek/ByMonth&pageSize=10&orderAscendingByDate=false
   private updatePages(sensorValuesCount: number) {
     this.pages = new Array(Math.ceil(sensorValuesCount / AppSettings.ApiSettings.elementsPerPage)).fill(0).map((x, i) => i + 1);
-    this.pageNumber = 1;
+    if (!this._pageNumber || this._pageNumber > this.pages.length) {
+      this.pageNumber = 1;
+    }
+    else
+    {
+      this.getSensorValues(this.pageNumber);
+    }
   }
 
-  private getSensorValues(page: number, sensorId: any = this.sensorId, aggregationType: AggregationType = this.aggregationType, orderAscendingByDate: boolean = false) {
+  private getSensorValues(page: number, sensorId: any = this.sensorId, aggregationType: AggregationType = this.aggregationType, orderAscendingByDate: boolean = this.orderAscendingByDate) {
     let url = AppSettings.ApiSettings.api.Url + AppSettings.ApiSettings.sensorValues.Url;
     url += '?page=';
     url += page;

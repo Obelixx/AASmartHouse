@@ -37,6 +37,20 @@ export class SensorValueTableComponent {
     this.service.aggregationType = AggregationType[aggregationType];
   }
 
+  orderChange(option: string) {
+    switch (option) {
+      case "Descending":
+        this.service.orderAscendingByDate = false;
+        break;
+      case "Ascending":
+        this.service.orderAscendingByDate = true;
+        break;
+      default:
+        this.service.orderAscendingByDate = false;
+        break;
+    }
+  }
+
   isPageVisible(page: number): boolean {
     if (this.service.pages.length <= 10) {
       return true;
@@ -67,7 +81,7 @@ export class SensorValueTableComponent {
         page != this.service.pages.length - 1 &&
         page != this.service.pages.length &&
         (page == this.service.pageNumber - 3 ||
-        page == this.service.pageNumber + 3)) {
+          page == this.service.pageNumber + 3)) {
         return true;
       }
       return false;

@@ -7,6 +7,13 @@
     <option *ngFor="let type of aggregationTypes()" >{{type}}</option>
   </select>
   </div>
+  <div>
+    <label for="order">Order by date:</label>
+    <select id="order" (change)="orderChange($event.target.value)">
+      <option>Descending</option>
+      <option>Ascending</option>
+    </select>
+  </div>
   <hr>
   <table class="table table-striped">
     <tr>

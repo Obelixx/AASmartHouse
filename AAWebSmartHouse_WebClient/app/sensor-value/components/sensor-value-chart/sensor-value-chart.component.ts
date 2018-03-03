@@ -45,7 +45,7 @@ export class SensorValueChartComponent {
             },
             axis:'Discrete',
             hAxis: {
-              title: 'Time [Date]'
+              title: 'Time'
             },
             vAxis: {
               title: "Value [" + this.service.sensor.SensorUnits + "]"
@@ -92,6 +92,20 @@ export class SensorValueChartComponent {
 
   aggregationTypeChange(aggregationType: string) {
     this.service.aggregationType = AggregationType[aggregationType];
+  }
+
+  orderChange(option: string) {
+    switch (option) {
+      case "Descending":
+        this.service.orderAscendingByDate = false;
+        break;
+      case "Ascending":
+        this.service.orderAscendingByDate = true;        
+        break;
+      default:
+        this.service.orderAscendingByDate = false;      
+        break;
+    }
   }
 
   isPageVisible(page: number): boolean {

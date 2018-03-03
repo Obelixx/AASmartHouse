@@ -62,7 +62,7 @@ export class UserService {
   logout() {
     localStorage.removeItem(AppSettings.UserSettings.tokenKeyName);
     this.user.userIsLoggedIn = false;
-    this.router.navigate(['/home']);
+    this.router.navigate(['/']);
   }
 
   register(
